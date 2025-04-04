@@ -26,7 +26,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="prose prose-lg max-w-none text-slate-700">
+          <div className="prose prose-lg max-w-none text-slate-700 text-left">
             <p>
               NexusTech Recruitment was born from a passion for connecting great talent with
               innovative companies. Our founder&apos;s experience in both technology and recruitment
@@ -53,14 +53,16 @@ const About = () => {
 
         {/* Our Specialisms */}
         <div className="mt-16">
-          <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4">
-            Expertise
-          </span>
-          <h3 className="text-3xl font-bold mb-4 text-slate-900">Our Specialisms</h3>
-          <p className="text-slate-600 mb-8 max-w-3xl">
-            With our in-depth knowledge of the tech industry and a commitment to building lasting
-            relationships, we&apos;re here to help you find the perfect match.
-          </p>
+          <div className="text-center">
+            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4">
+              Expertise
+            </span>
+            <h3 className="text-3xl font-bold mb-4 text-slate-900">Our Specialisms</h3>
+            <p className="text-slate-600 mb-8 max-w-3xl mx-auto">
+              With our in-depth knowledge of the tech industry and a commitment to building lasting
+              relationships, we&apos;re here to help you find the perfect match.
+            </p>
+          </div>
           <div className="grid md:grid-cols-3 gap-8">
             {specialisms.map((specialism, index) => (
               <div
