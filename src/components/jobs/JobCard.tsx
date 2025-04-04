@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { MapPin, Briefcase, DollarSign, Clock } from 'lucide-react';
+import { FaMapMarkerAlt, FaBriefcase, FaDollarSign, FaClock } from 'react-icons/fa';
 import { Job } from '@/types';
 
 interface JobCardProps {
@@ -34,19 +34,19 @@ const JobCard = ({ job }: JobCardProps) => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <div className="flex items-center text-gray-600">
-          <MapPin className="h-4 w-4 mr-2" />
+          <FaMapMarkerAlt className="h-4 w-4 mr-2" />
           <span>{job.location}</span>
         </div>
         <div className="flex items-center text-gray-600">
-          <Briefcase className="h-4 w-4 mr-2" />
+          <FaBriefcase className="h-4 w-4 mr-2" />
           <span>{job.type}</span>
         </div>
         <div className="flex items-center text-gray-600">
-          <DollarSign className="h-4 w-4 mr-2" />
+          <FaDollarSign className="h-4 w-4 mr-2" />
           <span>{formatSalary(job.salary.min, job.salary.max, job.salary.currency)}</span>
         </div>
         <div className="flex items-center text-gray-600">
-          <Clock className="h-4 w-4 mr-2" />
+          <FaClock className="h-4 w-4 mr-2" />
           <span>Posted {formatDate(job.postedAt)}</span>
         </div>
       </div>

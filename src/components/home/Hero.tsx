@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { FaSearch } from 'react-icons/fa';
 
 const Hero = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,7 +39,7 @@ const Hero = () => {
                     type="submit"
                     className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-primary"
                   >
-                    <Search className="h-5 w-5" />
+                    <FaSearch className="h-5 w-5" />
                   </button>
                 </div>
               </div>

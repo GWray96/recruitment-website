@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, Twitter, LinkedIn, Instagram } from 'lucide-react';
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -14,16 +14,16 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white">
-                <Facebook className="h-5 w-5" />
+                <FaFacebook className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <Twitter className="h-5 w-5" />
+                <FaTwitter className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <LinkedIn className="h-5 w-5" />
+                <FaLinkedin className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <Instagram className="h-5 w-5" />
+                <FaInstagram className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -71,7 +71,8 @@ const Footer = () => {
               </li>
               <li>
                 <Link href="/employers/resources" className="text-gray-400 hover:text-white">
-              </Link>
+                  Resources
+                </Link>
               </li>
               <li>
                 <Link href="/employers/success-stories" className="text-gray-400 hover:text-white">
@@ -101,7 +102,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white">
+                <Link href="/resources/contact" className="text-gray-400 hover:text-white">
                   Contact Us
                 </Link>
               </li>
@@ -109,23 +110,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} RecruitPro. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm">
-                Terms of Service
-              </Link>
-              <Link href="/cookies" className="text-gray-400 hover:text-white text-sm">
-                Cookie Policy
-              </Link>
-            </div>
-          </div>
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; {new Date().getFullYear()} RecruitPro. All rights reserved.</p>
         </div>
       </div>
     </footer>

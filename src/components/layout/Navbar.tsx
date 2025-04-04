@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +38,7 @@ const Navbar = () => {
                 className="flex items-center text-gray-700 hover:text-primary"
               >
                 Resources
-                <ChevronDown className="ml-1 h-4 w-4" />
+                <FaChevronDown className="ml-1 h-4 w-4" />
               </button>
               {isResourcesOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
@@ -78,9 +78,9 @@ const Navbar = () => {
               className="text-gray-700 hover:text-primary"
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <FaTimes className="h-6 w-6" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <FaBars className="h-6 w-6" />
               )}
             </button>
           </div>
@@ -109,31 +109,31 @@ const Navbar = () => {
             >
               Employers
             </Link>
-            <div className="relative">
+            <div>
               <button
                 onClick={toggleResources}
                 className="flex items-center w-full px-3 py-2 text-gray-700 hover:text-primary"
               >
                 Resources
-                <ChevronDown className="ml-1 h-4 w-4" />
+                <FaChevronDown className="ml-1 h-4 w-4" />
               </button>
               {isResourcesOpen && (
-                <div className="pl-4">
+                <div className="pl-4 space-y-1">
                   <Link
                     href="/resources/blog"
-                    className="block px-3 py-2 text-gray-700 hover:text-primary"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:text-primary"
                   >
                     Blog
                   </Link>
                   <Link
                     href="/resources/career-advice"
-                    className="block px-3 py-2 text-gray-700 hover:text-primary"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:text-primary"
                   >
                     Career Advice
                   </Link>
                   <Link
                     href="/resources/guides"
-                    className="block px-3 py-2 text-gray-700 hover:text-primary"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:text-primary"
                   >
                     Guides
                   </Link>

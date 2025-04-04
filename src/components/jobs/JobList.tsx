@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Filter, X } from 'lucide-react';
+import { FaFilter, FaTimes } from 'react-icons/fa';
 import JobCard from './JobCard';
 import { Job } from '@/types';
 
@@ -56,7 +56,7 @@ const JobList = ({ jobs }: JobListProps) => {
         onClick={() => setIsFilterOpen(!isFilterOpen)}
         className="md:hidden flex items-center gap-2 mb-4 text-gray-700"
       >
-        <Filter className="h-5 w-5" />
+        <FaFilter className="h-5 w-5" />
         Filters
       </button>
 
@@ -119,7 +119,7 @@ const JobList = ({ jobs }: JobListProps) => {
             </div>
 
             {/* Salary Filter */}
-            <div>
+            <div className="mb-4">
               <h4 className="font-medium mb-2">Salary Range</h4>
               <div className="space-y-2">
                 {salaryRanges.map((range) => (
@@ -141,28 +141,27 @@ const JobList = ({ jobs }: JobListProps) => {
         </div>
 
         {/* Job List */}
-        <div className="flex-1 space-y-4">
-          <div className="flex justify-between items-center mb-4">
+        <div className="flex-1">
+          <div className="mb-4 flex justify-between items-center">
             <h2 className="text-xl font-semibold">
-              {filteredJobs.length} Jobs Found
+              {filteredJobs.length} {filteredJobs.length === 1 ? 'Job' : 'Jobs'} Found
             </h2>
-            <select className="border rounded-md px-3 py-2">
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="salary-high">Highest Salary</option>
-              <option value="salary-low">Lowest Salary</option>
-            </select>
+            {Object.values(filters).some(Boolean) && (
+              <button
+                onClick={clearFilters}
+                className="flex items-center gap-1 text-sm text-gray-600 hover:text-primary"
+              >
+                <FaTimes className="h-4 w-4" />
+                Clear filters
+              </button>
+            )}
           </div>
 
-          {filteredJobs.map((job) => (
-            <JobCard key={job.id} job={job} />
-          ))}
-
-          {filteredJobs.length === 0 && (
-            <div className="text-center py-8">
-              <p className="text-gray-600">No jobs found matching your criteria.</p>
-            </div>
-          )}
+          <div className="space-y-4">
+            {filteredJobs.map((job) => (
+              <JobCard key={job.id} job={job} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
