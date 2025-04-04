@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RecruitPro - Modern Recruitment Platform
+
+RecruitPro is a modern, full-stack recruitment platform built with Next.js 14, TypeScript, and Tailwind CSS. It provides a seamless experience for job seekers and employers to connect and find their perfect match.
+
+## Features
+
+- 🎯 Smart job matching algorithm
+- 📱 Responsive design for all devices
+- 🔍 Advanced job search and filtering
+- 👤 Candidate and employer profiles
+- 📝 Easy job posting and application process
+- 🔔 Real-time notifications
+- 📊 Analytics dashboard for employers
+- 📚 Resource center with career advice
+
+## Tech Stack
+
+- **Framework:** Next.js 14 with App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Forms:** React Hook Form with Zod validation
+- **Data Fetching:** React Query
+- **Authentication:** NextAuth.js
+- **Icons:** Lucide React
+- **UI Components:** Custom components with Tailwind CSS
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18.17 or later
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/recruitment-website.git
+   cd recruitment-website
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Create a `.env.local` file in the root directory and add your environment variables:
+   ```
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-secret-key
+   # Add other environment variables as needed
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Project Structure
+
+```
+src/
+├── app/                    # App router pages
+│   ├── jobs/              # Job-related pages
+│   ├── candidates/        # Candidate-related pages
+│   ├── employers/         # Employer-related pages
+│   └── resources/         # Resource pages
+├── components/            # React components
+│   ├── layout/           # Layout components
+│   ├── home/             # Homepage components
+│   ├── jobs/             # Job-related components
+│   ├── candidates/       # Candidate-related components
+│   ├── employers/        # Employer-related components
+│   ├── resources/        # Resource components
+│   ├── ui/               # Reusable UI components
+│   └── auth/             # Authentication components
+├── lib/                  # Utility functions and hooks
+│   ├── utils/           # Utility functions
+│   ├── hooks/           # Custom React hooks
+│   └── context/         # React context providers
+├── types/               # TypeScript type definitions
+└── data/               # Mock data and constants
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Code Style
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ESLint and Prettier are configured for consistent code formatting
+- Follow the TypeScript best practices
+- Use proper component composition and reusability
+- Write meaningful comments and documentation
 
-## Learn More
+### Git Workflow
 
-To learn more about Next.js, take a look at the following resources:
+1. Create a new branch for each feature/fix
+2. Write meaningful commit messages
+3. Create pull requests for code review
+4. Merge only after approval
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application can be deployed to any platform that supports Next.js, such as:
 
-## Deploy on Vercel
+- Vercel (recommended)
+- Netlify
+- AWS
+- Google Cloud Platform
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, email support@recruitpro.com or join our Slack channel.
+
+## Acknowledgments
+
+- Next.js team for the amazing framework
+- Tailwind CSS for the utility-first CSS framework
+- All contributors and maintainers
