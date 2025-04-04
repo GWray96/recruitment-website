@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface JobApplication {
   id: string;
@@ -32,7 +32,7 @@ const mockApplications: JobApplication[] = [
 ];
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const application = mockApplications.find(app => app.id === params.id);

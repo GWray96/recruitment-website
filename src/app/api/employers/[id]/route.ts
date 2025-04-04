@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Employer } from '@/types';
 
 // Mock employers data
@@ -32,7 +32,7 @@ const mockEmployers: Employer[] = [
 ];
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const employer = mockEmployers.find(emp => emp.id === params.id);
