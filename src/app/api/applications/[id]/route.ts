@@ -31,17 +31,11 @@ const mockApplications: JobApplication[] = [
   },
 ];
 
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
-
 export async function GET(
   request: Request,
-  context: RouteContext
+  { params }: { params: { id: string } }
 ) {
-  const application = mockApplications.find(app => app.id === context.params.id);
+  const application = mockApplications.find(app => app.id === params.id);
   
   if (!application) {
     return NextResponse.json(
