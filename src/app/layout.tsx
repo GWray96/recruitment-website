@@ -1,30 +1,23 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import React from 'react';
+import Navbar from '../components/Navbar';
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "RecruitPro - Find Your Next Career Opportunity",
-  description: "Connect with top employers and find your dream job with RecruitPro, the leading recruitment platform.",
-};
+export const metadata = {
+  title: 'NexusTech Recruitment - Your Trusted Recruitment Partner',
+  description: 'Find your next opportunity or hire the perfect candidate with NexusTech Recruitment.',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </div>
+      <body>
+        <Navbar />
+        {children}
       </body>
     </html>
-  );
+  )
 }

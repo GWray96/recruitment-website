@@ -49,7 +49,7 @@ const ValueProposition = () => {
               </ul>
               
               <p className="text-slate-600 mb-8">
-                At <span className="font-bold text-purple-600">RaptorTech Recruitment</span>, we connect top tech talent with companies that value their skills. Let us take the stress out of your job search and guide you toward the right opportunity.
+                At <span className="font-bold text-purple-600">NexusTech Recruitment</span>, we connect top tech talent with companies that value their skills. Let us take the stress out of your job search and guide you toward the right opportunity.
               </p>
 
               <div className="flex justify-center">
@@ -104,7 +104,7 @@ const ValueProposition = () => {
               </ul>
               
               <p className="text-slate-600 mb-8">
-                At <span className="font-bold text-purple-600">RaptorTech Recruitment</span>, we streamline your hiring process and connect you with highly skilled professionals who fit your business perfectly.
+                At <span className="font-bold text-purple-600">NexusTech Recruitment</span>, we streamline your hiring process and connect you with highly skilled professionals who fit your business perfectly.
               </p>
 
               <div className="flex justify-center">

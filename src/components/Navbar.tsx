@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Menu, X } from 'lucide-react'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -192,7 +193,7 @@ const Navbar = () => {
             <div className="space-y-1">
               <Link
                 href="/#why-nexustech"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                className="block px-3 py-2 text-base font-medium text-slate-600 hover:text-blue-600"
               >
                 Why NexusTech?
               </Link>

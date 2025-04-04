@@ -1,4 +1,4 @@
-import ReviewWidget from "../../components/ReviewWidget"
+import ReviewWidget from "../ReviewWidget"
 
 export default function Hero() {
   return (

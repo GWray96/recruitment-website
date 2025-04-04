@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { Star } from "@phosphor-icons/react"
+import React from 'react';
+import { Star } from "@phosphor-icons/react";
 
 export default function ReviewWidget() {
   return (
@@ -27,5 +28,5 @@ export default function ReviewWidget() {
         <div className="text-sm text-gray-600">from 5 reviews</div>
       </div>
     </div>
-  )
+  );
 } 

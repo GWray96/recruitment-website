@@ -37,10 +37,10 @@ export default function Benefits() {
   }, []);
 
   return (
-    <section className="py-16 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <section className="py-16 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <span className="inline-block px-4 py-1 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 text-indigo-600 rounded-full text-sm font-medium mb-4">
+          <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4">
             Our Benefits
           </span>
           <h2 className="text-4xl font-bold text-center mb-8 text-slate-900">
@@ -48,8 +48,8 @@ export default function Benefits() {
           </h2>
           
           <p className="text-center text-lg mb-12 max-w-3xl mx-auto text-slate-600">
-            When you partner with <strong className="text-indigo-600">NexusTech Recruitment</strong>, you get more than just a job listing or a pile of resumes. 
-            You gain a <strong className="text-indigo-600">strategic recruitment partner</strong> dedicated to delivering real results.
+            When you partner with <strong className="text-blue-600">NexusTech Recruitment</strong>, you get more than just a job listing or a pile of resumes. 
+            You gain a <strong className="text-blue-600">strategic recruitment partner</strong> dedicated to delivering real results.
           </p>
         </div>
 
@@ -59,8 +59,8 @@ export default function Benefits() {
               <button
                 className={`flex-1 px-6 py-2 rounded-full transition-all ${
                   showEmployer
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
-                    : 'text-slate-600 hover:text-indigo-600'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                    : 'text-slate-600 hover:text-blue-600'
                 }`}
                 onClick={() => setShowEmployer(true)}
               >
@@ -69,8 +69,8 @@ export default function Benefits() {
               <button
                 className={`flex-1 px-6 py-2 rounded-full transition-all ${
                   !showEmployer
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
-                    : 'text-slate-600 hover:text-indigo-600'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                    : 'text-slate-600 hover:text-blue-600'
                 }`}
                 onClick={() => setShowEmployer(false)}
               >
@@ -98,13 +98,13 @@ export default function Benefits() {
                 {(showEmployer ? employerBenefits : candidateBenefits).map((benefit, index) => (
                   <div
                     key={index}
-                    className="bg-white/80 backdrop-blur-sm p-6 rounded-lg shadow-sm border border-indigo-100/50 hover:shadow-lg hover:shadow-indigo-400/20 transition-all duration-300 hover:-translate-y-1"
+                    className="bg-white/80 backdrop-blur-sm p-6 rounded-lg shadow-sm border border-purple-100/50 hover:shadow-lg hover:shadow-purple-400/20 transition-all duration-300 hover:-translate-y-1"
                     style={{
                       willChange: 'transform',
                       transform: 'translateZ(0)'
                     }}
                   >
-                    <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg">
+                    <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg">
                       {benefit.icon}
                     </div>
                     <p className="text-slate-700 leading-relaxed">{benefit.text}</p>
@@ -118,7 +118,7 @@ export default function Benefits() {
         <div className="text-center mt-16">
           <a
             href="/virtual-coffee"
-            className="group px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 inline-flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-110"
+            className="group px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-200 inline-flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-110"
             style={{
               willChange: 'transform',
               transform: 'translateZ(0)'
