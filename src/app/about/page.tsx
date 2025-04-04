@@ -12,7 +12,7 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl font-bold mb-6">About NexusTech Recruitment</h1>
             <p className="text-xl text-gray-600 mb-8">
-              We're on a mission to transform the recruitment landscape by connecting exceptional talent with innovative companies.
+              We&apos;re on a mission to transform the recruitment landscape by connecting exceptional talent with innovative companies.
             </p>
           </div>
         </div>
