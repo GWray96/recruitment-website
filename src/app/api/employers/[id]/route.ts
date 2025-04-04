@@ -31,11 +31,17 @@ const mockEmployers: Employer[] = [
   },
 ];
 
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  props: Props
 ) {
-  const employer = mockEmployers.find(emp => emp.id === params.id);
+  const employer = mockEmployers.find(emp => emp.id === props.params.id);
   
   if (!employer) {
     return NextResponse.json(

@@ -31,11 +31,17 @@ const mockApplications: JobApplication[] = [
   },
 ];
 
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  props: Props
 ) {
-  const application = mockApplications.find(app => app.id === params.id);
+  const application = mockApplications.find(app => app.id === props.params.id);
   
   if (!application) {
     return NextResponse.json(
