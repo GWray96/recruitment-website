@@ -1,11 +1,15 @@
 import Hero from '@/components/home/Hero';
 import JobList from '@/components/jobs/JobList';
+import ValueProposition from '@/components/home/ValueProposition';
 import { mockJobs } from '@/data/mockData';
 
 export default function Home() {
   return (
     <div>
       <Hero />
+      
+      {/* Value Proposition Section */}
+      <ValueProposition />
       
       {/* Featured Jobs Section */}
       <section className="py-16 bg-gray-50">
@@ -98,10 +102,10 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Real-time Updates</h3>
+              <h3 className="text-xl font-semibold mb-2">Real-Time Updates</h3>
               <p className="text-gray-600">
-                Get instant notifications when new jobs matching your criteria are
-                posted.
+                Get instant notifications when employers view your profile or when
+                new matching jobs are posted.
               </p>
             </div>
           </div>
