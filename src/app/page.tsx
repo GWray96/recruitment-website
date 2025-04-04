@@ -1,6 +1,7 @@
 import Hero from '@/components/home/Hero';
 import JobList from '@/components/jobs/JobList';
 import ValueProposition from '@/components/home/ValueProposition';
+import About from '@/components/home/About';
 import { mockJobs } from '@/data/mockData';
 
 export default function Home() {
@@ -10,6 +11,9 @@ export default function Home() {
       
       {/* Value Proposition Section */}
       <ValueProposition />
+      
+      {/* About Section */}
+      <About />
       
       {/* Featured Jobs Section */}
       <section className="py-16 bg-gray-50">
