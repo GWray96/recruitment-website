@@ -99,21 +99,4 @@ export async function PUT(request: Request) {
       { status: 500 }
     );
   }
-}
-
-// Get employer by ID
-export async function GET_EMPLOYER(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const employer = mockEmployers.find((e) => e.id === params.id);
-  
-  if (!employer) {
-    return NextResponse.json(
-      { message: 'Employer not found' },
-      { status: 404 }
-    );
-  }
-
-  return NextResponse.json(employer);
 } 
