@@ -31,11 +31,17 @@ const mockEmployers: Employer[] = [
   },
 ];
 
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
+
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
-  const employer = mockEmployers.find(emp => emp.id === params.id);
+  const employer = mockEmployers.find(emp => emp.id === context.params.id);
   
   if (!employer) {
     return NextResponse.json(
