@@ -95,21 +95,4 @@ export async function PUT(request: Request) {
       { status: 500 }
     );
   }
-}
-
-// Get application by ID
-export async function GET_APPLICATION(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const application = mockApplications.find((a) => a.id === params.id);
-  
-  if (!application) {
-    return NextResponse.json(
-      { message: 'Application not found' },
-      { status: 404 }
-    );
-  }
-
-  return NextResponse.json(application);
 } 
