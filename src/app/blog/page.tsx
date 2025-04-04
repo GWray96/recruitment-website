@@ -54,7 +54,7 @@ export default function BlogPage() {
                   </a>
                 </h2>
                 <p className="text-gray-600 mb-4">
-                  Explore the latest trends in remote work and how they're shaping the future of recruitment.
+                  Explore the latest trends in remote work and how they&apos;re shaping the future of recruitment.
                 </p>
                 <div className="flex items-center text-sm text-gray-500">
                   <Tag className="w-4 h-4 mr-1" />
