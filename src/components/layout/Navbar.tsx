@@ -15,20 +15,20 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-12">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <span className="text-xl font-bold text-blue-600">RaptorTech</span>
+              <span className="text-xl font-bold text-blue-600">NexusTech Recruitment</span>
             </Link>
 
             {/* Desktop Navigation - Centered */}
             <div className="hidden md:flex items-center justify-center flex-1 space-x-8">
               <Link 
-                href="/#why-raptortech"
+                href="/#why-nexustech"
                 className={`inline-flex items-center px-1 pt-1 text-sm font-medium relative group/link ${
-                  pathname === '/#why-raptortech' 
+                  pathname === '/#why-nexustech' 
                     ? 'text-blue-600 border-b-2 border-blue-600' 
                     : 'text-gray-500'
                 }`}
               >
-                <span className="relative z-10">Why RaptorTech?</span>
+                <span className="relative z-10">Why NexusTech?</span>
                 <div className="absolute inset-0 -m-2 rounded-md bg-gradient-to-r from-purple-700/0 via-purple-700/20 to-purple-700/0 blur-md opacity-0 group-hover/link:opacity-100 transition-all duration-300" />
               </Link>
               
@@ -191,10 +191,10 @@ const Navbar = () => {
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 mx-4">
             <div className="space-y-1">
               <Link
-                href="/#why-raptortech"
+                href="/#why-nexustech"
                 className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
               >
-                Why RaptorTech?
+                Why NexusTech?
               </Link>
               <Link
                 href="/opportunities"
