@@ -27,37 +27,57 @@ const candidateBenefits: BenefitItem[] = [
 
 export default function Benefits() {
   const [showEmployer, setShowEmployer] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setShowEmployer((prev) => !prev);
-    }, 7000); // Toggle every 7 seconds
-
-    return () => clearInterval(interval);
+    // Check if we're on a mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  useEffect(() => {
+    // Only auto-toggle on desktop
+    if (!isMobile) {
+      const interval = setInterval(() => {
+        setShowEmployer((prev) => !prev);
+      }, 7000); // Toggle every 7 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [isMobile]);
+
   return (
-    <section className="py-16 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
+    <section className="py-12 md:py-16 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto px-4">
         <div className="text-center">
           <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4">
             Our Benefits
           </span>
-          <h2 className="text-4xl font-bold text-center mb-8 text-slate-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 md:mb-8 text-slate-900">
             The NexusTech Advantage: What You Gain
           </h2>
           
-          <p className="text-center text-lg mb-12 max-w-3xl mx-auto text-slate-600">
+          <p className="text-center text-base md:text-lg mb-8 md:mb-12 max-w-3xl mx-auto text-slate-600">
             When you partner with <strong className="text-blue-600">NexusTech Recruitment</strong>, you get more than just a job listing or a pile of resumes. 
             You gain a <strong className="text-blue-600">strategic recruitment partner</strong> dedicated to delivering real results.
           </p>
         </div>
 
-        <div className="flex justify-center mb-8">
-          <div className="bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-md w-1/2 max-w-md">
+        <div className="flex justify-center mb-6 md:mb-8">
+          <div className="bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-md w-full md:w-1/2 max-w-md">
             <div className="flex">
               <button
-                className={`flex-1 px-6 py-2 rounded-full transition-all ${
+                className={`flex-1 px-4 md:px-6 py-2 rounded-full transition-all text-sm md:text-base ${
                   showEmployer
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
                     : 'text-slate-600 hover:text-blue-600'
@@ -67,7 +87,7 @@ export default function Benefits() {
                 For Employers
               </button>
               <button
-                className={`flex-1 px-6 py-2 rounded-full transition-all ${
+                className={`flex-1 px-4 md:px-6 py-2 rounded-full transition-all text-sm md:text-base ${
                   !showEmployer
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
                     : 'text-slate-600 hover:text-blue-600'
@@ -80,7 +100,7 @@ export default function Benefits() {
           </div>
         </div>
 
-        <div className="relative min-h-[400px]">
+        <div className="relative min-h-[300px] md:min-h-[400px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={showEmployer ? 'employer' : 'candidate'}
@@ -94,20 +114,27 @@ export default function Benefits() {
                 transform: 'translateZ(0)'
               }}
             >
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {(showEmployer ? employerBenefits : candidateBenefits).map((benefit, index) => (
                   <div
                     key={index}
-                    className="bg-white/80 backdrop-blur-sm p-6 rounded-lg shadow-sm border border-purple-100/50 hover:shadow-lg hover:shadow-purple-400/20 transition-all duration-300 hover:-translate-y-1"
+                    className="bg-white/80 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-sm border border-purple-100/50 hover:shadow-lg hover:shadow-purple-400/20 transition-all duration-300 hover:-translate-y-1"
                     style={{
                       willChange: 'transform',
                       transform: 'translateZ(0)'
                     }}
                   >
-                    <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg">
-                      {benefit.icon}
+                    <div className="flex items-center mb-3 md:mb-4">
+                      <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-xl md:text-2xl bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg mr-3 md:mr-4">
+                        {benefit.icon}
+                      </div>
+                      <h3 className="font-semibold text-slate-800 text-base md:text-lg">
+                        {benefit.text.split('–')[0].trim()}
+                      </h3>
                     </div>
-                    <p className="text-slate-700 leading-relaxed">{benefit.text}</p>
+                    <p className="text-slate-600 text-sm md:text-base leading-relaxed pl-0 md:pl-14">
+                      {benefit.text.split('–')[1]?.trim() || benefit.text}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -115,17 +142,17 @@ export default function Benefits() {
           </AnimatePresence>
         </div>
 
-        <div className="text-center mt-16">
+        <div className="text-center mt-10 md:mt-16">
           <a
             href="/virtual-coffee"
-            className="group px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-200 inline-flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-110"
+            className="group px-6 md:px-8 py-3 md:py-4 text-sm md:text-base font-medium text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-200 inline-flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
             style={{
               willChange: 'transform',
               transform: 'translateZ(0)'
             }}
           >
             <span>Let&apos;s Get Started</span>
-            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </a>
