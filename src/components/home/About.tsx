@@ -50,6 +50,36 @@ const About = () => {
     { year: '2023', title: 'Today', description: 'Continuing to grow and innovate in the tech recruitment space.' },
   ];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSpecialism(0);
+          }
+        });
+      },
+      { 
+        threshold: [0.1, 0.2, 0.3], // Multiple thresholds for better mobile detection
+        rootMargin: '0px 0px -10% 0px' // Adjust the root margin for better mobile detection
+      }
+    );
+
+    // Store the ref value in a variable
+    const currentRef = sectionRef.current;
+    
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      // Use the stored variable in the cleanup function
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
   return (
     <section ref={sectionRef} id="why-nexustech" className="py-16 px-4 md:px-8 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto">
@@ -69,7 +99,15 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-purple-600 mb-2">
-                <CountUp end={15} suffix="+" enableScrollSpy scrollSpyOnce duration={2} />
+                <CountUp 
+                  end={15} 
+                  suffix="+" 
+                  enableScrollSpy 
+                  scrollSpyOnce 
+                  duration={2}
+                  start={0}
+                  delay={0}
+                />
               </div>
               <div className="text-slate-600">Years Experience</div>
             </div>
