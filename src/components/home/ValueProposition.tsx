@@ -28,6 +28,33 @@ const ValueProposition = () => {
   ];
 
   useEffect(() => {
+    if (typeof window === 'undefined' || hasAnimated) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasAnimated]);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !hasAnimated) {
@@ -368,7 +395,7 @@ const ValueProposition = () => {
               <div className="relative z-10">
                 <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-indigo-700 transition-colors duration-300">Precision Matching</h4>
                 <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">
-                  We don't just find candidates with the right skills; we find candidates who align with your company culture and values.
+                  We don&apos;t just find candidates with the right skills; we find candidates who align with your company culture and values.
                 </p>
                 
                 {/* Hidden content that appears on hover */}
