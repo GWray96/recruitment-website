@@ -11,19 +11,19 @@ const Footer = () => {
       { name: 'About Us', href: '/about' },
       { name: 'Contact', href: '/contact' },
       { name: 'Blog', href: '/blog' },
-      { name: 'Companies', href: '/companies' },
+      { name: 'Resources', href: '/resources' },
     ],
     candidates: [
       { name: 'Browse Jobs', href: '/jobs' },
       { name: 'Candidate Hub', href: '/candidate-hub' },
       { name: 'Career Advice', href: '/blog' },
-      { name: 'Submit CV', href: '/contact' },
+      { name: 'Submit CV', href: '/contact#cv-upload' },
     ],
     employers: [
       { name: 'Employer Hub', href: '/employer-hub' },
-      { name: 'Post a Job', href: '/employer-hub' },
+      { name: 'Discuss a Vacancy', href: '/employer-hub' },
       { name: 'Hiring Solutions', href: '/employer-hub' },
-      { name: 'Employer Resources', href: '/employer-hub' },
+      { name: 'Employer Resources', href: '/resources' },
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
