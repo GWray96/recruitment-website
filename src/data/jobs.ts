@@ -196,7 +196,51 @@ export const jobs: Job[] = [
     salary: '£80k - £100k',
     type: 'Full Time',
     postedDate: '2024-03-12',
-    skills: ['Python', 'Django', 'PostgreSQL', 'Docker']
+    skills: ['Python', 'Django', 'PostgreSQL', 'Docker'],
+    description: 'Join DataFlow Technologies as a Backend Developer to help build robust and scalable server-side applications. You will work with our team to design and implement efficient database solutions and APIs.',
+    requirements: [
+      '3+ years experience with Python',
+      'Strong knowledge of Django framework',
+      'Experience with PostgreSQL and database optimization',
+      'Docker containerization experience',
+      'Understanding of RESTful APIs',
+      'Knowledge of backend security practices'
+    ],
+    benefits: [
+      'Competitive salary package',
+      'Private healthcare',
+      '25 days annual leave',
+      'Flexible working hours',
+      'Professional development budget',
+      'Regular team social events'
+    ],
+    responsibilities: [
+      'Design and implement backend services',
+      'Optimize database performance',
+      'Create and maintain APIs',
+      'Write clean, testable code',
+      'Collaborate with frontend developers',
+      'Participate in code reviews'
+    ],
+    workHours: '9:30 AM - 5:30 PM (flexible)',
+    workEnvironment: 'Modern office in central London with hybrid working options',
+    teamSize: '6-8 backend developers',
+    reportingStructure: 'Reports to Backend Team Lead',
+    growthOpportunities: [
+      'Senior Backend Developer role',
+      'Database architecture specialization',
+      'Team leadership opportunities',
+      'Cloud infrastructure expertise'
+    ],
+    companyCulture: 'Collaborative environment focused on continuous learning and innovation',
+    applicationProcess: [
+      'Online application submission',
+      'Technical screening call',
+      'Coding assessment',
+      'System design interview',
+      'Team fit interview',
+      'Final offer discussion'
+    ]
   },
   {
     id: "5",
@@ -206,7 +250,51 @@ export const jobs: Job[] = [
     salary: '€70k - €90k',
     type: 'Full Time',
     postedDate: '2024-03-11',
-    skills: ['React Native', 'iOS', 'Android', 'TypeScript']
+    skills: ['React Native', 'iOS', 'Android', 'TypeScript'],
+    description: 'AppWorks is seeking a talented Mobile Developer to join our innovative team. You will be responsible for developing cross-platform mobile applications using React Native and maintaining native iOS and Android codebases.',
+    requirements: [
+      '3+ years mobile development experience',
+      'Strong React Native expertise',
+      'Experience with iOS and Android development',
+      'TypeScript proficiency',
+      'Understanding of mobile UI/UX principles',
+      'Knowledge of mobile app deployment processes'
+    ],
+    benefits: [
+      'Competitive salary',
+      'Health insurance',
+      '30 days vacation',
+      'Public transport pass',
+      'Home office equipment allowance',
+      'Regular team events'
+    ],
+    responsibilities: [
+      'Develop cross-platform mobile applications',
+      'Maintain and optimize existing apps',
+      'Implement new features and functionality',
+      'Ensure app performance and reliability',
+      'Collaborate with design and backend teams',
+      'Participate in agile development process'
+    ],
+    workHours: '10:00 AM - 6:00 PM (flexible)',
+    workEnvironment: 'Modern office in Berlin-Mitte with remote options',
+    teamSize: '4-6 mobile developers',
+    reportingStructure: 'Reports to Mobile Development Lead',
+    growthOpportunities: [
+      'Senior Mobile Developer position',
+      'Mobile architecture role',
+      'Team leadership track',
+      'Full-stack development opportunities'
+    ],
+    companyCulture: 'Dynamic startup environment with focus on innovation and work-life balance',
+    applicationProcess: [
+      'CV and portfolio submission',
+      'Initial phone screening',
+      'Technical assessment',
+      'On-site interviews',
+      'Team meeting',
+      'Offer negotiation'
+    ]
   },
   {
     id: "6",
@@ -216,6 +304,50 @@ export const jobs: Job[] = [
     salary: '$90k - $120k',
     type: 'Full Time',
     postedDate: '2024-03-10',
-    skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping']
+    skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping'],
+    description: 'Creative Digital is looking for a UI/UX Designer to create beautiful and functional user interfaces. You will work closely with our product and development teams to design intuitive digital experiences.',
+    requirements: [
+      '4+ years UI/UX design experience',
+      'Expert knowledge of Figma and Adobe XD',
+      'Strong portfolio of digital products',
+      'Experience with user research methods',
+      'Prototyping skills',
+      'Understanding of web and mobile design principles'
+    ],
+    benefits: [
+      'Competitive remote salary',
+      'Health and wellness benefits',
+      'Unlimited PTO',
+      'Home office setup budget',
+      'Design conference allowance',
+      'Professional development fund'
+    ],
+    responsibilities: [
+      'Create user-centered designs',
+      'Conduct user research and testing',
+      'Develop wireframes and prototypes',
+      'Create and maintain design systems',
+      'Collaborate with development team',
+      'Present designs to stakeholders'
+    ],
+    workHours: 'Flexible schedule with core collaboration hours',
+    workEnvironment: 'Fully remote with quarterly team meetups',
+    teamSize: '3-4 designers',
+    reportingStructure: 'Reports to Creative Director',
+    growthOpportunities: [
+      'Senior Designer role',
+      'UX Research specialization',
+      'Design leadership position',
+      'Product strategy involvement'
+    ],
+    companyCulture: 'Remote-first culture emphasizing creativity, collaboration, and work-life balance',
+    applicationProcess: [
+      'Portfolio review',
+      'Initial design discussion',
+      'Design challenge',
+      'Team presentation',
+      'Cultural fit interview',
+      'Final offer'
+    ]
   }
 ]; 
