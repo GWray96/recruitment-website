@@ -286,83 +286,89 @@ export default function CandidateHub() {
         </div>
       </div>
 
-      {/* Latest Jobs Section */}
-      <div className="py-24 bg-gray-50">
+      {/* Latest Opportunities Section */}
+      <section className="py-20 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-3">
               Latest Opportunities
-            </h2>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search jobs..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              />
-              <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-            </div>
+            </span>
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">Featured Tech Roles</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Explore our latest tech opportunities with leading companies. Updated daily with new positions.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {currentJobs.map((job: Job) => (
-              <div key={job.id} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-slate-900 mb-2">{job.title}</h3>
-                    <p className="text-purple-600 font-medium">{job.company}</p>
-                  </div>
-                  <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-medium">
-                    {job.type}
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 text-slate-600 mb-4">
-                  <div className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    {job.location}
-                  </div>
-                  <div className="flex items-center">
-                    <Banknote className="w-4 h-4 mr-1" />
-                    {job.salary}
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {job.skills.map((skill: string, index: number) => (
-                    <span
-                      key={index}
-                      className="bg-gray-100 text-slate-600 px-3 py-1 rounded-full text-sm"
-                    >
-                      {skill}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {currentJobs.map((job) => (
+              <div
+                key={job.id}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl hover:shadow-purple-400/20 transition-all duration-300 overflow-hidden transform hover:scale-[1.02]"
+              >
+                <div className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full font-medium">
+                      {job.type}
                     </span>
-                  ))}
-                </div>
-                <div className="mt-auto">
-                  <Link
-                    href={`/jobs/${job.id}`}
-                    className="text-purple-600 font-medium hover:text-purple-700 transition-colors duration-300"
-                  >
-                    View Details →
-                  </Link>
+                    <div className="flex items-center text-sm text-slate-500">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      {job.location}
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 line-clamp-2 hover:text-purple-600 transition-colors">
+                    {job.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 mb-4 line-clamp-2">
+                    {job.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {job.skills.slice(0, 3).map((skill, index) => (
+                      <span
+                        key={index}
+                        className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {job.skills.length > 3 && (
+                      <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                        +{job.skills.length - 3} more
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <div className="flex items-center text-slate-600">
+                      <Banknote className="w-4 h-4 mr-1" />
+                      <span>{job.salary}</span>
+                    </div>
+                    <Link 
+                      href={`/jobs/${job.id}`}
+                      className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium group"
+                    >
+                      View Role
+                      <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* View All Opportunities CTA */}
           <div className="text-center">
             <Link
               href="/jobs"
-              className="inline-flex items-center px-8 py-4 bg-purple-600 text-white font-semibold rounded-xl 
-                shadow-lg hover:bg-purple-700 transform hover:scale-105 transition-all duration-300 
-                hover:shadow-purple-300/50 group"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-full shadow-md hover:shadow-lg hover:shadow-purple-400/20 transition-all duration-300 group"
             >
-              View All Latest Opportunities
-              <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
+              View All Opportunities
+              <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Job Search Process Section */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 py-20 relative">
