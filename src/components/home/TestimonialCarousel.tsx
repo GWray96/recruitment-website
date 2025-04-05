@@ -44,58 +44,83 @@ const testimonials: Testimonial[] = [
 ];
 
 // Memoize the testimonial card component
-const TestimonialCard = memo(({ testimonial, onClick }: { testimonial: Testimonial; onClick: () => void }) => (
-  <div 
-    className="bg-white rounded-2xl shadow-xl p-6 relative h-[420px] flex flex-col"
-    style={{
-      willChange: 'transform',
-      transform: 'translateZ(0)'
-    }}
-  >
-    {/* Quotation mark in top right */}
-    <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full transform translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-      <Quote className="w-6 h-6 text-white" />
-    </div>
+const TestimonialCard = memo(({ testimonial, onClick }: { testimonial: Testimonial; onClick: () => void }) => {
+  // Check if we're on a mobile device
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
     
-    {/* Profile Image Placeholder */}
-    <div className="w-12 h-12 rounded-full bg-gray-200 mb-3 flex items-center justify-center">
-      <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-      </svg>
-    </div>
+    // Check on mount
+    checkMobile();
     
-    {/* Rating */}
-    <div className="flex justify-center mb-2">
-      <div className="flex space-x-1">
-        {[...Array(5)].map((_, i) => (
-          <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.363 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return (
+    <div 
+      className={`bg-white rounded-2xl shadow-xl p-6 relative flex flex-col ${
+        isMobile ? 'h-[350px]' : 'h-[420px]'
+      }`}
+      style={{
+        willChange: 'transform',
+        transform: 'translateZ(0)'
+      }}
+    >
+      {/* Quotation mark in top right */}
+      <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full transform translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+        <Quote className="w-6 h-6 text-white" />
+      </div>
+      
+      {/* Profile Image Placeholder */}
+      <div className="w-12 h-12 rounded-full bg-gray-200 mb-3 flex items-center justify-center">
+        <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+        </svg>
+      </div>
+      
+      {/* Rating */}
+      <div className="flex justify-center mb-2">
+        <div className="flex space-x-1">
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.363 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+      </div>
+
+      {/* Quote */}
+      <div className="flex-grow flex items-center justify-center px-4">
+        <p className={`text-gray-700 italic text-center line-clamp-6 ${
+          isMobile ? 'text-sm' : 'text-base'
+        }`}>
+          &quot;{testimonial.quote}&quot;
+        </p>
+      </div>
+
+      {/* Author */}
+      <div className="text-center mt-4">
+        <p className="text-gray-900 font-semibold">{testimonial.author}</p>
+        {testimonial.role && (
+          <p className="text-gray-600 text-sm">{testimonial.role}</p>
+        )}
       </div>
     </div>
-
-    {/* Quote */}
-    <div className="flex-grow flex items-center justify-center px-4">
-      <p className="text-base text-gray-700 italic text-center line-clamp-6">
-        &quot;{testimonial.quote}&quot;
-      </p>
-    </div>
-
-    {/* Author */}
-    <div className="text-center mt-4">
-      <p className="text-gray-900 font-semibold">{testimonial.author}</p>
-      {testimonial.role && (
-        <p className="text-gray-600 text-sm">{testimonial.role}</p>
-      )}
-    </div>
-  </div>
-));
+  );
+});
 
 TestimonialCard.displayName = 'TestimonialCard';
 
 export default function TestimonialCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -105,9 +130,35 @@ export default function TestimonialCarousel() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
   const getPositionStyles = useCallback((index: number) => {
     const total = testimonials.length;
     const isActive = index === currentIndex;
+    
+    // Check if we're on a mobile device
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     
     // Calculate relative position from current index (-2, -1, 0, 1, 2)
     let relativePosition = ((index - currentIndex + total) % total);
@@ -115,19 +166,19 @@ export default function TestimonialCarousel() {
       relativePosition = relativePosition - total;
     }
     
-    // Define spacing and calculate position
-    const spacing = 320;
+    // Define spacing and calculate position - adjust for mobile
+    const spacing = isMobile ? 280 : 320;
     const x = relativePosition * spacing;
-    const y = Math.abs(relativePosition) * 30;
+    const y = Math.abs(relativePosition) * (isMobile ? 20 : 30);
     
     // Calculate scale and opacity based on distance from center
-    const scale = isActive ? 1 : 0.75;
-    const opacity = isActive ? 1 : 0.3;
+    const scale = isActive ? 1 : (isMobile ? 0.6 : 0.75);
+    const opacity = isActive ? 1 : (isMobile ? 0.2 : 0.3);
     const zIndex = isActive ? 10 : 5 - Math.abs(relativePosition);
 
     return {
       zIndex,
-      transform: `translate3d(${x + 35}px, ${y}px, 0) scale(${scale})`,
+      transform: `translate3d(${x + (isMobile ? 20 : 35)}px, ${y}px, 0) scale(${scale})`,
       opacity,
       willChange: 'transform, opacity',
     };
@@ -144,8 +195,8 @@ export default function TestimonialCarousel() {
             <h2 className="text-3xl font-bold text-slate-900">What Our Clients Say</h2>
           </div>
 
-          <div className="relative h-[600px] pb-16">
-            <div className="absolute left-1/4 top-8 w-full">
+          <div className="relative h-[600px] md:h-[600px] h-[500px] pb-16">
+            <div className="absolute left-1/4 md:left-1/4 left-0 top-8 w-full">
               {testimonials.map((testimonial, index) => (
                 <motion.div
                   key={index}
@@ -167,6 +218,36 @@ export default function TestimonialCarousel() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Mobile Navigation Buttons */}
+            {isMobile && (
+              <div className="absolute bottom-24 left-0 right-0 flex justify-center space-x-4">
+                <button
+                  onClick={handlePrev}
+                  className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-all"
+                  style={{
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-all"
+                  style={{
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            )}
 
             {/* Navigation Dots */}
             <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-2">
