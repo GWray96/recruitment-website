@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Building2, Users, Target, TrendingUp, ArrowRight, CheckCircle, Star, Award, Clock, Shield, Zap, BarChart, Globe, MessageSquare, BookOpen, ClipboardCheck, FileText, Video, BarChart2, Download, Calendar, Table, File } from 'lucide-react';
@@ -45,28 +45,33 @@ export default function EmployerHub() {
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
   const [industrySuggestions, setIndustrySuggestions] = useState<string[]>([]);
   const [activeResourceTab, setActiveResourceTab] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  const industries = [
+  const industries = useMemo(() => [
     "Technology",
     "Finance",
     "Healthcare",
+    "Education",
     "Manufacturing",
     "Retail",
-    "Education",
     "Real Estate",
-    "Professional Services"
-  ];
+    "Transportation",
+    "Energy",
+    "Media & Entertainment"
+  ], []);
 
-  const popularRoles = [
+  const popularRoles = useMemo(() => [
     "Software Engineer",
-    "Product Manager",
     "Data Scientist",
-    "UX Designer",
+    "Product Manager",
     "DevOps Engineer",
-    "Sales Representative",
-    "Marketing Manager",
-    "Customer Success"
-  ];
+    "UX/UI Designer",
+    "Cloud Architect",
+    "Security Engineer",
+    "Machine Learning Engineer",
+    "Full Stack Developer",
+    "Mobile App Developer"
+  ], []);
 
   // Handle search input changes
   useEffect(() => {
@@ -150,7 +155,7 @@ export default function EmployerHub() {
     }, 2000);
 
     return () => clearTimeout(typingTimer);
-  }, [currentIndustryIndex, industries.length]);
+  }, [currentIndustryIndex, industries.length, industries]);
 
   useEffect(() => {
     if (typeof window === 'undefined' || hasAnimated) return;
@@ -177,7 +182,7 @@ export default function EmployerHub() {
         observer.unobserve(currentRef);
       }
     };
-  }, [hasAnimated, industries]);
+  }, [hasAnimated, sectionRef]);
 
   useEffect(() => {
     if (typeof window === 'undefined' || hasAnimated) return;
