@@ -57,7 +57,7 @@ export default function Benefits() {
   }, [isMobile]);
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
+    <section className="py-12 md:py-16 pb-24 md:pb-32 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto px-4">
         <div className="text-center">
           <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4">
@@ -100,7 +100,8 @@ export default function Benefits() {
           </div>
         </div>
 
-        <div className="relative min-h-[300px] md:min-h-[400px]">
+        {/* Benefits content with fixed height on mobile */}
+        <div className="relative min-h-[550px] md:min-h-[500px] mb-48 md:mb-40">
           <AnimatePresence mode="wait">
             <motion.div
               key={showEmployer ? 'employer' : 'candidate'}
@@ -142,7 +143,8 @@ export default function Benefits() {
           </AnimatePresence>
         </div>
 
-        <div className="text-center mt-10 md:mt-16">
+        {/* CTA button - now in a separate container with proper spacing */}
+        <div className="text-center mt-24 md:mt-28">
           <a
             href="/virtual-coffee"
             className="group px-6 md:px-8 py-3 md:py-4 text-sm md:text-base font-medium text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-200 inline-flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
