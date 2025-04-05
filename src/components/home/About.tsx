@@ -80,6 +80,26 @@ const About = () => {
     };
   }, []);
 
+  // Add a state to track if we're on mobile
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Add an effect to detect mobile devices
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check on initial load
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
   return (
     <section ref={sectionRef} id="why-nexustech" className="py-16 px-4 md:px-8 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto">
@@ -104,28 +124,57 @@ const About = () => {
                   suffix="+" 
                   enableScrollSpy 
                   scrollSpyOnce 
-                  duration={2}
+                  duration={isMobile ? 1.5 : 2}
                   start={0}
                   delay={0}
+                  scrollSpyDelay={isMobile ? 0 : 100}
                 />
               </div>
               <div className="text-slate-600">Years Experience</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-blue-600 mb-2">
-                <CountUp end={250} suffix="+" enableScrollSpy scrollSpyOnce duration={2} separator="," />
+                <CountUp 
+                  end={250} 
+                  suffix="+" 
+                  enableScrollSpy 
+                  scrollSpyOnce 
+                  duration={isMobile ? 1.5 : 2} 
+                  separator="," 
+                  start={0}
+                  delay={0}
+                  scrollSpyDelay={isMobile ? 0 : 100}
+                />
               </div>
               <div className="text-slate-600">Successful Placements</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-indigo-600 mb-2">
-                <CountUp end={1000} enableScrollSpy scrollSpyOnce duration={2} separator="," />
+                <CountUp 
+                  end={1000} 
+                  enableScrollSpy 
+                  scrollSpyOnce 
+                  duration={isMobile ? 1.5 : 2} 
+                  separator="," 
+                  start={0}
+                  delay={0}
+                  scrollSpyDelay={isMobile ? 0 : 100}
+                />
               </div>
               <div className="text-slate-600">Client Companies</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-pink-600 mb-2">
-                <CountUp end={98} suffix="%" enableScrollSpy scrollSpyOnce duration={2} />
+                <CountUp 
+                  end={98} 
+                  suffix="%" 
+                  enableScrollSpy 
+                  scrollSpyOnce 
+                  duration={isMobile ? 1.5 : 2} 
+                  start={0}
+                  delay={0}
+                  scrollSpyDelay={isMobile ? 0 : 100}
+                />
               </div>
               <div className="text-slate-600">Client Satisfaction</div>
             </div>

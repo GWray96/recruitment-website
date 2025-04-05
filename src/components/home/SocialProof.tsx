@@ -5,7 +5,7 @@ import { Star } from 'lucide-react';
 
 const stats = [
   {
-    value: 10000,
+    value: 250,
     label: 'Successful Placements',
     suffix: '+',
   },
@@ -93,32 +93,62 @@ export default function SocialProof() {
   useEffect(() => {
     if (typeof window === 'undefined' || hasAnimated) return;
 
+    // Check if we're on a mobile device
+    const isMobile = window.innerWidth < 768;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
-          stats.forEach((stat, index) => {
-            const duration = 2000; // 2 seconds
-            const steps = 60;
-            const increment = stat.value / steps;
-            let current = 0;
-            const timer = setInterval(() => {
-              current += increment;
-              if (current >= stat.value) {
-                current = stat.value;
-                clearInterval(timer);
-              }
-              setCounters(prev => {
-                const newCounters = [...prev];
-                newCounters[index] = Math.floor(current);
-                return newCounters;
-              });
-            }, duration / steps);
-          });
+          
+          // For mobile devices, start the animation immediately
+          if (isMobile) {
+            stats.forEach((stat, index) => {
+              const duration = 1500; // Faster animation for mobile
+              const steps = 30; // Fewer steps for mobile
+              const increment = stat.value / steps;
+              let current = 0;
+              const timer = setInterval(() => {
+                current += increment;
+                if (current >= stat.value) {
+                  current = stat.value;
+                  clearInterval(timer);
+                }
+                setCounters(prev => {
+                  const newCounters = [...prev];
+                  newCounters[index] = Math.floor(current);
+                  return newCounters;
+                });
+              }, duration / steps);
+            });
+          } else {
+            // For desktop, use the original animation
+            stats.forEach((stat, index) => {
+              const duration = 2000; // 2 seconds
+              const steps = 60;
+              const increment = stat.value / steps;
+              let current = 0;
+              const timer = setInterval(() => {
+                current += increment;
+                if (current >= stat.value) {
+                  current = stat.value;
+                  clearInterval(timer);
+                }
+                setCounters(prev => {
+                  const newCounters = [...prev];
+                  newCounters[index] = Math.floor(current);
+                  return newCounters;
+                });
+              }, duration / steps);
+            });
+          }
         }
       },
-      { threshold: 0.2 }
+      { 
+        threshold: isMobile ? [0.05, 0.1, 0.2] : [0.1, 0.2, 0.3], // Lower thresholds for mobile
+        rootMargin: isMobile ? '0px 0px -5% 0px' : '0px 0px -10% 0px' // Smaller margin for mobile
+      }
     );
 
     const currentRef = sectionRef.current;
@@ -142,7 +172,7 @@ export default function SocialProof() {
           </span>
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Trusted by Tech Professionals</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Join thousands of successful placements and satisfied clients who have found their perfect match through NexusTech.
+            Join hundreds of successful placements and satisfied clients who have found their perfect match through NexusTech.
           </p>
         </div>
 
