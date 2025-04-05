@@ -6,13 +6,16 @@ import PlaceholderImage from '@/components/ui/PlaceholderImage';
 // Define the correct type for Next.js 15
 type Props = {
   params: Promise<{ slug: string }>;
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage({ params, searchParams }: Props) {
   // Await the params since it's a Promise in Next.js 15
   const resolvedParams = await params;
   const { slug } = resolvedParams;
+  
+  // We're not using searchParams but we're including it in the type
+  // to match Next.js 15 requirements
   
   const post = blogPosts.find(p => p.slug === slug);
   if (!post) {
