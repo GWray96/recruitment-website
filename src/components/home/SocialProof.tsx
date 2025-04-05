@@ -1,24 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Star } from 'lucide-react';
 
 const stats = [
   {
-    value: '500+',
+    value: 10000,
     label: 'Successful Placements',
+    suffix: '+',
   },
   {
-    value: '98%',
+    value: 15,
+    label: 'Years Experience',
+    suffix: '+',
+  },
+  {
+    value: 98,
     label: 'Client Satisfaction',
+    suffix: '%',
   },
   {
-    value: '2 weeks',
-    label: 'Average Time to Hire',
-  },
-  {
-    value: '200+',
-    label: 'Technical Roles Filled',
+    value: 500,
+    label: 'Partner Companies',
+    suffix: '+',
   },
 ];
 
@@ -55,8 +59,52 @@ const trustedBy = [
 ];
 
 export default function SocialProof() {
+  const [counters, setCounters] = useState(stats.map(() => 0));
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          stats.forEach((stat, index) => {
+            const duration = 2000; // 2 seconds
+            const steps = 60;
+            const increment = stat.value / steps;
+            let current = 0;
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= stat.value) {
+                current = stat.value;
+                clearInterval(timer);
+              }
+              setCounters(prev => {
+                const newCounters = [...prev];
+                newCounters[index] = Math.floor(current);
+                return newCounters;
+              });
+            }, duration / steps);
+          });
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [hasAnimated]);
+
   return (
-    <section className="py-20 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
+    <section ref={sectionRef} className="py-20 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-3">
@@ -64,18 +112,21 @@ export default function SocialProof() {
           </span>
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Trusted by Tech Professionals</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Join hundreds of successful placements and satisfied clients who have found their perfect match through NexusTech.
+            Join thousands of successful placements and satisfied clients who have found their perfect match through NexusTech.
           </p>
         </div>
 
         {/* Statistics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 mb-20">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center transform hover:scale-105 transition-transform duration-300">
-              <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                {stat.value}
+          {stats.map((stat, index) => (
+            <div 
+              key={stat.label} 
+              className="text-center transform hover:scale-105 transition-all duration-300 group"
+            >
+              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2 group-hover:animate-pulse">
+                {counters[index].toLocaleString()}{stat.suffix}
               </div>
-              <div className="text-slate-600 text-lg">
+              <div className="text-slate-600 text-lg group-hover:text-purple-600 transition-colors duration-300">
                 {stat.label}
               </div>
             </div>
