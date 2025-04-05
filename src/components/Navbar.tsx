@@ -34,9 +34,9 @@ const Navbar = () => {
               </Link>
               
               <Link 
-                href="/opportunities"
+                href="/jobs"
                 className={`inline-flex items-center px-1 pt-1 text-sm font-medium relative group/link ${
-                  pathname === '/opportunities'
+                  pathname === '/jobs'
                     ? 'text-blue-600 border-b-2 border-blue-600' 
                     : 'text-gray-500'
                 }`}
@@ -198,8 +198,8 @@ const Navbar = () => {
                 Why NexusTech?
               </Link>
               <Link
-                href="/opportunities"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                href="/jobs"
+                className="block px-3 py-2 text-base font-medium text-slate-600 hover:text-blue-600"
               >
                 Latest Opportunities
               </Link>

@@ -71,7 +71,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-medium text-slate-900">Email</h4>
-                    <p className="text-slate-600 mt-1">hello@raptortech.com</p>
+                    <p className="text-slate-600 mt-1">hello@nexustech.com</p>
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function ContactSection() {
                   Prefer to reach out directly?
                 </p>
                 <Link
-                  href="mailto:hello@raptortech.com"
+                  href="mailto:hello@nexustech.com"
                   className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:shadow-purple-400/30 transition-all duration-300"
                 >
                   Send us an Email
