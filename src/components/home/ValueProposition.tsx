@@ -60,6 +60,9 @@ const ValueProposition = () => {
         if (entries[0].isIntersecting && !hasAnimated) {
           setHasAnimated(true);
           
+          // Check if we're on a mobile device
+          const isMobile = window.innerWidth < 768;
+          
           // Animate counters
           const targetValues = {
             candidates: 500,
@@ -68,8 +71,8 @@ const ValueProposition = () => {
             satisfaction: 98
           };
           
-          const duration = 2000; // 2 seconds
-          const steps = 60;
+          const duration = isMobile ? 1500 : 2000; // Faster animation for mobile
+          const steps = isMobile ? 30 : 60; // Fewer steps for mobile
           const stepDuration = duration / steps;
           
           let currentStep = 0;
@@ -92,16 +95,20 @@ const ValueProposition = () => {
           return () => clearInterval(interval);
         }
       },
-      { threshold: 0.2 }
+      { 
+        threshold: [0.05, 0.1, 0.2], // Multiple thresholds for better mobile detection
+        rootMargin: '0px 0px -5% 0px' // Smaller margin for mobile
+      }
     );
     
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
     
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [hasAnimated]);
