@@ -218,42 +218,63 @@ const About = () => {
           </div>
           
           <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-600 to-blue-600"></div>
+            {/* Timeline line - hidden on mobile, shown on desktop */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-600 to-blue-600 hidden md:block"></div>
+            
+            {/* Mobile timeline line - vertical line on the left side */}
+            <div className="absolute left-6 top-0 h-full w-1 bg-gradient-to-b from-purple-600 to-blue-600 md:hidden"></div>
             
             {/* Timeline items */}
             <div className="space-y-16">
               {timeline.map((item, index) => (
                 <div key={index} className="relative flex items-center">
-                  {/* Left side content (even indices) */}
-                  <div className={`w-5/12 ${index % 2 === 0 ? 'pr-0 text-right mr-[-8rem]' : 'pl-8'}`}>
-                    {index % 2 === 0 ? (
-                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
-                        <div className="text-purple-600 font-bold mb-2 group-hover:text-purple-700 transition-colors duration-300">{item.year}</div>
-                        <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-800 transition-colors duration-300">{item.title}</h4>
-                        <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
-                      </div>
-                    ) : (
-                      <div className="h-full"></div>
-                    )}
+                  {/* Desktop layout - alternating left and right */}
+                  <div className="hidden md:flex w-full">
+                    {/* Left side content (even indices) */}
+                    <div className={`w-5/12 ${index % 2 === 0 ? 'pr-0 text-right mr-[-8rem]' : 'pl-8'}`}>
+                      {index % 2 === 0 ? (
+                        <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
+                          <div className="text-purple-600 font-bold mb-2 group-hover:text-purple-700 transition-colors duration-300">{item.year}</div>
+                          <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-800 transition-colors duration-300">{item.title}</h4>
+                          <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
+                        </div>
+                      ) : (
+                        <div className="h-full"></div>
+                      )}
+                    </div>
+                    
+                    {/* Center dot - desktop */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center z-10 shadow-md">
+                      <div className="w-3 h-3 bg-white rounded-full"></div>
+                    </div>
+                    
+                    {/* Right side content (odd indices) */}
+                    <div className={`w-5/12 ${index % 2 === 0 ? 'pl-8' : 'pl-8 text-left ml-16'}`}>
+                      {index % 2 === 1 ? (
+                        <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-blue-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400/20 group">
+                          <div className="text-blue-600 font-bold mb-2 group-hover:text-blue-700 transition-colors duration-300">{item.year}</div>
+                          <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-blue-800 transition-colors duration-300">{item.title}</h4>
+                          <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
+                        </div>
+                      ) : (
+                        <div className="h-full"></div>
+                      )}
+                    </div>
                   </div>
                   
-                  {/* Center dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center z-10 shadow-md">
-                    <div className="w-3 h-3 bg-white rounded-full"></div>
-                  </div>
-                  
-                  {/* Right side content (odd indices) */}
-                  <div className={`w-5/12 ${index % 2 === 0 ? 'pl-8' : 'pl-8 text-left ml-16'}`}>
-                    {index % 2 === 1 ? (
-                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-blue-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400/20 group">
-                        <div className="text-blue-600 font-bold mb-2 group-hover:text-blue-700 transition-colors duration-300">{item.year}</div>
-                        <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-blue-800 transition-colors duration-300">{item.title}</h4>
-                        <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
-                      </div>
-                    ) : (
-                      <div className="h-full"></div>
-                    )}
+                  {/* Mobile layout - stacked vertically with left line */}
+                  <div className="md:hidden w-full pl-12">
+                    {/* Mobile dot */}
+                    <div className="absolute left-6 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center z-10 shadow-md">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    
+                    {/* Mobile content box */}
+                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-5 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
+                      <div className="text-purple-600 font-bold mb-2 group-hover:text-purple-700 transition-colors duration-300">{item.year}</div>
+                      <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-800 transition-colors duration-300">{item.title}</h4>
+                      <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
+                    </div>
                   </div>
                 </div>
               ))}
