@@ -7,6 +7,7 @@ import { Search, Building2, Users, Target, TrendingUp, ArrowRight, CheckCircle, 
 import CountUp from 'react-countup';
 import FAQ from '@/components/shared/FAQ';
 
+// Updated employer hub page with enhanced features and improved UI
 export default function EmployerHub() {
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
