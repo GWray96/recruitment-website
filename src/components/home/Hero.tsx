@@ -37,7 +37,7 @@ export default function Hero() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <a 
-              href="/candidates" 
+              href="/jobs" 
               className="group px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg shadow-md w-full sm:w-auto text-center transform transition-all duration-300 hover:scale-105 hover:shadow-lg relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center justify-center">
@@ -49,7 +49,7 @@ export default function Hero() {
               <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </a>
             <a 
-              href="/employers" 
+              href="/employer-hub" 
               className="group px-6 py-3 bg-white text-blue-600 font-medium rounded-lg shadow-md border border-blue-200 w-full sm:w-auto text-center transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-blue-50"
             >
               <span className="flex items-center justify-center">
