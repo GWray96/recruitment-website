@@ -1,4 +1,6 @@
-import { Job } from './JobListing';
+import { motion } from 'framer-motion';
+import { X, ArrowRight, MapPin, Briefcase, Clock } from 'lucide-react';
+import type { Job } from './JobListing';
 
 interface JobComparisonProps {
   selectedJobs: Job[];
@@ -8,67 +10,70 @@ interface JobComparisonProps {
 
 export function JobComparison({ selectedJobs, onRemoveJob, onApply }: JobComparisonProps) {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 h-full flex flex-col">
+    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-semibold text-slate-900">Compare Jobs</h3>
-        <span className="text-sm text-slate-500">{selectedJobs.length}/3 jobs selected</span>
-      </div>
-
-      <div className="flex-1 overflow-y-auto">
-        <div className="space-y-6">
-          {selectedJobs.map((job) => (
-            <div key={job.id} className="relative">
-              <button
-                onClick={() => onRemoveJob(job.id)}
-                className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full shadow-sm border border-gray-200 flex items-center justify-center hover:bg-gray-50"
-              >
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-slate-900 mb-1">{job.title}</h4>
-                <p className="text-sm text-slate-600 mb-2">{job.company}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-3">
-                  <span className="px-2 py-1 text-xs font-medium text-purple-700 bg-purple-100 rounded-full">
-                    {job.type}
-                  </span>
-                  <span className="px-2 py-1 text-xs font-medium text-slate-700 bg-slate-100 rounded-full">
-                    {job.location}
-                  </span>
-                  <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full">
-                    {job.salary}
-                  </span>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {job.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => onApply(job.id)}
-                  className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                >
-                  Apply Now
-                </button>
-              </div>
-            </div>
-          ))}
+        <h2 className="text-2xl font-semibold text-slate-900">Compare Jobs</h2>
+        <div className="text-sm text-slate-600">
+          {selectedJobs.length}/3 jobs selected
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {selectedJobs.map((job) => (
+          <motion.div
+            key={job.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="relative bg-slate-50 rounded-lg p-4"
+          >
+            <button
+              onClick={() => onRemoveJob(job.id)}
+              className="absolute top-2 right-2 p-1 text-slate-400 hover:text-slate-600"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-slate-900">{job.title}</h3>
+              <p className="text-slate-600">{job.company}</p>
+            </div>
+
+            <div className="space-y-2 text-sm text-slate-600">
+              <div className="flex items-center gap-1">
+                <MapPin className="w-4 h-4" />
+                <span>{job.location}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Briefcase className="w-4 h-4" />
+                <span>{job.type}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                <span>{job.posted}</span>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <p className="text-slate-900 font-medium">{job.salary}</p>
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onApply(job.id)}
+              className="mt-4 w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+            >
+              Apply Now
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+          </motion.div>
+        ))}
+      </div>
+
       {selectedJobs.length === 0 && (
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-slate-500">Select jobs to compare</p>
+        <div className="text-center py-8 text-slate-600">
+          Select jobs to compare them
         </div>
       )}
     </div>

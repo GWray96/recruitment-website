@@ -1,29 +1,96 @@
-import React from 'react';
-import { Code, Trophy, Database, Wrench, Users, Megaphone } from 'lucide-react';
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Code, Trophy, Database, Wrench, Users, Megaphone, Coffee, Calendar, Star, Award, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import CountUp from 'react-countup';
 
 const About = () => {
+  const [activeSpecialism, setActiveSpecialism] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
   const specialisms = [
-    { icon: <Code className="w-6 h-6 text-white" />, title: 'Software Development & Testing' },
-    { icon: <Trophy className="w-6 h-6 text-white" />, title: 'Projects, Change & Business Analysis' },
-    { icon: <Database className="w-6 h-6 text-white" />, title: 'Advanced Data and BI' },
-    { icon: <Wrench className="w-6 h-6 text-white" />, title: 'Infrastructure & Support' },
-    { icon: <Users className="w-6 h-6 text-white" />, title: 'IT Leadership' },
-    { icon: <Megaphone className="w-6 h-6 text-white" />, title: 'Digital Marketing' },
+    { 
+      icon: <Code className="w-6 h-6 text-white" />, 
+      title: 'Software Development & Testing',
+      description: 'Expert placement of developers, testers, and QA engineers across all technologies and frameworks.'
+    },
+    { 
+      icon: <Trophy className="w-6 h-6 text-white" />, 
+      title: 'Projects, Change & Business Analysis',
+      description: 'Connecting skilled project managers, business analysts, and change specialists with organizations.'
+    },
+    { 
+      icon: <Database className="w-6 h-6 text-white" />, 
+      title: 'Advanced Data and BI',
+      description: 'Specialized recruitment for data scientists, analysts, and BI professionals across industries.'
+    },
+    { 
+      icon: <Wrench className="w-6 h-6 text-white" />, 
+      title: 'Infrastructure & Support',
+      description: 'Expert placement of infrastructure engineers, DevOps specialists, and IT support professionals.'
+    },
+    { 
+      icon: <Users className="w-6 h-6 text-white" />, 
+      title: 'IT Leadership',
+      description: 'Strategic recruitment for CTOs, IT Directors, and senior technology leaders.'
+    },
+    { 
+      icon: <Megaphone className="w-6 h-6 text-white" />, 
+      title: 'Digital Marketing',
+      description: 'Connecting digital marketing specialists, SEO experts, and content strategists with forward-thinking brands.'
+    },
+  ];
+
+  const timeline = [
+    { year: '2018', title: 'Foundation', description: 'NexusTech was founded with a vision to revolutionize tech recruitment in East Anglia.' },
+    { year: '2019', title: 'Growth', description: 'Expanded our team and established strong relationships with local tech companies.' },
+    { year: '2020', title: 'Innovation', description: 'Launched our virtual coffee meetings and remote recruitment processes.' },
+    { year: '2021', title: 'Expansion', description: 'Opened our Cambridge office and expanded our service offerings.' },
+    { year: '2022', title: 'Recognition', description: 'Awarded Best Tech Recruitment Agency in East Anglia.' },
+    { year: '2023', title: 'Today', description: 'Continuing to grow and innovate in the tech recruitment space.' },
   ];
 
   return (
-    <section id="why-nexustech" className="py-16 px-4 md:px-8 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
+    <section ref={sectionRef} id="why-nexustech" className="py-16 px-4 md:px-8 bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto">
           {/* Why NexusTech Section */}
           <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-3">
+            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-3 transform transition-all duration-300 hover:scale-105">
               Our Story
             </span>
             <h2 className="text-4xl font-bold mb-4">Why NexusTech?</h2>
             <p className="text-lg text-slate-600">
               We&apos;re more than just a recruitment agency - we&apos;re your strategic partner in building successful tech teams.
             </p>
+          </div>
+
+          {/* Stats Section */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                <CountUp end={10} suffix="+" enableScrollSpy scrollSpyOnce duration={2} />
+              </div>
+              <div className="text-slate-600">Years Experience</div>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
+              <div className="text-3xl font-bold text-blue-600 mb-2">
+                <CountUp end={5000} suffix="+" enableScrollSpy scrollSpyOnce duration={2} separator="," />
+              </div>
+              <div className="text-slate-600">Successful Placements</div>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
+                <CountUp end={1000} enableScrollSpy scrollSpyOnce duration={2} separator="," />
+              </div>
+              <div className="text-slate-600">Client Companies</div>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
+              <div className="text-3xl font-bold text-pink-600 mb-2">
+                <CountUp end={98} suffix="%" enableScrollSpy scrollSpyOnce duration={2} />
+              </div>
+              <div className="text-slate-600">Client Satisfaction</div>
+            </div>
           </div>
 
           <div className="prose prose-lg max-w-none text-slate-700 text-left">
@@ -51,10 +118,66 @@ const About = () => {
           </div>
         </div>
 
+        {/* Timeline Section */}
+        <div className="mt-16 max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-3 transform transition-all duration-300 hover:scale-105">
+              Our Journey
+            </span>
+            <h3 className="text-3xl font-bold mb-4 text-slate-900">Our Timeline</h3>
+            <p className="text-slate-600 mb-8 max-w-3xl mx-auto">
+              From our humble beginnings to becoming a leading tech recruitment agency in East Anglia.
+            </p>
+          </div>
+          
+          <div className="relative">
+            {/* Timeline line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-600 to-blue-600"></div>
+            
+            {/* Timeline items */}
+            <div className="space-y-16">
+              {timeline.map((item, index) => (
+                <div key={index} className="relative flex items-center">
+                  {/* Left side content (even indices) */}
+                  <div className={`w-5/12 ${index % 2 === 0 ? 'pr-0 text-right mr-[-8rem]' : 'pl-8'}`}>
+                    {index % 2 === 0 ? (
+                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
+                        <div className="text-purple-600 font-bold mb-2 group-hover:text-purple-700 transition-colors duration-300">{item.year}</div>
+                        <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-800 transition-colors duration-300">{item.title}</h4>
+                        <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
+                      </div>
+                    ) : (
+                      <div className="h-full"></div>
+                    )}
+                  </div>
+                  
+                  {/* Center dot */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center z-10 shadow-md">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                  </div>
+                  
+                  {/* Right side content (odd indices) */}
+                  <div className={`w-5/12 ${index % 2 === 0 ? 'pl-8' : 'pl-8 text-left ml-16'}`}>
+                    {index % 2 === 1 ? (
+                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-blue-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400/20 group">
+                        <div className="text-blue-600 font-bold mb-2 group-hover:text-blue-700 transition-colors duration-300">{item.year}</div>
+                        <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-blue-800 transition-colors duration-300">{item.title}</h4>
+                        <p className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{item.description}</p>
+                      </div>
+                    ) : (
+                      <div className="h-full"></div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Our Specialisms */}
         <div className="mt-16">
           <div className="text-center">
-            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4 transform transition-all duration-300 hover:scale-105">
               Expertise
             </span>
             <h3 className="text-3xl font-bold mb-4 text-slate-900">Our Specialisms</h3>
@@ -67,14 +190,59 @@ const About = () => {
             {specialisms.map((specialism, index) => (
               <div
                 key={index}
-                className="p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-purple-100/50 hover:shadow-lg hover:shadow-purple-400/20 transition-all duration-300"
+                className={`p-6 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm border border-purple-100/50 transition-all duration-300 ${
+                  activeSpecialism === index 
+                    ? 'shadow-lg shadow-purple-400/30 scale-105 border-purple-300' 
+                    : 'hover:shadow-lg hover:shadow-purple-400/20 hover:scale-105'
+                }`}
+                onMouseEnter={() => setActiveSpecialism(index)}
+                onMouseLeave={() => setActiveSpecialism(null)}
               >
-                <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg">
+                <div className={`w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg transform transition-all duration-300 ${
+                  activeSpecialism === index ? 'scale-110 rotate-3' : ''
+                }`}>
                   {specialism.icon}
                 </div>
-                <h4 className="font-semibold text-lg text-slate-900">{specialism.title}</h4>
+                <h4 className="font-semibold text-lg text-slate-900 mb-2">{specialism.title}</h4>
+                <p className="text-slate-700 text-sm font-medium">{specialism.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Benefits Section */}
+        <div className="mt-16">
+          <div className="text-center">
+            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4 transform transition-all duration-300 hover:scale-105">
+              Why Choose Us
+            </span>
+            <h3 className="text-3xl font-bold mb-4 text-slate-900">Benefits of Working with Us</h3>
+            <p className="text-slate-600 mb-8 max-w-3xl mx-auto">
+              We offer a unique approach to tech recruitment that sets us apart from the competition.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
+              <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <Star className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-700 transition-colors duration-300">Specialized Expertise</h4>
+              <p className="text-slate-700 text-sm font-medium">Our team has deep knowledge of the tech industry and understands the specific needs of tech professionals.</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
+              <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <Award className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-700 transition-colors duration-300">Time-Saving Process</h4>
+              <p className="text-slate-700 text-sm font-medium">We streamline the recruitment process, saving you time and helping you find the right candidates faster.</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20 group">
+              <div className="w-12 h-12 mb-4 flex items-center justify-center text-2xl bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-semibold text-lg text-slate-900 mb-2 group-hover:text-purple-700 transition-colors duration-300">Precision Matching</h4>
+              <p className="text-slate-700 text-sm font-medium">Our advanced matching algorithms ensure that we connect you with candidates who perfectly match your requirements.</p>
+            </div>
           </div>
         </div>
 
@@ -86,7 +254,7 @@ const About = () => {
           >
             <span>Let&apos;s Have a Virtual Coffee</span>
             <svg 
-              className="w-5 h-5" 
+              className="w-5 h-5 transform transition-transform duration-300 group-hover:rotate-12" 
               viewBox="0 0 24 24" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
@@ -98,30 +266,20 @@ const About = () => {
                 strokeWidth="2" 
                 strokeLinecap="round"
               />
-              {/* Steam lines */}
+              {/* Coffee handle */}
               <path 
-                className="group-hover:animate-[steam_1s_ease-in-out_infinite]"
-                d="M12 4v2m-2 0v1m4-1v1" 
+                d="M18 8h-1V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2H6a2 2 0 00-2 2v3a7 7 0 1014 0v-3a2 2 0 00-2-2z" 
                 stroke="currentColor" 
                 strokeWidth="2" 
                 strokeLinecap="round"
               />
               {/* Coffee liquid */}
-              <path
-                className="origin-bottom transition-all duration-700 scale-y-0 group-hover:scale-y-100"
-                d="M7 13v2a5 5 0 0010 0v-2"
-                fill="currentColor"
-                fillOpacity="0.6"
-              >
-                <animate
-                  attributeName="d"
-                  dur="1.5s"
-                  repeatCount="indefinite"
-                  values="M7 13v2a5 5 0 0010 0v-2;
-                         M7 13v4a5 5 0 0010 0v-4;
-                         M7 13v2a5 5 0 0010 0v-2"
-                />
-              </path>
+              <path 
+                d="M6 13h12" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round"
+              />
             </svg>
           </a>
         </div>

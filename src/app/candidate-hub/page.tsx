@@ -4,14 +4,16 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { jobs, Job } from '@/data/jobs';
 import { Search, MapPin, Banknote, ArrowRight } from 'lucide-react';
+import FAQ from '@/components/shared/FAQ';
 
 export default function CandidateHub() {
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedExperience, setSelectedExperience] = useState('');
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
   const [isCalculating, setIsCalculating] = useState(false);
   const [showSalaryResult, setShowSalaryResult] = useState(false);
-  const [expandedFaqs, setExpandedFaqs] = useState<number[]>([]);
   const [counters, setCounters] = useState({
     placements: 0,
     experience: 0,
@@ -25,6 +27,50 @@ export default function CandidateHub() {
   const [currentJobs, setCurrentJobs] = useState(jobs.slice(0, 3));
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [quickFilters, setQuickFilters] = useState([
+    { name: 'Senior Developer', active: false },
+    { name: 'Tech Lead', active: false },
+    { name: 'Product Manager', active: false },
+    { name: 'Remote First', active: false }
+  ]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+
+  const techRoles = [
+    "Senior React Developer",
+    "DevOps Engineer",
+    "Full Stack Developer",
+    "Cloud Architect",
+    "AI/ML Engineer",
+    "Tech Lead"
+  ];
+
+  useEffect(() => {
+    const typingTimer = setTimeout(() => {
+      setIsTyping(false);
+      setTimeout(() => {
+        setCurrentRoleIndex((prev) => (prev + 1) % techRoles.length);
+        setIsTyping(true);
+      }, 500);
+    }, 2000);
+
+    return () => clearTimeout(typingTimer);
+  }, [currentRoleIndex, techRoles.length]);
+
+  const popularSearches = [
+    'Senior React Developer',
+    'DevOps Engineer',
+    'Full Stack Developer',
+    'Product Manager',
+    'UI/UX Designer'
+  ];
+
+  const handleQuickFilterClick = (index: number) => {
+    const newFilters = [...quickFilters];
+    newFilters[index].active = !newFilters[index].active;
+    setQuickFilters(newFilters);
+    setSearchQuery(newFilters[index].active ? newFilters[index].name : '');
+  };
 
   useEffect(() => {
     const startCounting = () => {
@@ -83,14 +129,6 @@ export default function CandidateHub() {
     }, 1500);
   };
 
-  const toggleFaq = (index: number) => {
-    setExpandedFaqs(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
-    );
-  };
-
   useEffect(() => {
     const filteredJobs = jobs.filter(job => 
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -101,61 +139,177 @@ export default function CandidateHub() {
     setTotalPages(Math.ceil(filteredJobs.length / 6));
   }, [searchQuery, currentPage]);
 
+  const candidateFAQs = [
+    {
+      question: "Is it free to register with NexusTech?",
+      answer: "Yes, registration is completely free for all candidates. We never charge candidates for our services - our fees are covered by the hiring companies."
+    },
+    {
+      question: "What happens after I submit my CV?",
+      answer: "Once you submit your CV, our specialist tech recruiters will review it within 24-48 hours. If your skills match any current opportunities, we'll contact you to discuss them. We'll also keep your CV on file for future roles that match your profile."
+    },
+    {
+      question: "How do you prepare candidates for interviews?",
+      answer: "We provide comprehensive interview preparation, including detailed company information, technical interview tips, common questions, and salary negotiation advice. We also offer mock interviews and feedback sessions if needed."
+    },
+    {
+      question: "Do you handle remote job opportunities?",
+      answer: "Yes, we work with many companies offering remote and hybrid working arrangements. We can help you find opportunities that match your preferred working style, whether that's fully remote, hybrid, or office-based."
+    },
+    {
+      question: "What types of tech roles do you recruit for?",
+      answer: "We cover all areas of tech including software development, testing, DevOps, cloud engineering, data science, cybersecurity, IT support, and technical leadership roles. We work with companies ranging from startups to large enterprises."
+    },
+    {
+      question: "How do you protect candidate privacy?",
+      answer: "We take data protection seriously and comply with all GDPR requirements. Your information is only shared with potential employers with your explicit consent, and we never send your CV without discussing the role with you first."
+    }
+  ];
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 pt-32 pb-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+        {/* Animated background elements */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+          <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        </div>
+
         <div className="container mx-auto px-4 relative">
-          <h1 className="text-4xl font-bold text-white text-center mb-8">
-            Land Your Dream Tech Role in 2024
-          </h1>
-          <p className="text-xl text-white text-center max-w-2xl mx-auto mb-8">
-            Join thousands of tech professionals who&apos;ve found their perfect role through us. Get matched with top employers and secure an average 25% salary increase.
-          </p>
-          <div className="max-w-xl mx-auto">
-            <div className="flex gap-4 mb-4">
-              <input
-                type="text"
-                placeholder="What role are you looking for? (e.g., Senior React Developer)"
-                className="flex-1 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-purple-500"
-              />
-              <button className="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
-                Find Jobs
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Land Your Dream Tech Role in 2024
+            </h1>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Join thousands of tech professionals who&apos;ve found their perfect role through us. 
+              Get matched with top employers and secure an average 25% salary increase.
+            </p>
+          
+            <div className="relative max-w-2xl mx-auto mb-6">
+              <div 
+                className={`relative transition-all duration-300 transform ${
+                  isSearchFocused ? 'scale-105' : 'scale-100'
+                }`}
+              >
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <Search className={`w-5 h-5 transition-colors duration-300 ${
+                    isSearchFocused ? 'text-purple-600' : 'text-slate-400'
+                  }`} />
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowSearchSuggestions(true);
+                  }}
+                  onFocus={() => {
+                    setIsSearchFocused(true);
+                    setShowSearchSuggestions(true);
+                  }}
+                  onBlur={() => {
+                    setIsSearchFocused(false);
+                    // Delay hiding suggestions to allow for clicking
+                    setTimeout(() => setShowSearchSuggestions(false), 200);
+                  }}
+                  placeholder="What role are you looking for? (e.g., Senior React Developer)"
+                  className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-transparent 
+                    focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 
+                    transition-all duration-300 text-slate-900 placeholder-slate-400
+                    shadow-lg hover:shadow-xl"
+                />
+                {showSearchSuggestions && searchQuery && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-10">
+                    {popularSearches
+                      .filter(search => 
+                        search.toLowerCase().includes(searchQuery.toLowerCase())
+                      )
+                      .map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            setSearchQuery(suggestion);
+                            setShowSearchSuggestions(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-slate-700 hover:bg-purple-50 hover:text-purple-600
+                            flex items-center space-x-2 transition-colors duration-200"
+                        >
+                          <Search className="w-4 h-4" />
+                          <span>{suggestion}</span>
+                        </button>
+                      ))
+                    }
+                  </div>
+                )}
+              </div>
+              
+              <button 
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-purple-600 to-blue-600 
+                  text-white px-6 py-2 rounded-lg font-medium transform transition-all duration-300
+                  hover:shadow-lg hover:scale-105 flex items-center gap-2"
+              >
+                <span>Find Jobs</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-white/30 transition-colors">
-                Senior Developer
-              </span>
-              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-white/30 transition-colors">
-                Tech Lead
-              </span>
-              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-white/30 transition-colors">
-                Product Manager
-              </span>
-              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-white/30 transition-colors">
-                Remote First
-              </span>
+
+            <div className="flex flex-wrap gap-2 justify-center mb-8">
+              {quickFilters.map((filter, index) => (
+                <button
+                  key={filter.name}
+                  onClick={() => handleQuickFilterClick(index)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform
+                    hover:scale-105 flex items-center gap-2 ${
+                      filter.active
+                        ? 'bg-white text-purple-600 shadow-lg'
+                        : 'bg-white/20 text-white hover:bg-white/30'
+                    }`}
+                >
+                  {filter.active && (
+                    <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
+                  )}
+                  {filter.name}
+                </button>
+              ))}
             </div>
-            <div className="mt-8 pt-8 border-t border-white/20">
-              <p className="text-white/90 text-center mb-6">
-                Ready to accelerate your career? Upload your CV now and get matched with your next role within 48 hours.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors flex items-center justify-center">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0L8 8m4-4v12" />
-                  </svg>
-                  Upload CV - Get Matched in 48h
-                </button>
-                <button className="bg-white/10 text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors flex items-center justify-center">
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                  Connect LinkedIn - Instant Profile Review
-                </button>
-              </div>
+            
+            <p className="text-white/90 text-center mb-8 animate-fade-in">
+              Ready to accelerate your career? Upload your CV now and get matched with your next role within 48 hours.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                className="group bg-white text-purple-600 px-8 py-4 rounded-xl font-semibold
+                  hover:shadow-lg transform transition-all duration-300 hover:scale-105
+                  flex items-center justify-center gap-3"
+              >
+                <svg 
+                  className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-y-[-2px]" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0L8 8m4-4v12" />
+                </svg>
+                Upload CV - Get Matched in 48h
+              </button>
+              <button 
+                className="group bg-white/10 text-white px-8 py-4 rounded-xl font-semibold
+                  hover:bg-white/20 transform transition-all duration-300 hover:scale-105
+                  flex items-center justify-center gap-3 backdrop-blur-sm"
+              >
+                <svg 
+                  className="w-5 h-5 transform transition-transform duration-300 group-hover:rotate-12" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                Connect LinkedIn - Instant Profile Review
+              </button>
             </div>
           </div>
         </div>
@@ -978,7 +1132,7 @@ export default function CandidateHub() {
                 <button 
                   onClick={handleSalaryCalculation}
                   disabled={isCalculating || !selectedRole || !selectedLocation || !selectedExperience}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-3"
                 >
                   {isCalculating ? (
                     <>
@@ -1062,194 +1216,55 @@ export default function CandidateHub() {
       </div>
 
       {/* Job Alerts Section */}
-      <div className="py-20 bg-white">
+      <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Never Miss Your Dream Role</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Get notified instantly when roles matching your criteria are posted
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Never Miss Your Dream Role
+            </h2>
+            <p className="text-lg text-slate-600 mb-8">
+              Get personalized job alerts delivered straight to your inbox. Be the first to know about new opportunities that match your skills and preferences.
             </p>
-          </div>
-          <div className="max-w-xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Job Preferences
-                  </label>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm flex items-center">
-                      Frontend Development
-                      <button className="ml-2 hover:text-purple-800">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </span>
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm flex items-center">
-                      React
-                      <button className="ml-2 hover:text-purple-800">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </span>
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm flex items-center">
-                      TypeScript
-                      <button className="ml-2 hover:text-purple-800">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Add a skill..."
-                      className="border-0 bg-transparent focus:ring-0 text-sm flex-1 min-w-[120px]"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Location Preferences
-                  </label>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm flex items-center">
-                      London
-                      <button className="ml-2 hover:text-purple-800">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </span>
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm flex items-center">
-                      Remote
-                      <button className="ml-2 hover:text-purple-800">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Add a location..."
-                      className="border-0 bg-transparent focus:ring-0 text-sm flex-1 min-w-[120px]"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <input type="checkbox" id="privacy" className="rounded border-slate-300 text-purple-600 focus:ring-purple-500" />
-                  <label htmlFor="privacy">
-                    I agree to receive job alerts and accept the{" "}
-                    <a href="#" className="text-purple-600 hover:text-purple-700">Privacy Policy</a>
-                  </label>
-                </div>
-
-                <button 
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center"
-                >
-                  Set Up Job Alerts
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.531c0 .895-.356 1.754-.988 2.386l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                </button>
-              </form>
-            </div>
+            <form className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder="Job Title / Skills"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
+                />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
+                />
+              </div>
+              <div className="flex items-center justify-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="privacy"
+                  className="rounded border-slate-300 text-purple-600 focus:ring-purple-500"
+                />
+                <label htmlFor="privacy" className="text-sm text-slate-600">
+                  I agree to receive job alerts and can unsubscribe at any time
+                </label>
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
+              >
+                Create Job Alert
+              </button>
+            </form>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* FAQ Section */}
-      <div className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Common Questions</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Everything you need to know about our proven recruitment process
-            </p>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {[
-              {
-                question: "How long does the recruitment process typically take?",
-                answer: "The recruitment process typically takes 2-4 weeks from initial contact to job offer, depending on the role and company requirements. We work efficiently to ensure a smooth and timely process for both candidates and employers."
-              },
-              {
-                question: "What kind of support do you provide during the interview process?",
-                answer: "We provide comprehensive interview preparation support, including technical interview coaching, mock interviews, and feedback sessions. Our team also helps you prepare for behavioral interviews and provides guidance on presenting your experience effectively."
-              },
-              {
-                question: "Do you offer remote job opportunities?",
-                answer: "Yes, we work with companies offering both remote and hybrid work arrangements. We understand the importance of flexibility and work-life balance, and we match candidates with opportunities that align with their preferred working arrangements."
-              },
-              {
-                question: "What industries do you specialize in?",
-                answer: "We specialize in technology and digital industries, including software development, data science, product management, and digital transformation. Our expertise in these areas allows us to provide targeted support and match candidates with relevant opportunities."
-              },
-              {
-                question: "How do you ensure the quality of job opportunities?",
-                answer: "We thoroughly vet all companies and opportunities before presenting them to candidates. This includes verifying company credentials, reviewing job requirements, and ensuring competitive compensation packages. We maintain long-term relationships with our client companies to ensure quality placements."
-              }
-            ].map((faq, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-              >
-                <button 
-                  className="w-full px-6 py-4 text-left focus:outline-none"
-                  onClick={() => toggleFaq(index)}
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-slate-900">{faq.question}</h3>
-                    <svg 
-                      className={`w-5 h-5 text-slate-500 transform transition-transform duration-200 ${
-                        expandedFaqs.includes(index) ? 'rotate-180' : ''
-                      }`} 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </button>
-                <div 
-                  className={`px-6 overflow-hidden transition-all duration-200 ${
-                    expandedFaqs.includes(index) ? 'max-h-96 pb-4' : 'max-h-0'
-                  }`}
-                >
-                  <p className="text-slate-600">{faq.answer}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/faq"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              View All FAQs
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <FAQ
+        title="Candidate FAQs"
+        description="Everything you need to know about our recruitment process and how we can help advance your tech career."
+        faqs={candidateFAQs}
+      />
     </main>
   );
 }

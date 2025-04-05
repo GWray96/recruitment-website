@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { JobSearch } from '@/components/jobs/JobSearch';
 import { JobListing } from '@/components/jobs/JobListing';
 import { JobDetails } from '@/components/jobs/JobDetails';
@@ -9,6 +9,59 @@ import { JobComparison } from '@/components/jobs/JobComparison';
 import { JobAlert } from '@/components/jobs/JobAlert';
 import { jobs } from '@/data/jobs';
 import type { Job } from '@/components/jobs/JobListing';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import FAQ from '@/components/shared/FAQ';
+
+// Define a type for the job data from the data file
+type DataJob = {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  salary: string;
+  postedDate: string;
+  description: string;
+  requirements: string[];
+  benefits: string[];
+  logo?: string;
+};
+
+// Convert data job to component job
+const convertToComponentJob = (dataJob: DataJob): Job => {
+  return {
+    ...dataJob,
+    posted: dataJob.postedDate // Map postedDate to posted
+  };
+};
+
+const jobBoardFAQs = [
+  {
+    question: "How often are new jobs posted?",
+    answer: "Our job board is updated daily with new tech opportunities. We recommend checking back regularly or setting up job alerts to be notified when roles matching your criteria are posted."
+  },
+  {
+    question: "How do I apply for a job?",
+    answer: "Click the 'Apply Now' button on any job listing to submit your application. You'll need to provide your CV and a brief introduction. Our recruiters will review your application and contact you within 48 hours."
+  },
+  {
+    question: "Can I save jobs to apply later?",
+    answer: "Yes, you can save jobs to your favorites by clicking the bookmark icon. Create an account to access your saved jobs from any device and manage your applications."
+  },
+  {
+    question: "What information is included in job listings?",
+    answer: "Each listing includes the role description, required skills, experience level, salary range, location (including remote options), company information, and benefits package. We ensure all crucial details are provided upfront."
+  },
+  {
+    question: "How can I make my application stand out?",
+    answer: "Tailor your CV to highlight relevant skills and experience for each role, include a personalized cover letter, and ensure your technical skills section is up-to-date. Our recruiters can also provide application tips specific to each role."
+  },
+  {
+    question: "What happens after I apply?",
+    answer: "Our recruiters will review your application and contact you to discuss the role in detail. If you're a good match, we'll arrange an initial interview and guide you through the entire process, including interview preparation and offer negotiation."
+  }
+];
 
 export default function OpportunitiesPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,17 +78,57 @@ export default function OpportunitiesPage() {
   const [selectedJobs, setSelectedJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showComparison, setShowComparison] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [showQuickApply, setShowQuickApply] = useState(false);
+  const [recentlyViewed, setRecentlyViewed] = useState<Job[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [showSearchHistory, setShowSearchHistory] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: false
+  });
 
   // Initialize data and select first job
   useEffect(() => {
-    setFilteredJobs(jobs);
-    setPaginatedJobs(jobs.slice(0, jobsPerPage));
+    // Convert data jobs to component jobs
+    const componentJobs = jobs.map(convertToComponentJob);
+    setFilteredJobs(componentJobs);
+    setPaginatedJobs(componentJobs.slice(0, jobsPerPage));
     // Automatically select the first job
-    if (jobs.length > 0) {
-      setSelectedJob(jobs[0]);
+    if (componentJobs.length > 0) {
+      setSelectedJob(componentJobs[0]);
     }
     setIsLoading(false);
+
+    // Load search history from localStorage
+    const savedHistory = localStorage.getItem('searchHistory');
+    if (savedHistory) {
+      setSearchHistory(JSON.parse(savedHistory));
+    }
+
+    // Load recently viewed jobs from localStorage
+    const savedRecent = localStorage.getItem('recentlyViewed');
+    if (savedRecent) {
+      setRecentlyViewed(JSON.parse(savedRecent));
+    }
   }, [jobsPerPage]);
+
+  // Handle sticky search bar
+  useEffect(() => {
+    const handleScroll = () => {
+      if (searchRef.current) {
+        const searchBarPosition = searchRef.current.getBoundingClientRect().top;
+        setIsSticky(searchBarPosition <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Simulate loading state
   useEffect(() => {
@@ -47,7 +140,8 @@ export default function OpportunitiesPage() {
 
   // Handle filtering and pagination
   useEffect(() => {
-    let filtered = [...jobs];
+    // Convert data jobs to component jobs
+    let filtered = jobs.map(convertToComponentJob);
     console.log('Initial jobs:', filtered);
 
     // Apply search filter
@@ -58,6 +152,13 @@ export default function OpportunitiesPage() {
         job.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
       console.log('After search filter:', filtered);
+
+      // Add to search history if not already present
+      if (!searchHistory.includes(searchQuery)) {
+        const newHistory = [searchQuery, ...searchHistory].slice(0, 5);
+        setSearchHistory(newHistory);
+        localStorage.setItem('searchHistory', JSON.stringify(newHistory));
+      }
     }
 
     // Apply job type filters
@@ -85,7 +186,7 @@ export default function OpportunitiesPage() {
       filtered.sort((a, b) => {
         switch (sortBy) {
           case 'date':
-            return new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime();
+            return new Date(b.posted).getTime() - new Date(a.posted).getTime();
           case 'salary':
             const salaryMatchA = a.salary.match(/\d+/);
             const salaryMatchB = b.salary.match(/\d+/);
@@ -108,7 +209,7 @@ export default function OpportunitiesPage() {
     const endIndex = startIndex + jobsPerPage;
     setPaginatedJobs(filtered.slice(startIndex, endIndex));
     console.log('Paginated jobs:', filtered.slice(startIndex, endIndex));
-  }, [searchQuery, filters, sortBy, currentPage, jobsPerPage]);
+  }, [searchQuery, filters, sortBy, currentPage, jobsPerPage, searchHistory]);
 
   // Reset to first page when filters change
   useEffect(() => {
@@ -118,16 +219,21 @@ export default function OpportunitiesPage() {
   const handleJobSelect = (job: Job) => {
     console.log('Selecting job:', job);
     setSelectedJob(job);
+    
+    // Add to recently viewed
+    const updatedRecent = [job, ...recentlyViewed.filter(j => j.id !== job.id)].slice(0, 5);
+    setRecentlyViewed(updatedRecent);
+    localStorage.setItem('recentlyViewed', JSON.stringify(updatedRecent));
   };
 
-  const handleJobSave = (jobId: string) => {
+  const handleJobSave = (job: Job) => {
     // Implement save functionality
-    console.log('Saving job:', jobId);
+    console.log('Saving job:', job.id);
   };
 
-  const handleJobShare = (jobId: string) => {
+  const handleJobShare = (job: Job) => {
     // Implement share functionality
-    console.log('Sharing job:', jobId);
+    console.log('Sharing job:', job.id);
   };
 
   const handleJobCompare = (job: Job) => {
@@ -149,117 +255,139 @@ export default function OpportunitiesPage() {
   const handleApply = (jobId: string) => {
     // Implement apply functionality
     console.log('Applying to job:', jobId);
+    setShowQuickApply(true);
+  };
+
+  const handleQuickApply = () => {
+    // Implement quick apply functionality
+    console.log('Quick applying to job:', selectedJob?.id);
+    setShowQuickApply(false);
+  };
+
+  const handleClearSearchHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('searchHistory');
+  };
+
+  const handleSearchFromHistory = (term: string) => {
+    setSearchQuery(term);
+    setShowSearchHistory(false);
+  };
+
+  const handleSaveAlert = (alert: any) => {
+    console.log('Creating alert:', alert);
+    // Here you would typically save the alert to your backend
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+    <div className="min-h-screen flex flex-col">
       <JobSearch
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
-        filters={{
-          jobTypes: filters.jobTypes,
-          salaryRange: filters.salaryRange
-        }}
-        onFiltersChange={(newFilters) => {
-          setFilters({
-            ...filters,
-            ...newFilters
-          });
-        }}
+        filters={filters}
+        onFiltersChange={setFilters}
         sortBy={sortBy}
         onSortChange={setSortBy}
-        onSaveAlert={(alert) => console.log('Creating alert:', alert)}
+        onSaveAlert={handleSaveAlert}
+        showSearchHistory={showSearchHistory}
+        setShowSearchHistory={setShowSearchHistory}
+        searchHistory={searchHistory}
+        onSearchFromHistory={handleSearchFromHistory}
+        onClearSearchHistory={handleClearSearchHistory}
       />
 
-      <div className="container mx-auto px-4 pb-12">
-        {/* Results Header */}
-        <div className="mt-8 flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-semibold text-slate-900">
-              {filteredJobs.length} Job Opportunities
-            </h2>
-            {selectedJobs.length > 0 && (
-              <button
-                onClick={() => setShowComparison(!showComparison)}
-                className="px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
-              >
-                Compare ({selectedJobs.length}/3)
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Job Listings Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-6">
+      <div className="container mx-auto px-4 py-8 flex-grow mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Job Listings */}
+          <div className="lg:col-span-1 space-y-4">
             {isLoading ? (
               // Show skeletons while loading
-              Array(5).fill(null).map((_, index) => (
+              Array.from({ length: 5 }).map((_, index) => (
                 <JobListingSkeleton key={index} />
               ))
-            ) : (
-              // Show actual job listings
-              paginatedJobs.map(job => (
+            ) : paginatedJobs.length > 0 ? (
+              // Show job listings
+              paginatedJobs.map((job) => (
                 <JobListing
                   key={job.id}
-                  {...job}
+                  job={job}
                   isSelected={selectedJob?.id === job.id}
                   onSelect={handleJobSelect}
                   onSave={handleJobSave}
                   onShare={handleJobShare}
                 />
               ))
+            ) : (
+              // Show no results message
+              <div className="bg-white rounded-lg shadow p-6 text-center">
+                <h3 className="text-lg font-medium text-slate-900 mb-2">No jobs found</h3>
+                <p className="text-slate-600">
+                  Try adjusting your search criteria or filters to find more opportunities.
+                </p>
+              </div>
+            )}
+
+            {/* Load More Button */}
+            {!isLoading && filteredJobs.length > paginatedJobs.length && (
+              <div className="flex justify-center mt-6" ref={loadMoreRef}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  Load More
+                </motion.button>
+              </div>
             )}
           </div>
 
-          {/* Job Details or Comparison */}
-          <div className="lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] z-10">
-            {showComparison ? (
-              <JobComparison
-                selectedJobs={selectedJobs}
-                onRemoveJob={handleRemoveFromComparison}
-                onApply={handleApply}
-              />
-            ) : selectedJob ? (
+          {/* Job Details */}
+          <div className="lg:col-span-2">
+            {selectedJob ? (
               <JobDetails
                 job={selectedJob}
                 onApply={handleApply}
                 onCompare={handleJobCompare}
-                isInComparison={selectedJobs.some(j => j.id === selectedJob.id)}
+                isInComparison={selectedJobs.some(job => job.id === selectedJob.id)}
               />
             ) : (
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 h-full flex items-center justify-center">
-                <p className="text-slate-500">Select a job to view details</p>
+              <div className="bg-white rounded-lg shadow p-6 h-full flex items-center justify-center">
+                <div className="text-center">
+                  <h3 className="text-lg font-medium text-slate-900 mb-2">Select a job to view details</h3>
+                  <p className="text-slate-600">
+                    Click on a job listing to see more information and apply.
+                  </p>
+                </div>
               </div>
             )}
           </div>
         </div>
-
-        {/* Pagination */}
-        {filteredJobs.length > jobsPerPage && (
-          <div className="mt-8 flex justify-center">
-            <nav className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-1 rounded-md bg-white border border-gray-200 text-slate-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-              <span className="px-3 py-1 text-slate-600">
-                Page {currentPage} of {Math.ceil(filteredJobs.length / jobsPerPage)}
-              </span>
-              <button
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredJobs.length / jobsPerPage)))}
-                disabled={currentPage === Math.ceil(filteredJobs.length / jobsPerPage)}
-                className="px-3 py-1 rounded-md bg-white border border-gray-200 text-slate-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
-            </nav>
-          </div>
-        )}
       </div>
+
+      {/* Job Comparison */}
+      <AnimatePresence>
+        {selectedJobs.length > 0 && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-10"
+          >
+            <JobComparison
+              selectedJobs={selectedJobs}
+              onRemoveJob={handleRemoveFromComparison}
+              onApply={handleApply}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <FAQ 
+        title="Job Search FAQs"
+        description="Everything you need to know about finding and applying for your next tech role."
+        faqs={jobBoardFAQs}
+      />
     </div>
   );
 } 

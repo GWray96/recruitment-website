@@ -1,178 +1,266 @@
-import React, { useState } from 'react';
+"use client";
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bell, X, Plus, Trash2 } from 'lucide-react';
 
 interface JobAlertProps {
   onSave: (alert: {
-    query: string;
-    location: string;
-    frequency: 'daily' | 'weekly' | 'monthly';
+    email: string;
+    frequency: string;
+    keywords: string[];
     jobTypes: string[];
-    salaryRange: [number, number];
+    location: string;
   }) => void;
 }
 
 export function JobAlert({ onSave }: JobAlertProps) {
-  const [jobQuery, setJobQuery] = useState('');
-  const [location, setLocation] = useState('');
-  const [frequency, setFrequency] = useState<'daily' | 'weekly' | 'monthly'>('daily');
+  const [email, setEmail] = useState('');
+  const [frequency, setFrequency] = useState('daily');
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [newKeyword, setNewKeyword] = useState('');
   const [jobTypes, setJobTypes] = useState<string[]>([]);
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 200000]);
+  const [location, setLocation] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave({ 
-      query: jobQuery, 
-      location, 
-      frequency,
-      jobTypes,
-      salaryRange
-    });
-    setJobQuery('');
-    setLocation('');
-    setFrequency('daily');
-    setJobTypes([]);
-    setSalaryRange([0, 200000]);
+  const frequencyOptions = [
+    { value: 'daily', label: 'Daily' },
+    { value: 'weekly', label: 'Weekly' },
+    { value: 'monthly', label: 'Monthly' }
+  ];
+
+  const jobTypeOptions = [
+    { value: 'Full-time', label: 'Full-time' },
+    { value: 'Part-time', label: 'Part-time' },
+    { value: 'Contract', label: 'Contract' },
+    { value: 'Remote', label: 'Remote' },
+    { value: 'Internship', label: 'Internship' }
+  ];
+
+  const handleAddKeyword = () => {
+    if (newKeyword.trim() && !keywords.includes(newKeyword.trim())) {
+      setKeywords([...keywords, newKeyword.trim()]);
+      setNewKeyword('');
+    }
   };
 
-  const handleClear = () => {
-    setJobQuery('');
-    setLocation('');
-    setFrequency('daily');
-    setJobTypes([]);
-    setSalaryRange([0, 200000]);
+  const handleRemoveKeyword = (keyword: string) => {
+    setKeywords(keywords.filter(k => k !== keyword));
   };
 
-  const handleJobTypeChange = (type: string) => {
-    setJobTypes(prev => 
-      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+  const handleToggleJobType = (type: string) => {
+    setJobTypes(prev =>
+      prev.includes(type)
+        ? prev.filter(t => t !== type)
+        : [...prev, type]
     );
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    // Validate form
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+    if (!email.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+    if (keywords.length === 0) {
+      setError('Please add at least one keyword');
+      return;
+    }
+    if (jobTypes.length === 0) {
+      setError('Please select at least one job type');
+      return;
+    }
+    if (!location) {
+      setError('Please enter a location');
+      return;
+    }
+
+    // Save alert
+    onSave({
+      email,
+      frequency,
+      keywords,
+      jobTypes,
+      location
+    });
+
+    // Show success message
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+
+    // Reset form
+    setEmail('');
+    setFrequency('daily');
+    setKeywords([]);
+    setJobTypes([]);
+    setLocation('');
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-2 gap-8 mb-6">
-        {/* Left Column */}
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="jobQuery" className="block text-sm font-medium text-slate-700 mb-1">
-              Job Title or Keywords
-            </label>
-            <input
-              type="text"
-              id="jobQuery"
-              value={jobQuery}
-              onChange={(e) => setJobQuery(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              placeholder="e.g. Software Engineer"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="location" className="block text-sm font-medium text-slate-700 mb-1">
-              Location
-            </label>
-            <input
-              type="text"
-              id="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              placeholder="e.g. London, UK"
-            />
-          </div>
-
-          <div>
-            <h3 className="text-sm font-medium text-slate-900 mb-2">Job Type</h3>
-            <div className="space-y-2">
-              {['Full-time', 'Part-time', 'Contract', 'Remote', 'Hybrid'].map(type => (
-                <label key={type} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={jobTypes.includes(type)}
-                    onChange={() => handleJobTypeChange(type)}
-                    className="h-4 w-4 text-purple-600 rounded border-gray-300 focus:ring-purple-500"
-                  />
-                  <span className="ml-2 text-sm text-slate-600">{type}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="frequency" className="block text-sm font-medium text-slate-700 mb-1">
-              Alert Frequency
-            </label>
-            <select
-              id="frequency"
-              value={frequency}
-              onChange={(e) => setFrequency(e.target.value as 'daily' | 'weekly' | 'monthly')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-            >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-medium text-slate-900 mb-2">Salary Range</h3>
-            <div className="space-y-3">
-              <div>
-                <label className="text-sm text-slate-600">Min Salary</label>
-                <select
-                  value={salaryRange[0]}
-                  onChange={(e) => setSalaryRange([Number(e.target.value), salaryRange[1]])}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md"
-                >
-                  {[0, 30000, 50000, 70000, 90000, 120000].map(value => (
-                    <option key={value} value={value}>
-                      ${value.toLocaleString()}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="text-sm text-slate-600">Max Salary</label>
-                <select
-                  value={salaryRange[1]}
-                  onChange={(e) => setSalaryRange([salaryRange[0], Number(e.target.value)])}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md"
-                >
-                  {[50000, 70000, 90000, 120000, 150000, 200000].map(value => (
-                    <option key={value} value={value}>
-                      ${value.toLocaleString()}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Email Input */}
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">
+          Email Address
+        </label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+        />
       </div>
 
-      {/* Footer */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-        <button
-          type="button"
-          onClick={handleClear}
-          className="text-sm text-slate-600 hover:text-slate-900"
+      {/* Frequency Selection */}
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">
+          Alert Frequency
+        </label>
+        <select
+          value={frequency}
+          onChange={(e) => setFrequency(e.target.value)}
+          className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
         >
-          Clear
-        </button>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-slate-600">
-            {jobTypes.length + (jobQuery ? 1 : 0) + (location ? 1 : 0)} criteria set
-          </span>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          {frequencyOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Keywords */}
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">
+          Keywords
+        </label>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="text"
+            value={newKeyword}
+            onChange={(e) => setNewKeyword(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleAddKeyword()}
+            placeholder="Add a keyword"
+            className="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+          />
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="button"
+            onClick={handleAddKeyword}
+            className="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
           >
-            Create Alert
-          </button>
+            <Plus className="w-5 h-5" />
+          </motion.button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {keywords.map((keyword) => (
+            <motion.span
+              key={keyword}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm flex items-center gap-1"
+            >
+              {keyword}
+              <button
+                type="button"
+                onClick={() => handleRemoveKeyword(keyword)}
+                className="text-purple-500 hover:text-purple-700"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </motion.span>
+          ))}
         </div>
       </div>
+
+      {/* Job Types */}
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">
+          Job Types
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {jobTypeOptions.map((option) => (
+            <motion.button
+              key={option.value}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              type="button"
+              onClick={() => handleToggleJobType(option.value)}
+              className={`px-3 py-1 rounded-full text-sm ${
+                jobTypes.includes(option.value)
+                  ? 'bg-purple-100 text-purple-700'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              {option.label}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      {/* Location */}
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">
+          Location
+        </label>
+        <input
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="Enter location"
+          className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+        />
+      </div>
+
+      {/* Error Message */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="text-red-600 text-sm"
+          >
+            {error}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Success Message */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="text-green-600 text-sm"
+          >
+            Job alert created successfully!
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Submit Button */}
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        type="submit"
+        className="w-full px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+      >
+        <Bell className="w-5 h-5" />
+        Create Job Alert
+      </motion.button>
     </form>
   );
 } 
