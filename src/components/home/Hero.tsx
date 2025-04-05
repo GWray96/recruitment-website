@@ -76,7 +76,7 @@ export default function Hero() {
                 onMouseEnter={() => setActiveLogo(0)}
                 onMouseLeave={() => setActiveLogo(null)}
               >
-                <svg className={`h-10 w-auto transition-colors duration-300 ${activeLogo === 0 ? 'text-purple-500' : 'text-slate-300'}`} viewBox="0 0 120 40" fill="currentColor">
+                <svg className={`h-10 w-auto transition-colors duration-300 text-purple-500 sm:text-slate-300 ${activeLogo === 0 ? 'sm:text-purple-500' : ''}`} viewBox="0 0 120 40" fill="currentColor">
                   <rect x="10" y="10" width="30" height="20" rx="2"/>
                   <text x="45" y="25" fontSize="14">TECH</text>
                 </svg>
@@ -88,7 +88,7 @@ export default function Hero() {
                 onMouseEnter={() => setActiveLogo(1)}
                 onMouseLeave={() => setActiveLogo(null)}
               >
-                <svg className={`h-10 w-auto transition-colors duration-300 ${activeLogo === 1 ? 'text-blue-500' : 'text-slate-300'}`} viewBox="0 0 120 40" fill="currentColor">
+                <svg className={`h-10 w-auto transition-colors duration-300 text-blue-500 sm:text-slate-300 ${activeLogo === 1 ? 'sm:text-blue-500' : ''}`} viewBox="0 0 120 40" fill="currentColor">
                   <circle cx="25" cy="20" r="12"/>
                   <text x="45" y="25" fontSize="14">INNOVATE</text>
                 </svg>
@@ -100,7 +100,7 @@ export default function Hero() {
                 onMouseEnter={() => setActiveLogo(2)}
                 onMouseLeave={() => setActiveLogo(null)}
               >
-                <svg className={`h-10 w-auto transition-colors duration-300 ${activeLogo === 2 ? 'text-pink-500' : 'text-slate-300'}`} viewBox="0 0 120 40" fill="currentColor">
+                <svg className={`h-10 w-auto transition-colors duration-300 text-pink-500 sm:text-slate-300 ${activeLogo === 2 ? 'sm:text-pink-500' : ''}`} viewBox="0 0 120 40" fill="currentColor">
                   <polygon points="20,10 30,30 10,30"/>
                   <text x="35" y="25" fontSize="14">DIGITAL</text>
                 </svg>
@@ -112,7 +112,7 @@ export default function Hero() {
                 onMouseEnter={() => setActiveLogo(3)}
                 onMouseLeave={() => setActiveLogo(null)}
               >
-                <svg className={`h-10 w-auto transition-colors duration-300 ${activeLogo === 3 ? 'text-indigo-500' : 'text-slate-300'}`} viewBox="0 0 120 40" fill="currentColor">
+                <svg className={`h-10 w-auto transition-colors duration-300 text-indigo-500 sm:text-slate-300 ${activeLogo === 3 ? 'sm:text-indigo-500' : ''}`} viewBox="0 0 120 40" fill="currentColor">
                   <path d="M10,20 Q25,5 40,20"/>
                   <text x="45" y="25" fontSize="14">FUTURE</text>
                 </svg>
@@ -124,7 +124,7 @@ export default function Hero() {
                 onMouseEnter={() => setActiveLogo(4)}
                 onMouseLeave={() => setActiveLogo(null)}
               >
-                <svg className={`h-10 w-auto transition-colors duration-300 ${activeLogo === 4 ? 'text-teal-500' : 'text-slate-300'}`} viewBox="0 0 120 40" fill="currentColor">
+                <svg className={`h-10 w-auto transition-colors duration-300 text-teal-500 sm:text-slate-300 ${activeLogo === 4 ? 'sm:text-teal-500' : ''}`} viewBox="0 0 120 40" fill="currentColor">
                   <rect x="10" y="10" width="20" height="20" transform="rotate(45 20 20)"/>
                   <text x="35" y="25" fontSize="14">DATA</text>
                 </svg>
