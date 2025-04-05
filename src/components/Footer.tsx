@@ -9,21 +9,21 @@ const Footer = () => {
   const navigation = {
     company: [
       { name: 'About Us', href: '/about' },
-      { name: 'Our Services', href: '/services' },
-      { name: 'Blog', href: '/blog' },
       { name: 'Contact', href: '/contact' },
+      { name: 'Blog', href: '/blog' },
+      { name: 'Companies', href: '/companies' },
     ],
     candidates: [
       { name: 'Browse Jobs', href: '/jobs' },
-      { name: 'Submit CV', href: '/submit-cv' },
-      { name: 'Career Advice', href: '/career-advice' },
-      { name: 'Resources', href: '/resources' },
+      { name: 'Candidate Hub', href: '/candidate-hub' },
+      { name: 'Career Advice', href: '/blog' },
+      { name: 'Submit CV', href: '/contact' },
     ],
     employers: [
-      { name: 'Post a Job', href: '/post-job' },
-      { name: 'Hiring Solutions', href: '/hiring-solutions' },
-      { name: 'Employer Resources', href: '/employer-resources' },
-      { name: 'Pricing', href: '/pricing' },
+      { name: 'Employer Hub', href: '/employer-hub' },
+      { name: 'Post a Job', href: '/employer-hub' },
+      { name: 'Hiring Solutions', href: '/employer-hub' },
+      { name: 'Employer Resources', href: '/employer-hub' },
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
@@ -34,10 +34,10 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { name: 'Facebook', Icon: Facebook, href: '#' },
-    { name: 'Twitter', Icon: Twitter, href: '#' },
-    { name: 'LinkedIn', Icon: Linkedin, href: '#' },
-    { name: 'Instagram', Icon: Instagram, href: '#' },
+    { name: 'Facebook', Icon: Facebook, href: 'https://facebook.com' },
+    { name: 'Twitter', Icon: Twitter, href: 'https://twitter.com' },
+    { name: 'LinkedIn', Icon: Linkedin, href: 'https://linkedin.com' },
+    { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com' },
   ];
 
   return (
@@ -130,6 +130,8 @@ const Footer = () => {
                   href={item.href}
                   className="text-gray-400 hover:text-purple-400 transition-colors"
                   aria-label={item.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <item.Icon className="w-5 h-5" />
                 </Link>
