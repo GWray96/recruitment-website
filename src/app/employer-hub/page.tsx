@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Building2, Users, Target, TrendingUp, ArrowRight, CheckCircle, Star, Award, Clock, Shield, Zap, BarChart, Globe, MessageSquare, BookOpen, ClipboardCheck, FileText, Video, BarChart2, Download, Calendar, Table, File } from 'lucide-react';
+import { Search, Building2, Users, Target, TrendingUp, ArrowRight, CheckCircle, Star, Award, Clock, Shield, Zap, BarChart, Globe, MessageSquare, BookOpen, ClipboardCheck, FileText, Video, BarChart2, Download, Calendar, Table, File, Phone } from 'lucide-react';
 import CountUp from 'react-countup';
 import FAQ from '@/components/shared/FAQ';
 

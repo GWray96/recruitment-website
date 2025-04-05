@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, User, Briefcase, Search } from 'lucide-react'
+import { Menu, X, User, Briefcase, Search, Phone } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -62,6 +63,27 @@ const Navbar = () => {
               <Briefcase className="w-4 h-4" />
               <span>For Employers</span>
             </Link>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: [0, 10, 0, -10, 0],
+                  scale: [1, 1.1, 1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <Phone className="w-4 h-4" />
+              </motion.div>
+              Book a Call
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -110,6 +132,27 @@ const Navbar = () => {
               <Briefcase className="w-4 h-4" />
               <span>For Employers</span>
             </Link>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: [0, 10, 0, -10, 0],
+                  scale: [1, 1.1, 1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <Phone className="w-4 h-4" />
+              </motion.div>
+              Book a Call
+            </motion.button>
           </div>
         </div>
       </div>
