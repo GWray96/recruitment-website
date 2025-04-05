@@ -3,14 +3,16 @@ import { blogPosts, BlogPost } from '@/data/blogPosts';
 import { notFound } from 'next/navigation';
 import PlaceholderImage from '@/components/ui/PlaceholderImage';
 
-type BlogPostPageProps = {
+// Define the correct params type for Next.js 15
+type PageProps = {
   params: {
     slug: string;
   };
   searchParams: Record<string, string | string[] | undefined>;
 };
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+// Make the component async to match Next.js 15 expectations
+export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = params;
   
   const post = blogPosts.find(p => p.slug === slug);
