@@ -626,8 +626,8 @@ export default function EmployerHub() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {[
-              { value: 10, suffix: "+", label: "Years Experience", color: "purple" },
-              { value: 5000, suffix: "+", label: "Successful Placements", color: "blue" },
+              { value: 15, suffix: "+", label: "Years Experience", color: "purple" },
+              { value: 250, suffix: "+", label: "Successful Placements", color: "blue" },
               { value: 1000, suffix: "", label: "Client Companies", color: "green" },
               { value: 98, suffix: "%", label: "Client Satisfaction", color: "pink" }
             ].map((stat, index) => (

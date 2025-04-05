@@ -69,13 +69,13 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-purple-600 mb-2">
-                <CountUp end={10} suffix="+" enableScrollSpy scrollSpyOnce duration={2} />
+                <CountUp end={15} suffix="+" enableScrollSpy scrollSpyOnce duration={2} />
               </div>
               <div className="text-slate-600">Years Experience</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-blue-600 mb-2">
-                <CountUp end={5000} suffix="+" enableScrollSpy scrollSpyOnce duration={2} separator="," />
+                <CountUp end={250} suffix="+" enableScrollSpy scrollSpyOnce duration={2} separator="," />
               </div>
               <div className="text-slate-600">Successful Placements</div>
             </div>
