@@ -8,7 +8,7 @@ export default function Hero() {
   const [activeLogo, setActiveLogo] = useState<number | null>(null);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50 overflow-hidden">
+    <div className="relative min-h-[calc(100vh-4rem)] bg-gradient-to-br from-purple-100 via-blue-50 to-pink-50 overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
@@ -18,7 +18,7 @@ export default function Hero() {
       </div>
 
       {/* Hero content - Centered */}
-      <div className="relative flex flex-col items-center justify-center min-h-screen px-4">
+      <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 pt-24 sm:pt-16 pb-8">
         <div className="text-center max-w-4xl mx-auto">
           {/* Pill-shaped banner */}
           <div className="inline-block mb-6 transform transition-all duration-300 hover:scale-105">
