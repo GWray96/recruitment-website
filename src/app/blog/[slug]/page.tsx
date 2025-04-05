@@ -3,11 +3,12 @@ import { blogPosts, BlogPost } from '@/data/blogPosts';
 import { notFound } from 'next/navigation';
 import PlaceholderImage from '@/components/ui/PlaceholderImage';
 
-interface BlogPostPageProps {
+type BlogPostPageProps = {
   params: {
     slug: string;
   };
-}
+  searchParams: Record<string, string | string[] | undefined>;
+};
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = params;
