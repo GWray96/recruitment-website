@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, Share2, ArrowRight, Clock, MapPin, Building2, Briefcase } from 'lucide-react';
+import Image from 'next/image';
 
 export interface Job {
   id: string;
@@ -47,10 +48,12 @@ export function JobListing({ job, isSelected, onSelect, onSave, onShare }: JobLi
         <div className="flex-1">
           <div className="flex items-center gap-3">
             {job.logo ? (
-              <img
+              <Image 
                 src={job.logo}
                 alt={`${job.company} logo`}
-                className="w-12 h-12 rounded-lg object-contain"
+                width={48}
+                height={48}
+                className="rounded-lg"
               />
             ) : (
               <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">

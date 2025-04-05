@@ -80,7 +80,7 @@ export default function EmployerHub() {
       setSearchSuggestions([]);
       setShowSearchSuggestions(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, popularRoles]);
 
   // Handle industry selection
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function EmployerHub() {
     } else {
       setIndustrySuggestions([]);
     }
-  }, [selectedIndustry]);
+  }, [selectedIndustry, industries]);
 
   // Calculate ROI
   const calculateROI = () => {
@@ -150,7 +150,7 @@ export default function EmployerHub() {
     }, 2000);
 
     return () => clearTimeout(typingTimer);
-  }, [currentIndustryIndex]);
+  }, [currentIndustryIndex, industries.length]);
 
   useEffect(() => {
     if (typeof window === 'undefined' || hasAnimated) return;
@@ -159,34 +159,6 @@ export default function EmployerHub() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimated) {
-            const stats = [
-              { id: 'stat-0', value: 10, duration: 1000 },
-              { id: 'stat-1', value: 5000, duration: 2000 },
-              { id: 'stat-2', value: 1000, duration: 2000 },
-              { id: 'stat-3', value: 98, duration: 1500 }
-            ];
-
-            stats.forEach(({ id, value, duration }) => {
-              const el = document.getElementById(id);
-              if (!el) return;
-
-              let startTime: number | null = null;
-              const startValue = 0;
-
-              function animate(currentTime: number) {
-                if (!startTime) startTime = currentTime;
-                const progress = Math.min((currentTime - startTime) / duration, 1);
-                const currentValue = Math.floor(startValue + (value - startValue) * progress);
-                el.textContent = currentValue.toLocaleString();
-
-                if (progress < 1) {
-                  requestAnimationFrame(animate);
-                }
-              }
-
-              requestAnimationFrame(animate);
-            });
-
             setHasAnimated(true);
             observer.disconnect();
           }
@@ -195,13 +167,44 @@ export default function EmployerHub() {
       { threshold: 0.2 }
     );
 
-    const statsSection = document.getElementById('stats');
-    if (statsSection) {
-      observer.observe(statsSection);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
-    return () => observer.disconnect();
-  }, [hasAnimated]);
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasAnimated, industries]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || hasAnimated) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasAnimated, industries.length]);
 
   // Optimize scroll performance
   useEffect(() => {
@@ -1116,7 +1119,7 @@ export default function EmployerHub() {
                 </div>
 
                 <div className="relative">
-                  <p className="text-gray-600 italic mb-4">"{testimonial.quote}"</p>
+                  <p className="text-gray-600 italic mb-4">&ldquo;{testimonial.quote}&rdquo;</p>
                   
                   <div className="transform transition-all duration-300 opacity-0 group-hover:opacity-100">
                     <div className="pt-4 border-t border-gray-200">

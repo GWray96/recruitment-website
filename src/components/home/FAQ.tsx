@@ -79,22 +79,28 @@ export default function FAQ() {
   });
 
   useEffect(() => {
+    if (typeof window === 'undefined' || hasAnimated) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-        }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            observer.disconnect();
+          }
+        });
       },
       { threshold: 0.2 }
     );
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-    
+
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [hasAnimated]);

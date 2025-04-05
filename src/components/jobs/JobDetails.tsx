@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { MapPin, Clock, Building2, Briefcase, Star, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import type { Job } from './JobListing';
 
 interface JobDetailsProps {
@@ -13,17 +14,13 @@ export function JobDetails({ job, onApply, onCompare, isInComparison }: JobDetai
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
       <div className="flex items-start gap-4">
-        {job.logo ? (
-          <img
-            src={job.logo}
-            alt={`${job.company} logo`}
-            className="w-16 h-16 rounded-lg object-contain"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-lg bg-purple-100 flex items-center justify-center">
-            <Building2 className="w-8 h-8 text-purple-600" />
-          </div>
-        )}
+        <Image 
+          src={job.logo || '/placeholder-logo.png'} 
+          alt={`${job.company} logo`}
+          width={64}
+          height={64}
+          className="rounded-lg"
+        />
         <div className="flex-1">
           <h2 className="text-2xl font-semibold text-slate-900">{job.title}</h2>
           <p className="text-lg text-slate-600">{job.company}</p>

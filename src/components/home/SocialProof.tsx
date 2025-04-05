@@ -64,6 +64,35 @@ export default function SocialProof() {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || hasAnimated) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || hasAnimated) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
@@ -92,13 +121,14 @@ export default function SocialProof() {
       { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [hasAnimated]);
