@@ -189,7 +189,7 @@ export const jobs: Job[] = [
     ]
   },
   {
-    id: 4,
+    id: "4",
     title: 'Backend Developer',
     company: 'DataFlow Technologies',
     location: 'London, UK',
@@ -199,7 +199,7 @@ export const jobs: Job[] = [
     skills: ['Python', 'Django', 'PostgreSQL', 'Docker']
   },
   {
-    id: 5,
+    id: "5",
     title: 'Mobile Developer',
     company: 'AppWorks',
     location: 'Berlin, Germany',
@@ -209,7 +209,7 @@ export const jobs: Job[] = [
     skills: ['React Native', 'iOS', 'Android', 'TypeScript']
   },
   {
-    id: 6,
+    id: "6",
     title: 'UI/UX Designer',
     company: 'Creative Digital',
     location: 'Remote',
