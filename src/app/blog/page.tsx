@@ -26,7 +26,7 @@ export default function BlogPage() {
       {/* Content Container */}
       <div className="relative">
         {/* Hero Section with Featured Post */}
-        <section className="relative bg-gradient-to-br from-purple-600 via-blue-600 to-blue-700 border-b">
+        <section className="relative bg-gradient-to-br from-purple-600 via-blue-600 to-blue-700 border-b pt-16 md:pt-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,theme(colors.purple.400/0.3),transparent_50%)]"></div>
           {/* Dot pattern overlay for hero */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -56,7 +56,7 @@ export default function BlogPage() {
                   Read More
                 </Link>
               </div>
-              <div className="relative w-full aspect-[3/2]">
+              <div className="relative w-full aspect-[3/2] mx-auto max-w-lg lg:max-w-none">
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-purple-600/10 via-blue-600/10 to-blue-700/10"></div>
                 <PlaceholderImage
                   title={featuredPost.title}

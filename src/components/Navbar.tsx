@@ -29,8 +29,20 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Add body class to prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add('overflow-hidden')
+    } else {
+      document.body.classList.remove('overflow-hidden')
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [mobileMenuOpen])
+
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white shadow-md py-2' : 'bg-white/90 backdrop-blur-sm py-4'
     }`}>
       <div className="container mx-auto px-4">
@@ -97,7 +109,7 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-slate-700 hover:bg-gray-100 focus:outline-none"
+            className="md:hidden p-3 rounded-lg text-slate-700 hover:bg-gray-100 focus:outline-none touch-manipulation"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? (
@@ -111,66 +123,75 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       <div 
-        className={`md:hidden bg-white overflow-hidden transition-all duration-300 ${
-          mobileMenuOpen ? 'max-h-[80vh] border-t border-gray-200 shadow-lg' : 'max-h-0'
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300 ${
+          mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
+        onClick={() => setMobileMenuOpen(false)}
+      ></div>
+      
+      <div 
+        className={`fixed top-[${isScrolled ? '56px' : '72px'}] bottom-0 right-0 w-4/5 max-w-sm bg-white shadow-xl z-50 md:hidden transition-transform duration-300 overflow-y-auto ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        style={{ top: isScrolled ? '56px' : '72px' }}
       >
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex flex-col space-y-1">
-            <MobileNavLink href="/jobs" onClick={() => setMobileMenuOpen(false)}>
-              <Search className="w-5 h-5 mr-3" />
-              Job Board
-            </MobileNavLink>
+        <div className="p-5 space-y-4">
+          <MobileNavLink href="/jobs" onClick={() => setMobileMenuOpen(false)}>
+            <Search className="w-5 h-5 mr-3" />
+            Job Board
+          </MobileNavLink>
+          
+          <MobileNavLink href="/candidate-hub" onClick={() => setMobileMenuOpen(false)}>
+            <User className="w-5 h-5 mr-3" />
+            Candidate Hub
+          </MobileNavLink>
+          
+          <MobileNavLink href="/employer-hub" onClick={() => setMobileMenuOpen(false)}>
+            <Briefcase className="w-5 h-5 mr-3" />
+            Employer Hub
+          </MobileNavLink>
+          
+          {/* Mobile Learn Submenu */}
+          <div className="py-1">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setLearnMenuOpen(!learnMenuOpen);
+              }}
+              className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg"
+            >
+              <Book className="w-5 h-5 mr-3" />
+              Learn
+              <ChevronDown className={`ml-auto w-5 h-5 transition-transform ${learnMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
             
-            <MobileNavLink href="/candidate-hub" onClick={() => setMobileMenuOpen(false)}>
-              <User className="w-5 h-5 mr-3" />
-              Candidate Hub
-            </MobileNavLink>
-            
-            <MobileNavLink href="/employer-hub" onClick={() => setMobileMenuOpen(false)}>
-              <Briefcase className="w-5 h-5 mr-3" />
-              Employer Hub
-            </MobileNavLink>
-            
-            {/* Mobile Learn Submenu */}
-            <div className="py-1">
-              <button 
-                onClick={() => setLearnMenuOpen(!learnMenuOpen)}
-                className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg"
-              >
-                <Book className="w-5 h-5 mr-3" />
-                Learn
-                <ChevronDown className={`ml-auto w-5 h-5 transition-transform ${learnMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {learnMenuOpen && (
-                <div className="pl-12 mt-1 border-l-2 border-purple-100 ml-4">
-                  <MobileNavLink href="/blog" onClick={() => setMobileMenuOpen(false)}>
-                    Blog
-                  </MobileNavLink>
-                  <MobileNavLink href="/resources" onClick={() => setMobileMenuOpen(false)}>
-                    Resources
-                  </MobileNavLink>
-                  <MobileNavLink href="/faq" onClick={() => setMobileMenuOpen(false)}>
-                    FAQs
-                  </MobileNavLink>
-                </div>
-              )}
-            </div>
-            
-            <div className="pt-2 pb-3">
-              <Link 
-                href="/contact" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="block w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 
-                  text-white rounded-lg font-medium text-center"
-              >
-                <div className="flex items-center justify-center">
-                  <Phone className="w-5 h-5 mr-2" />
-                  Book a Call
-                </div>
-              </Link>
-            </div>
+            {learnMenuOpen && (
+              <div className="pl-12 mt-1 border-l-2 border-purple-100 ml-4">
+                <MobileNavLink href="/blog" onClick={() => setMobileMenuOpen(false)}>
+                  Blog
+                </MobileNavLink>
+                <MobileNavLink href="/resources" onClick={() => setMobileMenuOpen(false)}>
+                  Resources
+                </MobileNavLink>
+                <MobileNavLink href="/faq" onClick={() => setMobileMenuOpen(false)}>
+                  FAQs
+                </MobileNavLink>
+              </div>
+            )}
+          </div>
+          
+          <div className="pt-2 pb-3">
+            <Link 
+              href="/contact" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 
+                text-white rounded-lg font-medium text-center"
+            >
+              <div className="flex items-center justify-center">
+                <Phone className="w-5 h-5 mr-2" />
+                Book a Call
+              </div>
+            </Link>
           </div>
         </div>
       </div>
