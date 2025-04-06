@@ -103,7 +103,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { value: '10+', label: 'Years Experience', color: 'purple' },
-              { value: '5000+', label: 'Successful Placements', color: 'blue' },
+              { value: '250+', label: 'Successful Placements', color: 'blue' },
               { value: '1000+', label: 'Client Companies', color: 'indigo' },
               { value: '98%', label: 'Client Satisfaction', color: 'pink' }
             ].map((stat, index) => (

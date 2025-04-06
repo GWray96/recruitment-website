@@ -85,7 +85,7 @@ export default function CandidateHub() {
         const progress = currentStep / steps;
         
         setCounters({
-          placements: Math.min(Math.floor(10000 * progress), 10000),
+          placements: Math.min(Math.floor(250 * progress), 250),
           experience: Math.min(Math.floor(15 * progress), 15),
           satisfaction: Math.min(Math.floor(98 * progress), 98),
           partners: Math.min(Math.floor(500 * progress), 500)
