@@ -358,6 +358,7 @@ export const jobs: Job[] = [
     type: "Full-time",
     salary: "£65,000 - £85,000",
     postedDate: "2024-04-01",
+    skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Python", "Terraform"],
     description: "Join our DevOps team to build and maintain our cloud infrastructure using AWS, Docker, and Kubernetes.",
     requirements: [
       "5+ years experience with AWS or similar cloud platforms",
@@ -372,6 +373,31 @@ export const jobs: Job[] = [
       "Professional development budget",
       "Health and dental insurance",
       "Company equity"
+    ],
+    responsibilities: [
+      "Design and implement cloud infrastructure",
+      "Maintain CI/CD pipelines",
+      "Automate deployment processes",
+      "Monitor system performance",
+      "Implement security best practices"
+    ],
+    workHours: "9:00 AM - 5:00 PM (flexible)",
+    workEnvironment: "Modern office in Manchester with remote work options",
+    teamSize: "5-7 engineers",
+    reportingStructure: "Reports to DevOps Lead",
+    growthOpportunities: [
+      "Senior DevOps Engineer role",
+      "Cloud Architecture specialization",
+      "Team Lead opportunities",
+      "Security Engineering path"
+    ],
+    companyCulture: "Innovative, collaborative environment with focus on automation and efficiency",
+    applicationProcess: [
+      "Submit resume",
+      "Initial screening call",
+      "Technical assessment",
+      "Team interview",
+      "Final offer"
     ]
   },
   {
