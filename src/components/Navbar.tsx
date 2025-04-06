@@ -169,22 +169,17 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <motion.div
+          <div
             id="mobile-menu"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden fixed inset-x-0 top-[64px] bg-white/95 backdrop-blur-sm z-50"
+            className="md:hidden fixed inset-x-0 top-[64px] bg-white shadow-lg z-50 max-h-[calc(100vh-64px)] overflow-y-auto"
             ref={mobileMenuRef}
           >
-            <div className="container mx-auto px-4">
-              <div className="py-4 space-y-4 bg-white rounded-lg px-4 shadow-lg">
+            <div className="container mx-auto px-4 py-4">
+              <div className="space-y-4">
                 <Link
                   href="/jobs"
                   className="block w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
                     rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
                 >
                   <div className="flex items-center space-x-2">
                     <Search className="w-4 h-4" />
@@ -196,7 +191,6 @@ const Navbar = () => {
                   href="/candidate-hub"
                   className="block w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
                     rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
                 >
                   <div className="flex items-center space-x-2">
                     <User className="w-4 h-4" />
@@ -208,7 +202,6 @@ const Navbar = () => {
                   href="/employer-hub"
                   className="block w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
                     rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
                 >
                   <div className="flex items-center space-x-2">
                     <Briefcase className="w-4 h-4" />
@@ -219,7 +212,10 @@ const Navbar = () => {
                 {/* Mobile Learn Section */}
                 <div className="px-4">
                   <button
-                    onClick={() => setIsLearnOpen(!isLearnOpen)}
+                    onClick={(e) => {
+                      e.stopPropagation(); 
+                      setIsLearnOpen(!isLearnOpen);
+                    }}
                     className="flex items-center w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
                       rounded-lg transition-colors duration-200"
                   >
@@ -235,10 +231,6 @@ const Navbar = () => {
                         href="/blog"
                         className="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-purple-600 hover:bg-purple-50
                           rounded-lg transition-colors duration-200"
-                        onClick={() => {
-                          setIsLearnOpen(false);
-                          setIsOpen(false);
-                        }}
                       >
                         Blog
                       </Link>
@@ -246,10 +238,6 @@ const Navbar = () => {
                         href="/resources"
                         className="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-purple-600 hover:bg-purple-50
                           rounded-lg transition-colors duration-200"
-                        onClick={() => {
-                          setIsLearnOpen(false);
-                          setIsOpen(false);
-                        }}
                       >
                         Resources
                       </Link>
@@ -257,10 +245,6 @@ const Navbar = () => {
                         href="/faq"
                         className="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-purple-600 hover:bg-purple-50
                           rounded-lg transition-colors duration-200"
-                        onClick={() => {
-                          setIsLearnOpen(false);
-                          setIsOpen(false);
-                        }}
                       >
                         FAQ
                       </Link>
@@ -268,31 +252,19 @@ const Navbar = () => {
                   )}
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium 
-                    hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
-                  onClick={() => setIsOpen(false)}
+                <Link
+                  href="/contact"
+                  className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium 
+                    hover:from-purple-700 hover:to-blue-700 transition-colors"
                 >
-                  <motion.div
-                    animate={{ 
-                      rotate: [0, 10, 0, -10, 0],
-                      scale: [1, 1.1, 1, 1.1, 1]
-                    }}
-                    transition={{ 
-                      duration: 2, 
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
+                  <div className="flex items-center justify-center gap-2">
                     <Phone className="w-4 h-4" />
-                  </motion.div>
-                  Book a Call
-                </motion.button>
+                    <span>Book a Call</span>
+                  </div>
+                </Link>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
     </nav>
