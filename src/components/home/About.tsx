@@ -50,38 +50,8 @@ const About = () => {
     { year: '2023', title: 'Today', description: 'Continuing to grow and innovate in the tech recruitment space.' },
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSpecialism(0);
-          }
-        });
-      },
-      { 
-        threshold: [0.1, 0.2, 0.3], // Multiple thresholds for better mobile detection
-        rootMargin: '0px 0px -10% 0px' // Adjust the root margin for better mobile detection
-      }
-    );
-
-    // Store the ref value in a variable
-    const currentRef = sectionRef.current;
-    
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      // Use the stored variable in the cleanup function
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
-  // Add a state to track if we're on mobile
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Add an effect to detect mobile devices
   useEffect(() => {
@@ -97,6 +67,31 @@ const About = () => {
     
     return () => {
       window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
+  // Add visibility state management
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
     };
   }, []);
 
@@ -119,62 +114,58 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-purple-600 mb-2">
-                <CountUp 
-                  end={15} 
-                  suffix="+" 
-                  enableScrollSpy 
-                  scrollSpyOnce 
-                  duration={isMobile ? 1.5 : 2}
-                  start={0}
-                  delay={0}
-                  scrollSpyDelay={isMobile ? 0 : 100}
-                />
+                {isVisible && (
+                  <CountUp 
+                    end={15} 
+                    suffix="+" 
+                    duration={isMobile ? 1.5 : 2}
+                    start={0}
+                    delay={0}
+                  />
+                )}
               </div>
               <div className="text-slate-600">Years Experience</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-blue-600 mb-2">
-                <CountUp 
-                  end={250} 
-                  suffix="+" 
-                  enableScrollSpy 
-                  scrollSpyOnce 
-                  duration={isMobile ? 1.5 : 2} 
-                  separator="," 
-                  start={0}
-                  delay={0}
-                  scrollSpyDelay={isMobile ? 0 : 100}
-                />
+                {isVisible && (
+                  <CountUp 
+                    end={250} 
+                    suffix="+" 
+                    duration={isMobile ? 1.5 : 2} 
+                    separator="," 
+                    start={0}
+                    delay={0}
+                  />
+                )}
               </div>
               <div className="text-slate-600">Successful Placements</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-indigo-600 mb-2">
-                <CountUp 
-                  end={1000} 
-                  enableScrollSpy 
-                  scrollSpyOnce 
-                  duration={isMobile ? 1.5 : 2} 
-                  separator="," 
-                  start={0}
-                  delay={0}
-                  scrollSpyDelay={isMobile ? 0 : 100}
-                />
+                {isVisible && (
+                  <CountUp 
+                    end={1000} 
+                    duration={isMobile ? 1.5 : 2} 
+                    separator="," 
+                    start={0}
+                    delay={0}
+                  />
+                )}
               </div>
               <div className="text-slate-600">Client Companies</div>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 text-center shadow-sm border border-purple-100/50 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20">
               <div className="text-3xl font-bold text-pink-600 mb-2">
-                <CountUp 
-                  end={98} 
-                  suffix="%" 
-                  enableScrollSpy 
-                  scrollSpyOnce 
-                  duration={isMobile ? 1.5 : 2} 
-                  start={0}
-                  delay={0}
-                  scrollSpyDelay={isMobile ? 0 : 100}
-                />
+                {isVisible && (
+                  <CountUp 
+                    end={98} 
+                    suffix="%" 
+                    duration={isMobile ? 1.5 : 2} 
+                    start={0}
+                    delay={0}
+                  />
+                )}
               </div>
               <div className="text-slate-600">Client Satisfaction</div>
             </div>

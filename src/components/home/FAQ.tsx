@@ -22,7 +22,7 @@ export default function FAQ() {
   const faqs = [
     {
       question: "What makes NexusTech Recruitment different from other agencies?",
-      answer: "At NexusTech Recruitment, we combine cutting-edge technology with deep industry expertise. Our team of specialized tech recruiters, many with hands-on development experience, ensures precise matching of skills and culture. We maintain a 95% successful placement rate and help candidates achieve an average 25% salary increase.",
+      answer: "At NexusTech Recruitment, we combine cutting-edge technology with deep industry expertise. Our team of specialized tech recruiters, many with hands-on development experience, ensures precise matching of skills and culture. We've successfully placed over 250 tech professionals and help candidates achieve an average 25% salary increase.",
       category: 'process'
     },
     {
@@ -106,45 +106,45 @@ export default function FAQ() {
   }, [hasAnimated]);
 
   return (
-    <section ref={sectionRef} className="py-20 relative overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+    <section ref={sectionRef} className="py-12 md:py-20 relative overflow-hidden bg-gradient-to-b from-slate-50 to-white">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-0 -left-4 w-48 md:w-72 h-48 md:h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-48 md:w-72 h-48 md:h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-48 md:w-72 h-48 md:h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
       </div>
 
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-4 transform transition-all duration-300 hover:scale-105">
+        <div className="text-center mb-8 md:mb-12">
+          <span className="inline-block px-3 md:px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-xs md:text-sm font-medium mb-3 md:mb-4 transform transition-all duration-300 hover:scale-105">
             Got Questions?
           </span>
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 md:mb-4">Frequently Asked Questions</h2>
+          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4 md:px-0">
             Learn more about how NexusTech Recruitment can accelerate your tech career or help build your dream team
           </p>
         </div>
 
         {/* Search and Categories */}
-        <div className="max-w-3xl mx-auto mb-8">
-          <div className="relative mb-6">
+        <div className="max-w-3xl mx-auto mb-6 md:mb-8">
+          <div className="relative mb-4 md:mb-6">
             <input
               type="text"
               placeholder="Search FAQs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-12 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+              className="w-full px-4 py-2.5 md:py-3 pl-10 md:pl-12 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 text-sm md:text-base"
             />
-            <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 transform -translate-y-1/2" />
+            <Search className="w-4 h-4 md:w-5 md:h-5 text-slate-400 absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2" />
           </div>
           
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-1.5 md:gap-2 justify-center">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
                   activeCategory === category.id
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
                     : 'bg-white text-slate-600 hover:bg-slate-100'
@@ -157,7 +157,7 @@ export default function FAQ() {
         </div>
 
         {/* FAQ Items */}
-        <div className="max-w-3xl mx-auto space-y-4">
+        <div className="max-w-3xl mx-auto space-y-3 md:space-y-4">
           {filteredFaqs.map((faq, index) => (
             <div 
               key={index}
@@ -166,44 +166,44 @@ export default function FAQ() {
               }`}
             >
               <button 
-                className="w-full px-6 py-4 text-left focus:outline-none"
+                className="w-full px-4 md:px-6 py-3 md:py-4 text-left focus:outline-none"
                 onClick={() => toggleFaq(index)}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
-                      <HelpCircle className="w-4 h-4 text-white" />
+                  <div className="flex items-center space-x-2 md:space-x-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                      <HelpCircle className="w-3 h-3 md:w-4 md:h-4 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold text-slate-900 group-hover:text-purple-700 transition-colors duration-300">{faq.question}</h3>
+                    <h3 className="text-base md:text-lg font-semibold text-slate-900 group-hover:text-purple-700 transition-colors duration-300">{faq.question}</h3>
                   </div>
                   <ChevronDown 
-                    className={`w-5 h-5 text-slate-500 transform transition-all duration-300 ${
+                    className={`w-4 h-4 md:w-5 md:h-5 text-slate-500 transform transition-all duration-300 ${
                       expandedFaqs.includes(index) ? 'rotate-180 text-purple-600' : ''
                     }`}
                   />
                 </div>
               </button>
               <div 
-                className={`px-6 overflow-hidden transition-all duration-300 ${
+                className={`px-4 md:px-6 overflow-hidden transition-all duration-300 ${
                   expandedFaqs.includes(index) 
-                    ? 'max-h-96 pb-4 opacity-100' 
+                    ? 'max-h-96 pb-3 md:pb-4 opacity-100' 
                     : 'max-h-0 opacity-0'
                 }`}
               >
-                <p className="text-slate-600">{faq.answer}</p>
+                <p className="text-sm md:text-base text-slate-600">{faq.answer}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 md:mt-12">
           <Link
             href="/faq"
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:shadow-purple-400/30 transition-all duration-300 transform hover:scale-105 group"
+            className="inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm md:text-base font-medium rounded-lg shadow-md hover:shadow-lg hover:shadow-purple-400/30 transition-all duration-300 transform hover:scale-105 group"
           >
             View All FAQs
-            <ArrowRight className="w-5 h-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
       </div>
