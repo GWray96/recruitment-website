@@ -408,6 +408,7 @@ export const jobs: Job[] = [
     type: "Full-time",
     salary: "£55,000 - £75,000",
     postedDate: "2024-04-01",
+    skills: ["Python", "R", "SQL", "Machine Learning", "Statistics", "Data Visualization"],
     description: "Work on cutting-edge machine learning projects to drive business insights and innovation.",
     requirements: [
       "MSc or PhD in Data Science, Mathematics, or related field",
@@ -422,6 +423,31 @@ export const jobs: Job[] = [
       "Health insurance",
       "Gym membership",
       "Annual bonus scheme"
+    ],
+    responsibilities: [
+      "Develop and implement machine learning models",
+      "Analyze complex data sets to identify patterns",
+      "Work with stakeholders to define business questions",
+      "Present findings to technical and non-technical audiences",
+      "Collaborate with engineering teams to implement solutions"
+    ],
+    workHours: "9:00 AM - 5:00 PM (flexible)",
+    workEnvironment: "Modern office in Edinburgh with hybrid work options",
+    teamSize: "6-8 data scientists and analysts",
+    reportingStructure: "Reports to Head of Data Science",
+    growthOpportunities: [
+      "Senior Data Scientist role",
+      "Machine Learning Engineering specialization",
+      "Research opportunities",
+      "Leadership position"
+    ],
+    companyCulture: "Data-driven environment with focus on innovation and continuous learning",
+    applicationProcess: [
+      "Resume submission",
+      "Technical screening",
+      "Machine learning challenge",
+      "Team interview",
+      "Final offer"
     ]
   },
   {
