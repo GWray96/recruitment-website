@@ -20,7 +20,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Handle click outside of Learn dropdown
+  // Handle click outside of Learn dropdown (desktop only)
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (learnRef.current && !learnRef.current.contains(event.target as Node)) {
@@ -33,72 +33,6 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-
-  // Handle click outside of mobile menu
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Element;
-      
-      // Don't close if clicking inside the menu
-      if (mobileMenuRef.current?.contains(target)) {
-        return;
-      }
-      
-      // Don't close if clicking the menu button
-      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
-                          target.closest('button[aria-label="Close menu"]');
-      if (isMenuButton) {
-        return;
-      }
-
-      // Close the menu for clicks outside
-      setIsOpen(false);
-    }
-
-    if (isOpen) {
-      // Add a slight delay to prevent immediate closure
-      setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-      }, 100);
-      
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }
-  }, [isOpen]);
-
-  // Handle touch events for mobile menu
-  useEffect(() => {
-    function handleTouchStart(event: TouchEvent) {
-      const target = event.target as Element;
-      
-      // Don't close if touching inside the menu
-      if (mobileMenuRef.current?.contains(target)) {
-        return;
-      }
-      
-      // Don't close if touching the menu button
-      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
-                          target.closest('button[aria-label="Close menu"]');
-      if (isMenuButton) {
-        return;
-      }
-
-      // Close the menu for touches outside
-      setIsOpen(false);
-    }
-
-    if (isOpen) {
-      // Add a slight delay to prevent immediate closure
-      setTimeout(() => {
-        document.addEventListener('touchstart', handleTouchStart);
-      }, 100);
-      
-      return () => {
-        document.removeEventListener('touchstart', handleTouchStart);
-      };
-    }
-  }, [isOpen]);
 
   return (
     <nav 
