@@ -47,9 +47,13 @@ export function JobListing({ job, isSelected, onSelect, onSave, onShare }: JobLi
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ scale: 1.01 }}
-      className={`bg-white rounded-lg p-6 shadow-sm border ${
+      className={`${
         isSelected ? 'border-purple-500' : 'border-gray-200'
-      } cursor-pointer transition-all duration-200`}
+      } cursor-pointer transition-all duration-200 ${
+        window.innerWidth >= 1024 
+          ? 'bg-white rounded-lg p-6 shadow-sm border' 
+          : 'p-4 border-b border-gray-100'
+      }`}
       onClick={() => onSelect(job)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
