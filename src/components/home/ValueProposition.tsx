@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle, XCircle, ArrowRight, Building, User, Briefcase, Clock, Target, Award } from 'lucide-react';
+import Link from 'next/link';
 
 const ValueProposition = () => {
   const [activeCard, setActiveCard] = useState<'candidates' | 'employers' | 'expertise' | 'time' | 'matching' | null>(null);
@@ -206,8 +207,8 @@ const ValueProposition = () => {
               </p>
 
               <div className="flex justify-center">
-                <a 
-                  href="/candidates" 
+                <Link 
+                  href="/candidate-hub" 
                   className="group relative inline-flex w-3/4 justify-center items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition duration-300"
                   style={{
                     willChange: 'transform',
@@ -218,7 +219,7 @@ const ValueProposition = () => {
                   <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     Let&apos;s Get Started <ArrowRight className="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -274,8 +275,8 @@ const ValueProposition = () => {
               </p>
 
               <div className="flex justify-center">
-                <a 
-                  href="/employers" 
+                <Link 
+                  href="/employer-hub" 
                   className="group relative inline-flex w-3/4 justify-center items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition duration-300"
                   style={{
                     willChange: 'transform',
@@ -286,7 +287,7 @@ const ValueProposition = () => {
                   <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     Let&apos;s Get Started <ArrowRight className="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
