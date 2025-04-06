@@ -956,6 +956,7 @@ export default function CandidateHub() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            {/* Skill Profile Card */}
             <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
               <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-6">Your Skill Profile</h3>
               <div className="space-y-6">
@@ -966,17 +967,17 @@ export default function CandidateHub() {
                   { skill: "Project Management", level: 80, details: "Agile methodologies, Sprint planning" },
                   { skill: "Code Quality", level: 85, details: "Clean code, Testing, Documentation" }
                 ].map((skill) => (
-                  <div key={skill.skill}>
-                    <div className="flex justify-between mb-2">
+                  <div key={skill.skill} className="space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
                       <div>
-                        <span className="font-medium text-slate-900">{skill.skill}</span>
+                        <span className="font-medium text-slate-900 text-base">{skill.skill}</span>
                         <p className="text-sm text-slate-600">{skill.details}</p>
                       </div>
-                      <span className="text-slate-600 font-medium">{skill.level}%</span>
+                      <span className="text-slate-600 font-medium text-base">{skill.level}%</span>
                     </div>
-                    <div className="h-2.5 bg-slate-200 rounded-full">
+                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
                       <div 
-                        className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full transition-all duration-500"
+                        className="h-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full transition-all duration-500"
                         style={{ width: `${skill.level}%` }}
                       ></div>
                     </div>
@@ -984,6 +985,8 @@ export default function CandidateHub() {
                 ))}
               </div>
             </div>
+
+            {/* Learning Path Card */}
             <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
               <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-6">Recommended Learning Path</h3>
               <div className="space-y-6">
@@ -1011,9 +1014,9 @@ export default function CandidateHub() {
                   }
                 ].map((course) => (
                   <div key={course.title} className="border-b border-slate-200 pb-4 last:border-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-slate-900">{course.title}</h4>
-                      <span className="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                      <h4 className="font-semibold text-slate-900 text-base">{course.title}</h4>
+                      <span className="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full self-start">
                         {course.level}
                       </span>
                     </div>
@@ -1029,20 +1032,19 @@ export default function CandidateHub() {
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
-                        {course.topics.join(", ")}
+                        <span className="line-clamp-1">{course.topics.join(", ")}</span>
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-6">
-                <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center text-sm md:text-base">
-                  Get Personalized Learning Plan
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
+              
+              <button className="w-full mt-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3.5 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center text-base">
+                Get Personalized Learning Plan
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -1051,9 +1053,9 @@ export default function CandidateHub() {
       {/* Salary Checker Section */}
       <div className="py-12 md:py-20 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Know Your Market Value</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 md:mb-4">Know Your Market Value</h2>
               <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8">
                 Get instant access to real-time salary data and ensure you&apos;re not leaving money on the table
               </p>
@@ -1066,7 +1068,7 @@ export default function CandidateHub() {
                     id="jobRole"
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
-                    className="w-full px-4 py-3 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3.5 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">Select your role</option>
                     <option value="frontend">Frontend Developer</option>
@@ -1086,14 +1088,14 @@ export default function CandidateHub() {
                     id="location"
                     value={selectedLocation}
                     onChange={(e) => setSelectedLocation(e.target.value)}
-                    className="w-full px-4 py-3 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3.5 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">Select location</option>
                     <option value="london">London</option>
                     <option value="manchester">Manchester</option>
                     <option value="birmingham">Birmingham</option>
                     <option value="leeds">Leeds</option>
-                    <option value="remote">Remote - UK</option>
+                    <option value="remote">Remote</option>
                   </select>
                 </div>
 
@@ -1105,13 +1107,13 @@ export default function CandidateHub() {
                     id="experience"
                     value={selectedExperience}
                     onChange={(e) => setSelectedExperience(e.target.value)}
-                    className="w-full px-4 py-3 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3.5 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">Select experience</option>
                     <option value="0-2">0-2 years</option>
                     <option value="3-5">3-5 years</option>
-                    <option value="5-8">5-8 years</option>
-                    <option value="8+">8+ years</option>
+                    <option value="6-8">6-8 years</option>
+                    <option value="9+">9+ years</option>
                   </select>
                 </div>
 
@@ -1119,43 +1121,38 @@ export default function CandidateHub() {
                   <label htmlFor="skills" className="block text-sm font-medium text-slate-700 mb-2">
                     Key Skills
                   </label>
-                  <div className="flex flex-wrap gap-2 p-3 border border-slate-200 rounded-lg">
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1.5 rounded-full text-sm">
+                  <div className="flex flex-wrap gap-2 p-4 border border-slate-200 rounded-lg min-h-[60px]">
+                    <span className="bg-purple-100 text-purple-600 px-3 py-2 rounded-full text-sm flex items-center">
                       React
-                      <button className="ml-2 hover:text-purple-800">×</button>
+                      <button className="ml-2 hover:text-purple-800 p-1">×</button>
                     </span>
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1.5 rounded-full text-sm">
+                    <span className="bg-purple-100 text-purple-600 px-3 py-2 rounded-full text-sm flex items-center">
                       TypeScript
-                      <button className="ml-2 hover:text-purple-800">×</button>
+                      <button className="ml-2 hover:text-purple-800 p-1">×</button>
                     </span>
                     <input
                       type="text"
                       placeholder="Add a skill..."
-                      className="border-0 bg-transparent focus:ring-0 text-sm flex-1 min-w-[120px]"
+                      className="border-0 bg-transparent focus:ring-0 text-sm flex-1 min-w-[120px] py-2"
                     />
                   </div>
                 </div>
 
-                <button 
+                <button
                   onClick={handleSalaryCalculation}
-                  disabled={isCalculating || !selectedRole || !selectedLocation || !selectedExperience}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-3 text-sm md:text-base"
+                  disabled={isCalculating}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3.5 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center text-base disabled:opacity-50"
                 >
                   {isCalculating ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
                       Calculating...
                     </>
                   ) : (
-                    <>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                      </svg>
-                      Calculate Salary Range
-                    </>
+                    'Calculate Your Market Value'
                   )}
                 </button>
               </div>
@@ -1168,42 +1165,50 @@ export default function CandidateHub() {
               </div>
               
               <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 md:p-6 mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-slate-600">Entry Level</span>
-                  <span className="text-slate-900 font-semibold">£25,000 - £35,000</span>
-                </div>
-                <div className="h-2.5 bg-slate-200 rounded-full mb-6">
-                  <div className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '30%' }}></div>
-                </div>
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-slate-600">Entry Level</span>
+                      <span className="text-slate-900 font-semibold">£25,000 - £35,000</span>
+                    </div>
+                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
+                      <div className="h-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '30%' }}></div>
+                    </div>
+                  </div>
 
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-slate-600">Mid Level</span>
-                  <span className="text-slate-900 font-semibold">£35,000 - £55,000</span>
-                </div>
-                <div className="h-2.5 bg-slate-200 rounded-full mb-6">
-                  <div className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '60%' }}></div>
-                </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-slate-600">Mid Level</span>
+                      <span className="text-slate-900 font-semibold">£35,000 - £55,000</span>
+                    </div>
+                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
+                      <div className="h-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '60%' }}></div>
+                    </div>
+                  </div>
 
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-slate-600">Senior Level</span>
-                  <span className="text-slate-900 font-semibold">£55,000 - £85,000+</span>
-                </div>
-                <div className="h-2.5 bg-slate-200 rounded-full">
-                  <div className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '90%' }}></div>
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-slate-600">Senior Level</span>
+                      <span className="text-slate-900 font-semibold">£55,000 - £85,000+</span>
+                    </div>
+                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
+                      <div className="h-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '90%' }}></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="border-t border-slate-200 pt-6">
+              <div className="space-y-4">
                 <h4 className="font-semibold text-slate-900 mb-4">Market Insights</h4>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                    <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                     <p className="text-sm text-slate-600">Salaries for this role have increased by 8% in the last 12 months</p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-purple-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                    <svg className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <p className="text-sm text-slate-600">High demand for professionals with React and TypeScript skills</p>
@@ -1211,8 +1216,8 @@ export default function CandidateHub() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between mt-6 text-sm text-slate-500">
-                <span>💡 Updated monthly based on market data</span>
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-6 pt-6 border-t border-slate-200 text-sm text-slate-500">
+                <span className="mb-2 sm:mb-0">💡 Updated monthly based on market data</span>
                 <button className="text-purple-600 hover:text-purple-700 font-medium">
                   View full report
                 </button>

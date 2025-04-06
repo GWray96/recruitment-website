@@ -474,33 +474,20 @@ export default function EmployerHub() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
-      <section id="hero" className="relative overflow-hidden bg-gradient-to-r from-purple-600 to-blue-600 pt-32 pb-24">
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900 via-purple-800 to-blue-900">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
           <motion.div 
             animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.7, 0.5, 0.7],
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.2, 0.3],
             }}
             transition={{ 
               duration: 8,
               repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl"
-          />
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.7, 0.5, 0.7],
-            }}
-            transition={{ 
-              duration: 10,
-              repeat: Infinity,
               ease: "easeInOut",
               delay: 1
             }}
-            className="absolute top-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl"
+            className="absolute top-0 -right-4 w-48 md:w-72 h-48 md:h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl"
           />
           <motion.div 
             animate={{ 
@@ -513,7 +500,7 @@ export default function EmployerHub() {
               ease: "easeInOut",
               delay: 2
             }}
-            className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl"
+            className="absolute -bottom-8 left-20 w-48 md:w-72 h-48 md:h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl"
           />
         </div>
         
@@ -524,23 +511,23 @@ export default function EmployerHub() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 cursor-pointer group"
+              className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-3 md:px-4 py-2 mb-4 md:mb-6 cursor-pointer group"
             >
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                 className="mr-2"
               >
-                <Star className="w-5 h-5 text-yellow-300" />
+                <Star className="w-4 md:w-5 h-4 md:h-5 text-yellow-300" />
               </motion.div>
-              <span className="text-white/90 group-hover:text-white transition-colors">Trusted by 1000+ tech companies worldwide</span>
+              <span className="text-sm md:text-base text-white/90 group-hover:text-white transition-colors">Trusted by 1000+ tech companies worldwide</span>
             </motion.div>
 
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg"
+              className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6 drop-shadow-lg"
             >
               Transform Your Tech Hiring with Expert Recruitment Solutions
             </motion.h1>
@@ -549,7 +536,7 @@ export default function EmployerHub() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl text-white/90 mb-8 max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto"
             >
               Access top tech talent, streamline your recruitment process, and build high-performing teams with our specialized tech recruitment service
             </motion.p>
@@ -558,34 +545,34 @@ export default function EmployerHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-8 md:mb-12"
             >
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="group px-8 py-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-95 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden"
+                className="group px-6 md:px-8 py-3 md:py-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-95 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-100/0 via-purple-100/50 to-purple-100/0 opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000"></div>
-                <MessageSquare className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                <span>Schedule a Consultation</span>
+                <MessageSquare className="w-4 md:w-5 h-4 md:h-5 transition-transform duration-300 group-hover:scale-110" />
+                <span className="text-sm md:text-base">Schedule a Consultation</span>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="group px-8 py-4 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden"
+                className="group px-6 md:px-8 py-3 md:py-4 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000"></div>
-                <FileText className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                <span>Download Service Guide</span>
+                <FileText className="w-4 md:w-5 h-4 md:h-5 transition-transform duration-300 group-hover:scale-110" />
+                <span className="text-sm md:text-base">Download Service Guide</span>
               </motion.button>
             </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-3xl mx-auto">
               {[
-                { icon: <Clock className="w-6 h-6" />, text: "15 days average time-to-hire", highlight: "15 days" },
-                { icon: <Users className="w-6 h-6" />, text: "98% client satisfaction rate", highlight: "98%" },
-                { icon: <Target className="w-6 h-6" />, text: "Industry-specific expertise", highlight: "Expertise" },
-                { icon: <Globe className="w-6 h-6" />, text: "Global talent network", highlight: "Global" }
+                { icon: <Clock className="w-5 md:w-6 h-5 md:h-6" />, text: "15 days average time-to-hire", highlight: "15 days" },
+                { icon: <Users className="w-5 md:w-6 h-5 md:h-6" />, text: "98% client satisfaction rate", highlight: "98%" },
+                { icon: <Target className="w-5 md:w-6 h-5 md:h-6" />, text: "Industry-specific expertise", highlight: "Expertise" },
+                { icon: <Globe className="w-5 md:w-6 h-5 md:h-6" />, text: "Global talent network", highlight: "Global" }
               ].map((feature, index) => (
                 <motion.div
                   key={index}
@@ -598,11 +585,11 @@ export default function EmployerHub() {
                   <motion.div 
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    className="w-12 h-12 mx-auto bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-white mb-3 group-hover:bg-white/20 transition-colors duration-300"
+                    className="w-10 md:w-12 h-10 md:h-12 mx-auto bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-white mb-2 md:mb-3 group-hover:bg-white/20 transition-colors duration-300"
                   >
                     {feature.icon}
                   </motion.div>
-                  <p className="text-sm text-white/80 group-hover:text-white transition-colors duration-300">
+                  <p className="text-xs md:text-sm text-white/80 group-hover:text-white transition-colors duration-300">
                     {feature.text.split(feature.highlight).map((part, i, arr) => (
                       <span key={i}>
                         {part}
@@ -622,9 +609,9 @@ export default function EmployerHub() {
       </section>
 
       {/* Stats Section */}
-      <section id="stats" className="py-16 bg-white">
+      <section id="stats" className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto">
             {[
               { value: 15, suffix: "+", label: "Years Experience", color: "purple" },
               { value: 250, suffix: "+", label: "Successful Placements", color: "blue" },
@@ -641,7 +628,7 @@ export default function EmployerHub() {
                 className="relative group"
               >
                 <div
-                  className={`bg-white rounded-xl shadow-lg p-6 text-center relative overflow-hidden
+                  className={`bg-white rounded-xl shadow-lg p-4 md:p-6 text-center relative overflow-hidden
                     ${stat.color === 'purple' ? 'hover:bg-purple-50' : ''}
                     ${stat.color === 'blue' ? 'hover:bg-blue-50' : ''}
                     ${stat.color === 'green' ? 'hover:bg-green-50' : ''}
@@ -650,7 +637,7 @@ export default function EmployerHub() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <div 
-                    className={`text-4xl md:text-5xl font-bold mb-2
+                    className={`text-2xl md:text-4xl font-bold mb-1 md:mb-2
                       ${stat.color === 'purple' ? 'text-purple-600' : ''}
                       ${stat.color === 'blue' ? 'text-blue-600' : ''}
                       ${stat.color === 'green' ? 'text-green-600' : ''}
@@ -662,7 +649,7 @@ export default function EmployerHub() {
                     </span>
                     {stat.suffix}
                   </div>
-                  <div className="text-gray-600 font-medium">
+                  <div className="text-sm md:text-base text-gray-600 font-medium">
                     {stat.label}
                   </div>
                 </div>
@@ -673,21 +660,21 @@ export default function EmployerHub() {
       </section>
 
       {/* ROI Calculator Section */}
-      <section id="roi" className="py-16 bg-gray-50">
+      <section id="roi" className="py-12 md:py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Calculate Your Recruitment ROI</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4">Calculate Your Recruitment ROI</h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
               See how much you can save by using our specialized tech recruitment service
             </p>
           </div>
           
           <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="p-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-6">Your Current Hiring Process</h3>
+              <div className="p-6 md:p-8">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Your Current Hiring Process</h3>
                 
-                <div className="space-y-6">
+                <div className="space-y-4 md:space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Number of Tech Roles to Fill</label>
                     <div className="flex items-center">
@@ -699,7 +686,7 @@ export default function EmployerHub() {
                         onChange={(e) => setRoiInputs({...roiInputs, jobCount: parseInt(e.target.value)})}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                       />
-                      <span className="ml-4 text-lg font-semibold text-purple-600">{roiInputs.jobCount}</span>
+                      <span className="ml-4 text-base md:text-lg font-semibold text-purple-600">{roiInputs.jobCount}</span>
                     </div>
                   </div>
                   
@@ -715,7 +702,7 @@ export default function EmployerHub() {
                         onChange={(e) => setRoiInputs({...roiInputs, avgSalary: parseInt(e.target.value)})}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                       />
-                      <span className="ml-4 text-lg font-semibold text-purple-600">${roiInputs.avgSalary.toLocaleString()}</span>
+                      <span className="ml-4 text-base md:text-lg font-semibold text-purple-600">${roiInputs.avgSalary.toLocaleString()}</span>
                     </div>
                   </div>
                   
@@ -730,7 +717,7 @@ export default function EmployerHub() {
                         onChange={(e) => setRoiInputs({...roiInputs, timeToHire: parseInt(e.target.value)})}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                       />
-                      <span className="ml-4 text-lg font-semibold text-purple-600">{roiInputs.timeToHire}</span>
+                      <span className="ml-4 text-base md:text-lg font-semibold text-purple-600">{roiInputs.timeToHire}</span>
                     </div>
                   </div>
                   
@@ -746,7 +733,7 @@ export default function EmployerHub() {
                         onChange={(e) => setRoiInputs({...roiInputs, costPerHire: parseInt(e.target.value)})}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                       />
-                      <span className="ml-4 text-lg font-semibold text-purple-600">${roiInputs.costPerHire.toLocaleString()}</span>
+                      <span className="ml-4 text-base md:text-lg font-semibold text-purple-600">${roiInputs.costPerHire.toLocaleString()}</span>
                     </div>
                   </div>
                   
@@ -772,7 +759,7 @@ export default function EmployerHub() {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-8 flex flex-col justify-center">
+              <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-6 md:p-8 flex flex-col justify-center">
                 {showROIResult ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -780,22 +767,22 @@ export default function EmployerHub() {
                     transition={{ duration: 0.5 }}
                     className="text-center"
                   >
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Your Potential Savings</h3>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">Your Potential Savings</h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                       <div className="bg-white rounded-lg p-4 shadow-sm">
-                        <div className="text-3xl font-bold text-purple-600 mb-1">${roiResults.costSaved.toLocaleString()}</div>
-                        <div className="text-gray-600">Cost Savings per Hire</div>
+                        <div className="text-2xl md:text-3xl font-bold text-purple-600 mb-1">${roiResults.costSaved.toLocaleString()}</div>
+                        <div className="text-sm md:text-base text-gray-600">Cost Savings per Hire</div>
                       </div>
                       
                       <div className="bg-white rounded-lg p-4 shadow-sm">
-                        <div className="text-3xl font-bold text-blue-600 mb-1">{roiResults.timeSaved} Days</div>
-                        <div className="text-gray-600">Time Saved per Hire</div>
+                        <div className="text-2xl md:text-3xl font-bold text-blue-600 mb-1">{roiResults.timeSaved} Days</div>
+                        <div className="text-sm md:text-base text-gray-600">Time Saved per Hire</div>
                       </div>
                       
                       <div className="bg-white rounded-lg p-4 shadow-sm">
-                        <div className="text-3xl font-bold text-green-600 mb-1">${roiResults.annualSavings.toLocaleString()}</div>
-                        <div className="text-gray-600">Annual Savings</div>
+                        <div className="text-2xl md:text-3xl font-bold text-green-600 mb-1">${roiResults.annualSavings.toLocaleString()}</div>
+                        <div className="text-sm md:text-base text-gray-600">Annual Savings</div>
                       </div>
                       
                       <motion.button
@@ -809,13 +796,13 @@ export default function EmployerHub() {
                   </motion.div>
                 ) : (
                   <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-6 text-purple-500">
+                    <div className="w-16 md:w-24 h-16 md:h-24 mx-auto mb-4 md:mb-6 text-purple-500">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Calculate Your ROI</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">Calculate Your ROI</h3>
+                    <p className="text-sm md:text-base text-gray-600">
                       Adjust the sliders to match your current hiring process and see how much you can save with our specialized tech recruitment service.
                     </p>
                   </div>
