@@ -37,21 +37,30 @@ const Navbar = () => {
   // Handle click outside of mobile menu
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      // Check if the click is outside the mobile menu and not on the menu button
       const target = event.target as Element;
-      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
-                           target.closest('button[aria-label="Close menu"]');
       
-      if (mobileMenuRef.current && 
-          !mobileMenuRef.current.contains(target) && 
-          !isMenuButton) {
-        setIsOpen(false);
+      // Don't close if clicking inside the menu
+      if (mobileMenuRef.current?.contains(target)) {
+        return;
       }
+      
+      // Don't close if clicking the menu button
+      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
+                          target.closest('button[aria-label="Close menu"]');
+      if (isMenuButton) {
+        return;
+      }
+
+      // Close the menu for clicks outside
+      setIsOpen(false);
     }
 
-    // Only add the event listener if the menu is open
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      // Add a slight delay to prevent immediate closure
+      setTimeout(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+      }, 100);
+      
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
@@ -61,21 +70,30 @@ const Navbar = () => {
   // Handle touch events for mobile menu
   useEffect(() => {
     function handleTouchStart(event: TouchEvent) {
-      // Check if the touch is outside the mobile menu and not on the menu button
       const target = event.target as Element;
-      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
-                           target.closest('button[aria-label="Close menu"]');
       
-      if (mobileMenuRef.current && 
-          !mobileMenuRef.current.contains(target) && 
-          !isMenuButton) {
-        setIsOpen(false);
+      // Don't close if touching inside the menu
+      if (mobileMenuRef.current?.contains(target)) {
+        return;
       }
+      
+      // Don't close if touching the menu button
+      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
+                          target.closest('button[aria-label="Close menu"]');
+      if (isMenuButton) {
+        return;
+      }
+
+      // Close the menu for touches outside
+      setIsOpen(false);
     }
 
-    // Only add the event listener if the menu is open
     if (isOpen) {
-      document.addEventListener('touchstart', handleTouchStart);
+      // Add a slight delay to prevent immediate closure
+      setTimeout(() => {
+        document.addEventListener('touchstart', handleTouchStart);
+      }, 100);
+      
       return () => {
         document.removeEventListener('touchstart', handleTouchStart);
       };
@@ -223,110 +241,122 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden transition-all duration-300 ease-in-out overflow-hidden
-              max-h-screen opacity-100 mt-4 z-50 relative"
+            className="md:hidden fixed inset-x-0 top-[64px] bg-white/95 backdrop-blur-sm z-50"
             ref={mobileMenuRef}
           >
-            <div className="py-4 space-y-4 bg-white rounded-lg px-2 shadow-lg">
-              <Link
-                href="/jobs"
-                className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                  rounded-lg transition-colors duration-200"
-                onClick={() => setIsOpen(false)}
-              >
-                <Search className="w-4 h-4" />
-                <span>Job Board</span>
-              </Link>
-
-              <Link
-                href="/candidate-hub"
-                className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                  rounded-lg transition-colors duration-200"
-                onClick={() => setIsOpen(false)}
-              >
-                <User className="w-4 h-4" />
-                <span>For Candidates</span>
-              </Link>
-
-              <Link
-                href="/employer-hub"
-                className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                  rounded-lg transition-colors duration-200"
-                onClick={() => setIsOpen(false)}
-              >
-                <Briefcase className="w-4 h-4" />
-                <span>For Employers</span>
-              </Link>
-
-              {/* Mobile Learn Section */}
-              <div className="px-4 py-2">
-                <button
-                  onClick={() => setIsLearnOpen(!isLearnOpen)}
-                  className="flex items-center w-full text-slate-800 hover:text-purple-600"
+            <div className="container mx-auto px-4">
+              <div className="py-4 space-y-4 bg-white rounded-lg px-4 shadow-lg">
+                <Link
+                  href="/jobs"
+                  className="block w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
+                    rounded-lg transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
                 >
-                  <Book className="w-4 h-4 mr-2" />
-                  <span>Learn</span>
-                  <ChevronDown 
-                    className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${isLearnOpen ? 'rotate-180' : ''}`}
-                  />
-                </button>
-                {isLearnOpen && (
-                  <div className="mt-2 space-y-2 pl-4">
-                    <Link
-                      href="/blog"
-                      className="block py-2 text-sm text-slate-600 hover:text-purple-600"
-                      onClick={() => {
-                        setIsLearnOpen(false);
-                        setIsOpen(false);
-                      }}
-                    >
-                      Blog
-                    </Link>
-                    <Link
-                      href="/resources"
-                      className="block py-2 text-sm text-slate-600 hover:text-purple-600"
-                      onClick={() => {
-                        setIsLearnOpen(false);
-                        setIsOpen(false);
-                      }}
-                    >
-                      Resources
-                    </Link>
-                    <Link
-                      href="/faq"
-                      className="block py-2 text-sm text-slate-600 hover:text-purple-600"
-                      onClick={() => {
-                        setIsLearnOpen(false);
-                        setIsOpen(false);
-                      }}
-                    >
-                      FAQ
-                    </Link>
+                  <div className="flex items-center space-x-2">
+                    <Search className="w-4 h-4" />
+                    <span>Job Board</span>
                   </div>
-                )}
-              </div>
+                </Link>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
-                onClick={() => setIsOpen(false)}
-              >
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 10, 0, -10, 0],
-                    scale: [1, 1.1, 1, 1.1, 1]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
+                <Link
+                  href="/candidate-hub"
+                  className="block w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
+                    rounded-lg transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
                 >
-                  <Phone className="w-4 h-4" />
-                </motion.div>
-                Book a Call
-              </motion.button>
+                  <div className="flex items-center space-x-2">
+                    <User className="w-4 h-4" />
+                    <span>For Candidates</span>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/employer-hub"
+                  className="block w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
+                    rounded-lg transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <Briefcase className="w-4 h-4" />
+                    <span>For Employers</span>
+                  </div>
+                </Link>
+
+                {/* Mobile Learn Section */}
+                <div className="px-4">
+                  <button
+                    onClick={() => setIsLearnOpen(!isLearnOpen)}
+                    className="flex items-center w-full text-left px-4 py-3 text-slate-800 hover:text-purple-600 hover:bg-purple-50
+                      rounded-lg transition-colors duration-200"
+                  >
+                    <Book className="w-4 h-4 mr-2" />
+                    <span>Learn</span>
+                    <ChevronDown 
+                      className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${isLearnOpen ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                  {isLearnOpen && (
+                    <div className="mt-2 pl-4">
+                      <Link
+                        href="/blog"
+                        className="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-purple-600 hover:bg-purple-50
+                          rounded-lg transition-colors duration-200"
+                        onClick={() => {
+                          setIsLearnOpen(false);
+                          setIsOpen(false);
+                        }}
+                      >
+                        Blog
+                      </Link>
+                      <Link
+                        href="/resources"
+                        className="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-purple-600 hover:bg-purple-50
+                          rounded-lg transition-colors duration-200"
+                        onClick={() => {
+                          setIsLearnOpen(false);
+                          setIsOpen(false);
+                        }}
+                      >
+                        Resources
+                      </Link>
+                      <Link
+                        href="/faq"
+                        className="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-purple-600 hover:bg-purple-50
+                          rounded-lg transition-colors duration-200"
+                        onClick={() => {
+                          setIsLearnOpen(false);
+                          setIsOpen(false);
+                        }}
+                      >
+                        FAQ
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium 
+                    hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <motion.div
+                    animate={{ 
+                      rotate: [0, 10, 0, -10, 0],
+                      scale: [1, 1.1, 1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <Phone className="w-4 h-4" />
+                  </motion.div>
+                  Book a Call
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         )}
