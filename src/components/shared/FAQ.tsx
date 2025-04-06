@@ -81,7 +81,7 @@ export default function FAQ({ title, description, faqs }: FAQProps) {
             Still have questions?
           </h3>
           <p className="text-slate-600 mb-6">
-            Can't find the answer you're looking for? We're here to help with any questions about your job search.
+            Can&apos;t find the answer you&apos;re looking for? We&apos;re here to help with any questions about your job search.
           </p>
           <button className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200">
             Contact Support
