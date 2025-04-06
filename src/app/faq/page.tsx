@@ -200,7 +200,7 @@ export default function FAQPage() {
                 ))
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-slate-600 mb-4">No results found for "{searchQuery}"</p>
+                  <p className="text-slate-600 mb-4">No results found for &quot;{searchQuery}&quot;</p>
                   <p className="text-slate-500">Try adjusting your search terms or browse our categories instead.</p>
                 </div>
               )}
@@ -278,7 +278,7 @@ export default function FAQPage() {
             <div className="bg-white rounded-lg p-8 shadow-sm border border-purple-100/50">
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Still Have Questions?</h2>
               <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
-                We're here to help! Contact our team directly for personalized assistance with your recruitment needs.
+                We&apos;re here to help! Contact our team directly for personalized assistance with your recruitment needs.
               </p>
               <div className="flex flex-col md:flex-row gap-4 justify-center">
                 <Link
