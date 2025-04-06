@@ -37,17 +37,50 @@ const Navbar = () => {
   // Handle click outside of mobile menu
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && 
-          !(event.target as Element).closest('button')) {
-        setIsOpen(false)
+      // Check if the click is outside the mobile menu and not on the menu button
+      const target = event.target as Element;
+      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
+                           target.closest('button[aria-label="Close menu"]');
+      
+      if (mobileMenuRef.current && 
+          !mobileMenuRef.current.contains(target) && 
+          !isMenuButton) {
+        setIsOpen(false);
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+    // Only add the event listener if the menu is open
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
     }
-  }, [])
+  }, [isOpen]);
+
+  // Handle touch events for mobile menu
+  useEffect(() => {
+    function handleTouchStart(event: TouchEvent) {
+      // Check if the touch is outside the mobile menu and not on the menu button
+      const target = event.target as Element;
+      const isMenuButton = target.closest('button[aria-label="Open menu"]') || 
+                           target.closest('button[aria-label="Close menu"]');
+      
+      if (mobileMenuRef.current && 
+          !mobileMenuRef.current.contains(target) && 
+          !isMenuButton) {
+        setIsOpen(false);
+      }
+    }
+
+    // Only add the event listener if the menu is open
+    if (isOpen) {
+      document.addEventListener('touchstart', handleTouchStart);
+      return () => {
+        document.removeEventListener('touchstart', handleTouchStart);
+      };
+    }
+  }, [isOpen]);
 
   return (
     <nav 
@@ -168,9 +201,11 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg transition-colors duration-200
+            className="md:hidden p-3 rounded-lg transition-colors duration-200
               hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
             aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             {isOpen ? (
               <X className="w-6 h-6 text-slate-800" />
@@ -182,127 +217,118 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
-              onClick={() => setIsOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="md:hidden transition-all duration-300 ease-in-out overflow-hidden
-                max-h-screen opacity-100 mt-4 z-50 relative"
-              ref={mobileMenuRef}
-            >
-              <div className="py-4 space-y-4 bg-white rounded-lg px-2 shadow-lg">
-                <Link
-                  href="/jobs"
-                  className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                    rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Search className="w-4 h-4" />
-                  <span>Job Board</span>
-                </Link>
+          <motion.div
+            id="mobile-menu"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden transition-all duration-300 ease-in-out overflow-hidden
+              max-h-screen opacity-100 mt-4 z-50 relative"
+            ref={mobileMenuRef}
+          >
+            <div className="py-4 space-y-4 bg-white rounded-lg px-2 shadow-lg">
+              <Link
+                href="/jobs"
+                className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
+                  rounded-lg transition-colors duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                <Search className="w-4 h-4" />
+                <span>Job Board</span>
+              </Link>
 
-                <Link
-                  href="/candidate-hub"
-                  className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                    rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <User className="w-4 h-4" />
-                  <span>For Candidates</span>
-                </Link>
+              <Link
+                href="/candidate-hub"
+                className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
+                  rounded-lg transition-colors duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                <User className="w-4 h-4" />
+                <span>For Candidates</span>
+              </Link>
 
-                <Link
-                  href="/employer-hub"
-                  className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                    rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Briefcase className="w-4 h-4" />
-                  <span>For Employers</span>
-                </Link>
+              <Link
+                href="/employer-hub"
+                className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
+                  rounded-lg transition-colors duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                <Briefcase className="w-4 h-4" />
+                <span>For Employers</span>
+              </Link>
 
-                {/* Mobile Learn Section */}
-                <div className="px-4 py-2">
-                  <button
-                    onClick={() => setIsLearnOpen(!isLearnOpen)}
-                    className="flex items-center w-full text-slate-800 hover:text-purple-600"
-                  >
-                    <Book className="w-4 h-4 mr-2" />
-                    <span>Learn</span>
-                    <ChevronDown 
-                      className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${isLearnOpen ? 'rotate-180' : ''}`}
-                    />
-                  </button>
-                  {isLearnOpen && (
-                    <div className="mt-2 space-y-2 pl-4">
-                      <Link
-                        href="/blog"
-                        className="block py-2 text-sm text-slate-600 hover:text-purple-600"
-                        onClick={() => {
-                          setIsLearnOpen(false);
-                          setIsOpen(false);
-                        }}
-                      >
-                        Blog
-                      </Link>
-                      <Link
-                        href="/resources"
-                        className="block py-2 text-sm text-slate-600 hover:text-purple-600"
-                        onClick={() => {
-                          setIsLearnOpen(false);
-                          setIsOpen(false);
-                        }}
-                      >
-                        Resources
-                      </Link>
-                      <Link
-                        href="/faq"
-                        className="block py-2 text-sm text-slate-600 hover:text-purple-600"
-                        onClick={() => {
-                          setIsLearnOpen(false);
-                          setIsOpen(false);
-                        }}
-                      >
-                        FAQ
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
-                  onClick={() => setIsOpen(false)}
+              {/* Mobile Learn Section */}
+              <div className="px-4 py-2">
+                <button
+                  onClick={() => setIsLearnOpen(!isLearnOpen)}
+                  className="flex items-center w-full text-slate-800 hover:text-purple-600"
                 >
-                  <motion.div
-                    animate={{ 
-                      rotate: [0, 10, 0, -10, 0],
-                      scale: [1, 1.1, 1, 1.1, 1]
-                    }}
-                    transition={{ 
-                      duration: 2, 
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <Phone className="w-4 h-4" />
-                  </motion.div>
-                  Book a Call
-                </motion.button>
+                  <Book className="w-4 h-4 mr-2" />
+                  <span>Learn</span>
+                  <ChevronDown 
+                    className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${isLearnOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {isLearnOpen && (
+                  <div className="mt-2 space-y-2 pl-4">
+                    <Link
+                      href="/blog"
+                      className="block py-2 text-sm text-slate-600 hover:text-purple-600"
+                      onClick={() => {
+                        setIsLearnOpen(false);
+                        setIsOpen(false);
+                      }}
+                    >
+                      Blog
+                    </Link>
+                    <Link
+                      href="/resources"
+                      className="block py-2 text-sm text-slate-600 hover:text-purple-600"
+                      onClick={() => {
+                        setIsLearnOpen(false);
+                        setIsOpen(false);
+                      }}
+                    >
+                      Resources
+                    </Link>
+                    <Link
+                      href="/faq"
+                      className="block py-2 text-sm text-slate-600 hover:text-purple-600"
+                      onClick={() => {
+                        setIsLearnOpen(false);
+                        setIsOpen(false);
+                      }}
+                    >
+                      FAQ
+                    </Link>
+                  </div>
+                )}
               </div>
-            </motion.div>
-          </>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
+                onClick={() => setIsOpen(false)}
+              >
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 10, 0, -10, 0],
+                    scale: [1, 1.1, 1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <Phone className="w-4 h-4" />
+                </motion.div>
+                Book a Call
+              </motion.button>
+            </div>
+          </motion.div>
         )}
       </div>
     </nav>
