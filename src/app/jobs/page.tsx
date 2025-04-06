@@ -352,49 +352,29 @@ export default function OpportunitiesPage() {
 
       <div className="container mx-auto px-4 py-8 flex-grow mb-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
-          {/* Job Listings - Scrollable Container */}
-          <div 
-            ref={jobListingsRef}
-            className="lg:col-span-1 space-y-4 overflow-y-auto h-[calc(100vh-300px)] pr-4"
-          >
-            {isLoading ? (
-              // Show skeletons while loading
-              Array.from({ length: 5 }).map((_, index) => (
-                <JobListingSkeleton key={index} />
-              ))
-            ) : paginatedJobs.length > 0 ? (
-              <>
-                {/* Show job listings */}
-                {paginatedJobs.map((job) => (
-                  <JobListing
-                    key={job.id}
-                    job={job}
-                    isSelected={selectedJob?.id === job.id}
-                    onSelect={handleJobSelect}
-                    onSave={handleJobSave}
-                    onShare={handleJobShare}
-                  />
-                ))}
-                
-                {/* Infinite scroll trigger */}
-                <div ref={infiniteScrollRef} className="h-10 flex items-center justify-center">
-                  {isLoadingMore && (
-                    <div className="flex items-center space-x-2 text-purple-600">
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Loading more jobs...</span>
-                    </div>
-                  )}
+          {/* Job Listings - Sticky Container (Desktop Only) */}
+          <div className="lg:col-span-3">
+            <div 
+              ref={jobListingsRef}
+              className="space-y-4 lg:space-y-6 max-h-[calc(100vh-12rem)] overflow-y-auto overscroll-contain scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
+            >
+              {paginatedJobs.map((job) => (
+                <JobListing
+                  key={job.id}
+                  job={job}
+                  isSelected={selectedJob?.id === job.id}
+                  onSelect={handleJobSelect}
+                  onSave={handleJobSave}
+                  onShare={handleJobShare}
+                />
+              ))}
+              {isLoadingMore && (
+                <div className="flex justify-center py-4">
+                  <Loader2 className="w-6 h-6 text-purple-600 animate-spin" />
                 </div>
-              </>
-            ) : (searchQuery || filters.jobTypes.length > 0 || filters.salaryRange[0] > 0 || filters.salaryRange[1] < 200000) ? (
-              // Only show no results message when search or filters are active
-              <div className="bg-white rounded-lg shadow p-6 text-center">
-                <h3 className="text-lg font-medium text-slate-900 mb-2">No jobs found</h3>
-                <p className="text-slate-600">
-                  Try adjusting your search criteria or filters to find more opportunities.
-                </p>
-              </div>
-            ) : null}
+              )}
+              <div ref={infiniteScrollRef} className="h-4" />
+            </div>
           </div>
 
           {/* Job Details - Sticky Container (Desktop Only) */}

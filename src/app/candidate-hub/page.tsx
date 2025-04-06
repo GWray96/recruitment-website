@@ -35,6 +35,7 @@ export default function CandidateHub() {
   ]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  const [openFAQs, setOpenFAQs] = useState<boolean[]>([]);
 
   const techRoles = [
     "Senior React Developer",
@@ -165,6 +166,14 @@ export default function CandidateHub() {
       answer: "We take data protection seriously and comply with all GDPR requirements. Your information is only shared with potential employers with your explicit consent, and we never send your CV without discussing the role with you first."
     }
   ];
+
+  const toggleFAQ = (index: number) => {
+    setOpenFAQs((prev) => {
+      const newFAQs = [...prev];
+      newFAQs[index] = !newFAQs[index];
+      return newFAQs;
+    });
+  };
 
   return (
     <main className="min-h-screen">
@@ -576,13 +585,18 @@ export default function CandidateHub() {
                 key={step.step}
                 className="group relative transform transition-all duration-300 hover:scale-105"
               >
-                {/* Step number - moved above card with increased z-index */}
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-4 text-xl shadow-lg group-hover:scale-110 transition-transform duration-300 border-2 border-white relative z-10">
+                {/* Step number - visible only on desktop */}
+                <div className="hidden md:flex w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full items-center justify-center text-white font-bold mx-auto mb-6 text-xl shadow-lg group-hover:scale-110 transition-transform duration-300 border-2 border-white relative z-10">
                   {step.step}
                 </div>
 
                 <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden h-full flex flex-col">
                   <div className="flex flex-col flex-grow">
+                    {/* Step number - visible only on mobile */}
+                    <div className="md:hidden w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-4 text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 border-2 border-white">
+                      {step.step}
+                    </div>
+                    
                     {/* Icon with bounce animation */}
                     <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-4 mx-auto transform group-hover:-translate-y-1 transition-transform duration-300">
                       <span className="text-3xl group-hover:animate-bounce">{step.icon}</span>
@@ -714,15 +728,15 @@ export default function CandidateHub() {
       </div>
 
       {/* Success Stories Section */}
-      <div className="py-24 bg-white">
+      <div className="py-12 md:py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-slate-900 mb-6">Real Success Stories</h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold text-slate-900 mb-3 md:mb-6">Real Success Stories</h2>
+            <p className="text-base md:text-xl text-slate-600 max-w-2xl mx-auto">
               Join thousands of tech professionals who&apos;ve transformed their careers with us
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
             {[
               {
                 name: "Sarah Chen",
@@ -768,56 +782,62 @@ export default function CandidateHub() {
                 key={story.name}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="p-8">
-                  <div className="flex items-start gap-6 mb-8">
+                <div className="p-6">
+                  {/* Profile Section */}
+                  <div className="flex flex-col items-center md:items-start md:flex-row gap-4 mb-6">
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center flex-shrink-0">
                       <span className="text-2xl font-semibold text-purple-600">
                         {story.name.split(' ').map(word => word[0]).join('')}
                       </span>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-2">{story.name}</h3>
-                      <p className="text-lg text-slate-600 mb-3">{story.role}</p>
-                      <div className="flex items-center gap-3">
+                    <div className="text-center md:text-left">
+                      <h3 className="text-xl font-bold text-slate-900 mb-1">{story.name}</h3>
+                      <p className="text-base text-slate-600 mb-2">{story.role}</p>
+                      <div className="flex items-center justify-center md:justify-start gap-2">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
                           <span className="text-sm font-semibold text-purple-600">
                             {story.company.split(' ').map(word => word[0]).join('')}
                           </span>
                         </div>
-                        <p className="text-lg text-purple-600 font-medium">{story.company}</p>
+                        <p className="text-purple-600 font-medium">{story.company}</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 rounded-xl p-6 mb-8">
-                    <p className="text-lg text-slate-600 italic leading-relaxed">&quot;{story.quote}&quot;</p>
+                  {/* Quote Section */}
+                  <div className="bg-slate-50 rounded-xl p-4 mb-6">
+                    <p className="text-slate-600 italic">&quot;{story.quote}&quot;</p>
                   </div>
 
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center justify-between text-base">
-                      <div className="flex items-center gap-3 text-slate-600">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {/* Stats Section */}
+                  <div className="space-y-4 mb-6">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex items-center gap-2 text-slate-600">
+                        <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Placed in {story.timeToPlacement}</span>
+                        <span className="text-sm">{story.timeToPlacement}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-green-600 font-medium">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center justify-end gap-2 text-green-600">
+                        <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                         </svg>
-                        <span>+{story.salaryIncrease} salary</span>
+                        <span className="text-sm font-medium">+{story.salaryIncrease}</span>
                       </div>
                     </div>
-                    <div className="text-base text-slate-600">
-                      <span className="font-medium">Previous Role:</span> {story.previousRole}
-                    </div>
-                    <div className="text-base text-slate-600">
-                      <span className="font-medium">New Salary:</span> {story.newSalary}
+                    <div className="text-sm text-slate-600">
+                      <p className="mb-1">
+                        <span className="font-medium">Previous:</span> {story.previousRole}
+                      </p>
+                      <p>
+                        <span className="font-medium">New Salary:</span> {story.newSalary}
+                      </p>
                     </div>
                   </div>
 
-                  <button className="w-full bg-purple-50 text-purple-600 px-6 py-3 rounded-xl text-base font-medium hover:bg-purple-100 transition-colors flex items-center justify-center gap-3">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {/* Video Button */}
+                  <button className="w-full bg-purple-50 text-purple-600 px-4 py-3 rounded-xl text-sm font-medium hover:bg-purple-100 transition-colors flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -827,13 +847,13 @@ export default function CandidateHub() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-16">
+          <div className="text-center mt-8 md:mt-16">
             <Link
               href="/success-stories"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-base font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
             >
               View More Success Stories
-              <svg className="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
@@ -842,15 +862,15 @@ export default function CandidateHub() {
       </div>
 
       {/* Resources Section */}
-      <div className="py-20 bg-slate-50">
+      <div className="py-12 md:py-20 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Free Career Resources</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Free Career Resources</h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
               Download our proven templates and guides to accelerate your job search
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
             {[
               {
                 id: 1,
@@ -894,63 +914,50 @@ export default function CandidateHub() {
             ].map((resource) => (
               <div 
                 key={resource.id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 p-4 md:p-6"
               >
-                <div className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-xl bg-white flex items-center justify-center shadow-sm">
-                        <span className="text-2xl">{resource.title.includes('CV') ? '📄' : resource.title.includes('Interview') ? '🎯' : '📚'}</span>
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-sm font-medium text-blue-600">{resource.type}</span>
-                      <span className="text-sm text-slate-500 ml-2">• {resource.size}</span>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-xl bg-white flex items-center justify-center shadow-sm">
+                      <span className="text-2xl">{resource.title.includes('CV') ? '📄' : resource.title.includes('Interview') ? '🎯' : '📚'}</span>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">
-                    {resource.title}
-                  </h3>
-                  <p className="text-slate-600 mb-4">{resource.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-slate-500">{resource.downloads} downloads</span>
-                    <button className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity">
-                      Download
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                    </button>
+                  <div>
+                    <span className="text-sm font-medium text-blue-600">{resource.type}</span>
+                    <span className="text-sm text-slate-500 ml-2">• {resource.size}</span>
                   </div>
+                </div>
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-3">
+                  {resource.title}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base mb-4">{resource.description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-500">{resource.downloads} downloads</span>
+                  <button className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity">
+                    Download
+                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             ))}
-          </div>
-          <div className="text-center">
-            <Link
-              href="/resources"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              View All Resources
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
           </div>
         </div>
       </div>
 
       {/* Skills Assessment Section */}
-      <div className="py-20 bg-slate-50">
+      <div className="py-12 md:py-20 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Skills Assessment</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Skills Assessment</h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
               Get a personalized career roadmap and identify your next growth opportunity
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-bold text-slate-900 mb-6">Your Skill Profile</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
+              <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-6">Your Skill Profile</h3>
               <div className="space-y-6">
                 {[
                   { skill: "Technical Skills", level: 85, details: "React, TypeScript, Node.js" },
@@ -967,9 +974,9 @@ export default function CandidateHub() {
                       </div>
                       <span className="text-slate-600 font-medium">{skill.level}%</span>
                     </div>
-                    <div className="h-2 bg-slate-200 rounded-full">
+                    <div className="h-2.5 bg-slate-200 rounded-full">
                       <div 
-                        className="h-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full transition-all duration-500"
+                        className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full transition-all duration-500"
                         style={{ width: `${skill.level}%` }}
                       ></div>
                     </div>
@@ -977,8 +984,8 @@ export default function CandidateHub() {
                 ))}
               </div>
             </div>
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-bold text-slate-900 mb-6">Recommended Learning Path</h3>
+            <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
+              <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-6">Recommended Learning Path</h3>
               <div className="space-y-6">
                 {[
                   {
@@ -1006,12 +1013,12 @@ export default function CandidateHub() {
                   <div key={course.title} className="border-b border-slate-200 pb-4 last:border-0">
                     <div className="flex items-start justify-between mb-2">
                       <h4 className="font-semibold text-slate-900">{course.title}</h4>
-                      <span className="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded-full">
+                      <span className="text-sm text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
                         {course.level}
                       </span>
                     </div>
                     <p className="text-slate-600 text-sm mb-3">{course.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-slate-500">
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
                       <span className="flex items-center gap-1">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1029,7 +1036,7 @@ export default function CandidateHub() {
                 ))}
               </div>
               <div className="mt-6">
-                <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center">
+                <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center text-sm md:text-base">
                   Get Personalized Learning Plan
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -1042,15 +1049,15 @@ export default function CandidateHub() {
       </div>
 
       {/* Salary Checker Section */}
-      <div className="py-20 bg-slate-50">
+      <div className="py-12 md:py-20 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-start">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Know Your Market Value</h2>
-              <p className="text-lg text-slate-600 mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Know Your Market Value</h2>
+              <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8">
                 Get instant access to real-time salary data and ensure you&apos;re not leaving money on the table
               </p>
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div>
                   <label htmlFor="jobRole" className="block text-sm font-medium text-slate-700 mb-2">
                     Job Role
@@ -1059,7 +1066,7 @@ export default function CandidateHub() {
                     id="jobRole"
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">Select your role</option>
                     <option value="frontend">Frontend Developer</option>
@@ -1079,7 +1086,7 @@ export default function CandidateHub() {
                     id="location"
                     value={selectedLocation}
                     onChange={(e) => setSelectedLocation(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">Select location</option>
                     <option value="london">London</option>
@@ -1098,7 +1105,7 @@ export default function CandidateHub() {
                     id="experience"
                     value={selectedExperience}
                     onChange={(e) => setSelectedExperience(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">Select experience</option>
                     <option value="0-2">0-2 years</option>
@@ -1113,11 +1120,11 @@ export default function CandidateHub() {
                     Key Skills
                   </label>
                   <div className="flex flex-wrap gap-2 p-3 border border-slate-200 rounded-lg">
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">
+                    <span className="bg-purple-100 text-purple-600 px-3 py-1.5 rounded-full text-sm">
                       React
                       <button className="ml-2 hover:text-purple-800">×</button>
                     </span>
-                    <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">
+                    <span className="bg-purple-100 text-purple-600 px-3 py-1.5 rounded-full text-sm">
                       TypeScript
                       <button className="ml-2 hover:text-purple-800">×</button>
                     </span>
@@ -1132,7 +1139,7 @@ export default function CandidateHub() {
                 <button 
                   onClick={handleSalaryCalculation}
                   disabled={isCalculating || !selectedRole || !selectedLocation || !selectedExperience}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-3"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-3 text-sm md:text-base"
                 >
                   {isCalculating ? (
                     <>
@@ -1144,7 +1151,7 @@ export default function CandidateHub() {
                     </>
                   ) : (
                     <>
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
                       Calculate Salary Range
@@ -1154,35 +1161,35 @@ export default function CandidateHub() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">Average Salary Range</h3>
+            <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
+              <div className="text-center mb-6 md:mb-8">
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Average Salary Range</h3>
                 <p className="text-slate-600">Based on market data and recent placements</p>
               </div>
               
-              <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 mb-6">
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 md:p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-slate-600">Entry Level</span>
                   <span className="text-slate-900 font-semibold">£25,000 - £35,000</span>
                 </div>
-                <div className="h-2 bg-slate-200 rounded-full mb-6">
-                  <div className="h-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '30%' }}></div>
+                <div className="h-2.5 bg-slate-200 rounded-full mb-6">
+                  <div className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '30%' }}></div>
                 </div>
 
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-slate-600">Mid Level</span>
                   <span className="text-slate-900 font-semibold">£35,000 - £55,000</span>
                 </div>
-                <div className="h-2 bg-slate-200 rounded-full mb-6">
-                  <div className="h-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '60%' }}></div>
+                <div className="h-2.5 bg-slate-200 rounded-full mb-6">
+                  <div className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '60%' }}></div>
                 </div>
 
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-slate-600">Senior Level</span>
                   <span className="text-slate-900 font-semibold">£55,000 - £85,000+</span>
                 </div>
-                <div className="h-2 bg-slate-200 rounded-full">
-                  <div className="h-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '90%' }}></div>
+                <div className="h-2.5 bg-slate-200 rounded-full">
+                  <div className="h-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style={{ width: '90%' }}></div>
                 </div>
               </div>
 
@@ -1216,13 +1223,13 @@ export default function CandidateHub() {
       </div>
 
       {/* Job Alerts Section */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-12 md:py-16 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
               Never Miss Your Dream Role
             </h2>
-            <p className="text-lg text-slate-600 mb-8">
+            <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8">
               Get personalized job alerts delivered straight to your inbox. Be the first to know about new opportunities that match your skills and preferences.
             </p>
             <form className="space-y-4">
@@ -1230,19 +1237,19 @@ export default function CandidateHub() {
                 <input
                   type="text"
                   placeholder="Job Title / Skills"
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
+                  className="w-full px-4 py-3 text-base rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
                 />
                 <input
                   type="email"
                   placeholder="Email Address"
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
+                  className="w-full px-4 py-3 text-base rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500"
                 />
               </div>
               <div className="flex items-center justify-center space-x-2">
                 <input
                   type="checkbox"
                   id="privacy"
-                  className="rounded border-slate-300 text-purple-600 focus:ring-purple-500"
+                  className="w-5 h-5 rounded border-slate-300 text-purple-600 focus:ring-purple-500"
                 />
                 <label htmlFor="privacy" className="text-sm text-slate-600">
                   I agree to receive job alerts and can unsubscribe at any time
@@ -1250,7 +1257,7 @@ export default function CandidateHub() {
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
+                className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
               >
                 Create Job Alert
               </button>
@@ -1260,11 +1267,57 @@ export default function CandidateHub() {
       </section>
 
       {/* FAQ Section */}
-      <FAQ
-        title="Candidate FAQs"
-        description="Everything you need to know about our recruitment process and how we can help advance your tech career."
-        faqs={candidateFAQs}
-      />
+      <div className="py-12 md:py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Candidate FAQs</h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
+              Everything you need to know about our recruitment process and how we can help advance your tech career.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-4">
+              {candidateFAQs.map((faq, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-xl border border-slate-200 overflow-hidden"
+                >
+                  <button
+                    className="w-full px-4 py-4 md:py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors duration-200"
+                    onClick={() => toggleFAQ(index)}
+                  >
+                    <span className="text-base md:text-lg font-medium text-slate-900">
+                      {faq.question}
+                    </span>
+                    <svg
+                      className={`w-5 h-5 text-slate-500 transform transition-transform duration-200 ${
+                        openFAQs[index] ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    className={`px-4 py-4 md:py-5 bg-slate-50 text-slate-600 text-sm md:text-base ${
+                      openFAQs[index] ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {faq.answer}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
