@@ -93,15 +93,6 @@ export function JobDetails({ job, onApply, onCompare, isInComparison }: JobDetai
           ))}
         </ul>
       </div>
-
-      <div className="mt-6 sm:mt-8 pt-6 border-t border-gray-100 sm:hidden">
-        <button
-          onClick={() => onApply(job.id)}
-          className="w-full py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 active:bg-purple-800 transition-colors font-medium"
-        >
-          Apply Now
-        </button>
-      </div>
     </div>
   );
 } 

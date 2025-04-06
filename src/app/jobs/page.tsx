@@ -12,7 +12,7 @@ import type { Job } from '@/components/jobs/JobListing';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import FAQ from '@/components/shared/FAQ';
-import { MapPin, Briefcase, Clock, X, Loader2 } from 'lucide-react';
+import { MapPin, Briefcase, Clock, X, Loader2, Scale, Share2 } from 'lucide-react';
 
 // Define a type for the job data from the data file
 type DataJob = {
@@ -468,12 +468,34 @@ export default function OpportunitiesPage() {
 
               {/* Fixed Apply Button */}
               <div className="p-4 border-t border-gray-100 bg-white">
-                <button
-                  onClick={() => handleApply(selectedJob.id)}
-                  className="w-full py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 active:bg-purple-800 transition-colors font-medium"
-                >
-                  Apply Now
-                </button>
+                <div className="flex items-center gap-4">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleJobCompare(selectedJob)}
+                      className={`p-3 rounded-lg transition-colors ${
+                        selectedJobs.some(job => job.id === selectedJob.id)
+                          ? 'bg-purple-100 text-purple-600'
+                          : 'text-gray-400 hover:text-purple-600'
+                      }`}
+                      aria-label="Compare job"
+                    >
+                      <Scale className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={() => handleJobShare(selectedJob)}
+                      className="p-3 text-gray-400 hover:text-purple-600 transition-colors rounded-lg"
+                      aria-label="Share job"
+                    >
+                      <Share2 className="h-5 w-5" />
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => handleApply(selectedJob.id)}
+                    className="flex-1 py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 active:bg-purple-800 transition-colors font-medium"
+                  >
+                    Apply Now
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>
