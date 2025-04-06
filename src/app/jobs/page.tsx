@@ -429,29 +429,51 @@ export default function OpportunitiesPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end justify-center"
             onClick={handleCloseMobileJobDetails}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl w-full max-h-[90vh] overflow-y-auto relative"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="bg-white rounded-t-2xl w-full h-[90vh] overflow-hidden flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Drag Handle */}
+              <div className="w-full flex justify-center py-2">
+                <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
+              </div>
+              
+              {/* Close Button */}
               <button
                 onClick={handleCloseMobileJobDetails}
-                className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200"
+                className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                aria-label="Close job details"
               >
                 <X className="w-5 h-5" />
               </button>
-              <div className="p-4">
-                <JobDetails
-                  job={selectedJob}
-                  onApply={handleApply}
-                  onCompare={handleJobCompare}
-                  isInComparison={selectedJobs.some(job => job.id === selectedJob.id)}
-                />
+
+              {/* Content Container */}
+              <div className="flex-1 overflow-y-auto overscroll-contain">
+                <div className="p-4 pb-8">
+                  <JobDetails
+                    job={selectedJob}
+                    onApply={handleApply}
+                    onCompare={handleJobCompare}
+                    isInComparison={selectedJobs.some(job => job.id === selectedJob.id)}
+                  />
+                </div>
+              </div>
+
+              {/* Fixed Apply Button */}
+              <div className="p-4 border-t border-gray-100 bg-white">
+                <button
+                  onClick={() => handleApply(selectedJob.id)}
+                  className="w-full py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 active:bg-purple-800 transition-colors font-medium"
+                >
+                  Apply Now
+                </button>
               </div>
             </motion.div>
           </motion.div>
