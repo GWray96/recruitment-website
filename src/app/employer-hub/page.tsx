@@ -472,9 +472,9 @@ export default function EmployerHub() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 sm:pt-32">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900 via-purple-800 to-blue-900">
+      <section className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900 via-purple-800 to-blue-900">
         <div className="absolute inset-0">
           <motion.div 
             animate={{ 
@@ -504,14 +504,14 @@ export default function EmployerHub() {
           />
         </div>
         
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center pt-4 md:pt-0">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-3 md:px-4 py-2 mb-4 md:mb-6 cursor-pointer group"
+              className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-3 md:px-4 py-2 mb-6 md:mb-8 cursor-pointer group"
             >
               <motion.div
                 animate={{ rotate: 360 }}
@@ -527,7 +527,7 @@ export default function EmployerHub() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6 drop-shadow-lg"
+              className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6 drop-shadow-lg px-1 sm:px-0"
             >
               Transform Your Tech Hiring with Expert Recruitment Solutions
             </motion.h1>
@@ -536,7 +536,7 @@ export default function EmployerHub() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto"
+              className="text-base sm:text-lg md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto"
             >
               Access top tech talent, streamline your recruitment process, and build high-performing teams with our specialized tech recruitment service
             </motion.p>
@@ -550,7 +550,7 @@ export default function EmployerHub() {
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="group px-6 md:px-8 py-3 md:py-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-95 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden"
+                className="group px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-95 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden w-full sm:w-auto"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-100/0 via-purple-100/50 to-purple-100/0 opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000"></div>
                 <MessageSquare className="w-4 md:w-5 h-4 md:h-5 transition-transform duration-300 group-hover:scale-110" />
@@ -559,7 +559,7 @@ export default function EmployerHub() {
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="group px-6 md:px-8 py-3 md:py-4 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden"
+                className="group px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-purple-700 text-white rounded-lg font-semibold hover:bg-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 relative overflow-hidden w-full sm:w-auto"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000"></div>
                 <FileText className="w-4 md:w-5 h-4 md:h-5 transition-transform duration-300 group-hover:scale-110" />
@@ -567,12 +567,12 @@ export default function EmployerHub() {
               </motion.button>
             </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-8 max-w-3xl mx-auto">
               {[
-                { icon: <Clock className="w-5 md:w-6 h-5 md:h-6" />, text: "15 days average time-to-hire", highlight: "15 days" },
-                { icon: <Users className="w-5 md:w-6 h-5 md:h-6" />, text: "98% client satisfaction rate", highlight: "98%" },
-                { icon: <Target className="w-5 md:w-6 h-5 md:h-6" />, text: "Industry-specific expertise", highlight: "Expertise" },
-                { icon: <Globe className="w-5 md:w-6 h-5 md:h-6" />, text: "Global talent network", highlight: "Global" }
+                { icon: <Clock className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6" />, text: "15 days average time-to-hire", highlight: "15 days" },
+                { icon: <Users className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6" />, text: "98% client satisfaction rate", highlight: "98%" },
+                { icon: <Target className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6" />, text: "Industry-specific expertise", highlight: "Expertise" },
+                { icon: <Globe className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6" />, text: "Global talent network", highlight: "Global" }
               ].map((feature, index) => (
                 <motion.div
                   key={index}
@@ -585,11 +585,11 @@ export default function EmployerHub() {
                   <motion.div 
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    className="w-10 md:w-12 h-10 md:h-12 mx-auto bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-white mb-2 md:mb-3 group-hover:bg-white/20 transition-colors duration-300"
+                    className="w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 mx-auto bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center text-white mb-2 md:mb-3 group-hover:bg-white/20 transition-colors duration-300"
                   >
                     {feature.icon}
                   </motion.div>
-                  <p className="text-xs md:text-sm text-white/80 group-hover:text-white transition-colors duration-300">
+                  <p className="text-xs sm:text-sm md:text-base text-white/80 group-hover:text-white transition-colors duration-300">
                     {feature.text.split(feature.highlight).map((part, i, arr) => (
                       <span key={i}>
                         {part}
