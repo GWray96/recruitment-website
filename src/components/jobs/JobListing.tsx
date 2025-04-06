@@ -5,6 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, Share2, ArrowRight, Clock, MapPin, Building2, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 
+// Get company initials
+const getCompanyInitials = (company: string): string => {
+  return company
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+};
+
 export interface Job {
   id: string;
   title: string;
@@ -23,8 +33,8 @@ interface JobListingProps {
   job: Job;
   isSelected: boolean;
   onSelect: (job: Job) => void;
-  onSave: (job: Job) => void;
-  onShare: (job: Job) => void;
+  onSave?: (job: Job) => void;
+  onShare?: (job: Job) => void;
 }
 
 export function JobListing({ job, isSelected, onSelect, onSave, onShare }: JobListingProps) {
@@ -47,19 +57,9 @@ export function JobListing({ job, isSelected, onSelect, onSave, onShare }: JobLi
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-3">
-            {job.logo ? (
-              <Image 
-                src={job.logo}
-                alt={`${job.company} logo`}
-                width={48}
-                height={48}
-                className="rounded-lg"
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-purple-600" />
-              </div>
-            )}
+            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 font-semibold">
+              {getCompanyInitials(job.company)}
+            </div>
             <div>
               <h3 className="text-lg font-semibold text-slate-900">{job.title}</h3>
               <p className="text-slate-600">{job.company}</p>
@@ -100,28 +100,32 @@ export function JobListing({ job, isSelected, onSelect, onSave, onShare }: JobLi
         </div>
 
         <div className="flex flex-col gap-2">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onSave(job);
-            }}
-            className="p-2 text-slate-400 hover:text-purple-600 transition-colors"
-          >
-            <Bookmark className="w-5 h-5" />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onShare(job);
-            }}
-            className="p-2 text-slate-400 hover:text-purple-600 transition-colors"
-          >
-            <Share2 className="w-5 h-5" />
-          </motion.button>
+          {onSave && (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSave(job);
+              }}
+              className="p-2 text-slate-400 hover:text-purple-600 transition-colors"
+            >
+              <Bookmark className="w-5 h-5" />
+            </motion.button>
+          )}
+          {onShare && (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onShare(job);
+              }}
+              className="p-2 text-slate-400 hover:text-purple-600 transition-colors"
+            >
+              <Share2 className="w-5 h-5" />
+            </motion.button>
+          )}
         </div>
       </div>
 

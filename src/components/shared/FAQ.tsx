@@ -1,67 +1,93 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
 
 interface FAQProps {
   title: string;
   description: string;
-  faqs: FAQItem[];
+  faqs: {
+    question: string;
+    answer: string;
+  }[];
 }
 
-const FAQ: React.FC<FAQProps> = ({ title, description, faqs }) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+export default function FAQ({ title, description, faqs }: FAQProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-medium mb-3 transform transition-all duration-300 hover:scale-105">
-              FAQ
-            </span>
-            <h2 className="text-4xl font-bold mb-4">{title}</h2>
-            <p className="text-lg text-slate-600">
-              {description}
-            </p>
-          </div>
+    <div className="bg-gradient-to-br from-purple-50 to-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4 lg:text-4xl">
+            {title}
+          </h2>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            {description}
+          </p>
+        </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-lg border border-purple-100/50 overflow-hidden transition-all duration-300 hover:shadow-md"
+        {/* FAQ List */}
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
+            >
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full text-left px-6 py-4 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded-xl"
               >
-                <button
-                  className="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
-                  onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                <h3 className="text-lg font-medium text-slate-900">
+                  {faq.question}
+                </h3>
+                <motion.div
+                  animate={{ rotate: openIndex === index ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex-shrink-0 ml-4 text-purple-600"
                 >
-                  <span className="font-medium text-slate-900">{faq.question}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-slate-500 transform transition-transform duration-300 ${
-                      activeIndex === index ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`px-6 transition-all duration-300 ease-in-out ${
-                    activeIndex === index ? 'py-4 border-t border-purple-100/50' : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  <p className="text-slate-600">{faq.answer}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <ChevronDown className="w-5 h-5" />
+                </motion.div>
+              </button>
+
+              <AnimatePresence>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-4 text-slate-600 prose prose-purple">
+                      <p className="whitespace-pre-wrap">{faq.answer}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+
+        {/* Contact Section */}
+        <div className="mt-12 text-center bg-white rounded-xl shadow-sm p-8">
+          <h3 className="text-xl font-semibold text-slate-900 mb-4">
+            Still have questions?
+          </h3>
+          <p className="text-slate-600 mb-6">
+            Can't find the answer you're looking for? We're here to help with any questions about your job search.
+          </p>
+          <button className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200">
+            Contact Support
+          </button>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default FAQ; 
+} 

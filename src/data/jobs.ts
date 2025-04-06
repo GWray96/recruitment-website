@@ -349,5 +349,365 @@ export const jobs: Job[] = [
       'Cultural fit interview',
       'Final offer'
     ]
+  },
+  {
+    id: "16",
+    title: "DevOps Engineer",
+    company: "Cloud Systems Ltd",
+    location: "Manchester, UK",
+    type: "Full-time",
+    salary: "£65,000 - £85,000",
+    postedDate: "2024-04-01",
+    description: "Join our DevOps team to build and maintain our cloud infrastructure using AWS, Docker, and Kubernetes.",
+    requirements: [
+      "5+ years experience with AWS or similar cloud platforms",
+      "Strong knowledge of Docker and Kubernetes",
+      "Experience with CI/CD pipelines",
+      "Proficiency in Python or Go",
+      "Infrastructure as Code experience (Terraform)"
+    ],
+    benefits: [
+      "Remote work options",
+      "Cloud certification support",
+      "Professional development budget",
+      "Health and dental insurance",
+      "Company equity"
+    ]
+  },
+  {
+    id: "17",
+    title: "Data Scientist",
+    company: "Analytics Pro",
+    location: "Edinburgh, UK",
+    type: "Full-time",
+    salary: "£55,000 - £75,000",
+    postedDate: "2024-04-01",
+    description: "Work on cutting-edge machine learning projects to drive business insights and innovation.",
+    requirements: [
+      "MSc or PhD in Data Science, Mathematics, or related field",
+      "Experience with Python, R, and SQL",
+      "Knowledge of machine learning frameworks",
+      "Strong statistical background",
+      "Experience with big data technologies"
+    ],
+    benefits: [
+      "Flexible working hours",
+      "Conference attendance budget",
+      "Health insurance",
+      "Gym membership",
+      "Annual bonus scheme"
+    ]
+  },
+  {
+    id: "18",
+    title: "Mobile App Developer",
+    company: "AppWorks",
+    location: "Bristol, UK",
+    type: "Full-time",
+    salary: "£45,000 - £65,000",
+    postedDate: "2024-04-02",
+    description: "Create innovative mobile applications for iOS and Android platforms using React Native.",
+    requirements: [
+      "3+ years mobile development experience",
+      "Proficiency in React Native",
+      "Experience with native iOS or Android development",
+      "Knowledge of mobile UI/UX principles",
+      "Understanding of RESTful APIs"
+    ],
+    benefits: [
+      "Flexible working hours",
+      "Latest development hardware",
+      "Private healthcare",
+      "25 days holiday",
+      "Training budget"
+    ]
+  },
+  {
+    id: "19",
+    title: "Security Engineer",
+    company: "SecureNet",
+    location: "Remote",
+    type: "Full-time",
+    salary: "£70,000 - £90,000",
+    postedDate: "2024-04-02",
+    description: "Help protect our infrastructure and applications through security best practices and implementation.",
+    requirements: [
+      "CISSP or similar certification",
+      "Experience with security tools and frameworks",
+      "Knowledge of cloud security",
+      "Incident response experience",
+      "Programming skills in Python or similar"
+    ],
+    benefits: [
+      "Full remote work",
+      "Security certification support",
+      "Health and life insurance",
+      "Wellness program",
+      "Stock options"
+    ]
+  },
+  {
+    id: "20",
+    title: "UI/UX Designer",
+    company: "Creative Digital",
+    location: "Glasgow, UK",
+    type: "Full-time",
+    salary: "£40,000 - £60,000",
+    postedDate: "2024-04-03",
+    description: "Create beautiful and intuitive user interfaces for web and mobile applications.",
+    requirements: [
+      "Portfolio demonstrating UI/UX work",
+      "Proficiency in Figma and Adobe Creative Suite",
+      "Understanding of user-centered design",
+      "Experience with design systems",
+      "Knowledge of HTML/CSS"
+    ],
+    benefits: [
+      "Creative workspace",
+      "Design conference attendance",
+      "Health insurance",
+      "Flexible hours",
+      "Remote work options"
+    ]
+  },
+  {
+    id: "21",
+    title: "Blockchain Developer",
+    company: "Chain Innovation",
+    location: "London, UK",
+    type: "Full-time",
+    salary: "£75,000 - £95,000",
+    postedDate: "2024-04-03",
+    description: "Develop and maintain blockchain solutions for financial services applications.",
+    requirements: [
+      "Experience with Ethereum and smart contracts",
+      "Solidity programming expertise",
+      "Understanding of cryptography",
+      "Knowledge of DeFi protocols",
+      "Web3 development experience"
+    ],
+    benefits: [
+      "Cryptocurrency payments option",
+      "Flexible working hours",
+      "Private healthcare",
+      "Gym membership",
+      "Professional development"
+    ]
+  },
+  {
+    id: "22",
+    title: "Technical Architect",
+    company: "Solutions Hub",
+    location: "Leeds, UK",
+    type: "Full-time",
+    salary: "£85,000 - £110,000",
+    postedDate: "2024-04-04",
+    description: "Lead the technical direction of our enterprise solutions and guide development teams.",
+    requirements: [
+      "10+ years software development experience",
+      "Experience with microservices architecture",
+      "Cloud platform expertise",
+      "Team leadership experience",
+      "Strong system design skills"
+    ],
+    benefits: [
+      "Remote work options",
+      "Leadership training",
+      "Private healthcare",
+      "Annual bonus",
+      "Share options"
+    ]
+  },
+  {
+    id: "23",
+    title: "QA Automation Engineer",
+    company: "Quality First",
+    location: "Birmingham, UK",
+    type: "Full-time",
+    salary: "£45,000 - £65,000",
+    postedDate: "2024-04-04",
+    description: "Build and maintain automated testing frameworks for web and mobile applications.",
+    requirements: [
+      "Experience with Selenium and Cypress",
+      "JavaScript/TypeScript proficiency",
+      "CI/CD pipeline experience",
+      "API testing knowledge",
+      "Agile methodology understanding"
+    ],
+    benefits: [
+      "Flexible working hours",
+      "Training budget",
+      "Health insurance",
+      "25 days holiday",
+      "Remote work options"
+    ]
+  },
+  {
+    id: "24",
+    title: "Product Manager",
+    company: "Tech Innovations",
+    location: "Cambridge, UK",
+    type: "Full-time",
+    salary: "£60,000 - £80,000",
+    postedDate: "2024-04-05",
+    description: "Lead product development from conception to launch, working with cross-functional teams.",
+    requirements: [
+      "5+ years product management experience",
+      "Technical background",
+      "Agile certification",
+      "Strong analytical skills",
+      "Excellent communication abilities"
+    ],
+    benefits: [
+      "Flexible working",
+      "Product conference attendance",
+      "Private healthcare",
+      "Annual bonus",
+      "Professional development"
+    ]
+  },
+  {
+    id: "25",
+    title: "Cloud Solutions Architect",
+    company: "CloudTech",
+    location: "Remote",
+    type: "Full-time",
+    salary: "£80,000 - £100,000",
+    postedDate: "2024-04-05",
+    description: "Design and implement cloud-native solutions using AWS, Azure, and GCP.",
+    requirements: [
+      "Cloud platform certifications",
+      "Experience with multi-cloud architectures",
+      "Strong infrastructure as code skills",
+      "Security best practices knowledge",
+      "Solution architecture experience"
+    ],
+    benefits: [
+      "Remote work",
+      "Cloud certification support",
+      "Health insurance",
+      "Stock options",
+      "Learning budget"
+    ]
+  },
+  {
+    id: "26",
+    title: "Machine Learning Engineer",
+    company: "AI Solutions",
+    location: "Oxford, UK",
+    type: "Full-time",
+    salary: "£70,000 - £90,000",
+    postedDate: "2024-04-06",
+    description: "Develop and deploy machine learning models for real-world applications.",
+    requirements: [
+      "Strong ML framework experience",
+      "Python programming expertise",
+      "Deep learning knowledge",
+      "MLOps experience",
+      "Data pipeline development"
+    ],
+    benefits: [
+      "Flexible hours",
+      "Conference budget",
+      "Private healthcare",
+      "Gym membership",
+      "Remote work options"
+    ]
+  },
+  {
+    id: "27",
+    title: "Frontend Developer",
+    company: "Web Experts",
+    location: "Newcastle, UK",
+    type: "Full-time",
+    salary: "£40,000 - £60,000",
+    postedDate: "2024-04-06",
+    description: "Create responsive and accessible web applications using modern frontend technologies.",
+    requirements: [
+      "React/Vue.js experience",
+      "TypeScript proficiency",
+      "CSS/SASS expertise",
+      "Testing framework knowledge",
+      "Performance optimization skills"
+    ],
+    benefits: [
+      "Flexible working",
+      "Learning budget",
+      "Health insurance",
+      "25 days holiday",
+      "Remote options"
+    ]
+  },
+  {
+    id: "28",
+    title: "Database Administrator",
+    company: "Data Systems",
+    location: "Cardiff, UK",
+    type: "Full-time",
+    salary: "£55,000 - £75,000",
+    postedDate: "2024-04-07",
+    description: "Manage and optimize database systems for high-performance applications.",
+    requirements: [
+      "PostgreSQL/MySQL expertise",
+      "Performance tuning experience",
+      "Backup and recovery knowledge",
+      "Security best practices",
+      "Monitoring tools experience"
+    ],
+    benefits: [
+      "Flexible hours",
+      "Certification support",
+      "Private healthcare",
+      "Pension scheme",
+      "Remote work"
+    ]
+  },
+  {
+    id: "29",
+    title: "Systems Engineer",
+    company: "Infrastructure Pro",
+    location: "Belfast, UK",
+    type: "Full-time",
+    salary: "£50,000 - £70,000",
+    postedDate: "2024-04-07",
+    description: "Design and maintain critical infrastructure systems for enterprise applications.",
+    requirements: [
+      "Linux system administration",
+      "Network security knowledge",
+      "Automation scripting",
+      "Monitoring system experience",
+      "Cloud platform expertise"
+    ],
+    benefits: [
+      "Flexible working",
+      "Training budget",
+      "Health insurance",
+      "26 days holiday",
+      "Remote options"
+    ]
+  },
+  {
+    id: "30",
+    title: "AR/VR Developer",
+    company: "Virtual Worlds",
+    location: "Brighton, UK",
+    type: "Full-time",
+    salary: "£60,000 - £80,000",
+    postedDate: "2024-04-08",
+    description: "Create immersive AR/VR experiences using Unity and related technologies.",
+    requirements: [
+      "Unity/Unreal Engine experience",
+      "3D modeling knowledge",
+      "C# programming skills",
+      "AR/VR SDK experience",
+      "Mobile development background"
+    ],
+    benefits: [
+      "Latest VR equipment",
+      "Flexible hours",
+      "Private healthcare",
+      "Gaming room access",
+      "Remote work options"
+    ]
   }
 ]; 

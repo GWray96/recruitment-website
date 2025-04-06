@@ -1,7 +1,17 @@
 import { motion } from 'framer-motion';
-import { MapPin, Clock, Building2, Briefcase, Star, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, Building2, Briefcase, Star, ArrowRight, Scale } from 'lucide-react';
 import Image from 'next/image';
 import type { Job } from './JobListing';
+
+// Get company initials
+const getCompanyInitials = (company: string): string => {
+  return company
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+};
 
 interface JobDetailsProps {
   job: Job;
@@ -12,89 +22,85 @@ interface JobDetailsProps {
 
 export function JobDetails({ job, onApply, onCompare, isInComparison }: JobDetailsProps) {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-      <div className="flex items-start gap-4">
-        <Image 
-          src={job.logo || '/placeholder-logo.png'} 
-          alt={`${job.company} logo`}
-          width={64}
-          height={64}
-          className="rounded-lg"
-        />
+    <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="flex items-start gap-6">
+        <div className="w-16 h-16 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-semibold text-xl">
+          {getCompanyInitials(job.company)}
+        </div>
         <div className="flex-1">
-          <h2 className="text-2xl font-semibold text-slate-900">{job.title}</h2>
-          <p className="text-lg text-slate-600">{job.company}</p>
-          
-          <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-600">
-            <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
-              <span>{job.location}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Briefcase className="w-4 h-4" />
-              <span>{job.type}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{job.posted}</span>
-            </div>
+          <h2 className="text-2xl font-bold text-gray-900">{job.title}</h2>
+          <p className="text-lg text-gray-600">{job.company}</p>
+          <div className="mt-3 flex flex-wrap gap-4 text-sm text-gray-500">
+            <span className="flex items-center gap-1">
+              <MapPin className="h-4 w-4" />
+              {job.location}
+            </span>
+            <span className="flex items-center gap-1">
+              <Briefcase className="h-4 w-4" />
+              {job.type}
+            </span>
+            <span className="flex items-center gap-1">
+              <Clock className="h-4 w-4" />
+              {job.posted}
+            </span>
           </div>
-
-          <div className="mt-4">
-            <p className="text-slate-900 font-medium">{job.salary}</p>
-          </div>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => onCompare(job)}
+            className={`p-2 rounded-lg transition-colors ${
+              isInComparison
+                ? 'bg-purple-100 text-purple-600'
+                : 'text-gray-400 hover:text-purple-600'
+            }`}
+          >
+            <Scale className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => onApply(job.id)}
+            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            Apply Now
+          </button>
         </div>
       </div>
 
-      <div className="mt-6 space-y-6">
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900 mb-2">Description</h3>
-          <p className="text-slate-600">{job.description}</p>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900 mb-2">Requirements</h3>
-          <ul className="list-disc list-inside text-slate-600 space-y-1">
-            {job.requirements.map((req, index) => (
-              <li key={index}>{req}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900 mb-2">Benefits</h3>
-          <ul className="list-disc list-inside text-slate-600 space-y-1">
-            {job.benefits.map((benefit, index) => (
-              <li key={index}>{benefit}</li>
-            ))}
-          </ul>
-        </div>
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold text-gray-900">Description</h3>
+        <p className="mt-2 text-gray-600">{job.description}</p>
       </div>
 
-      <div className="mt-8 flex items-center gap-4">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold text-gray-900">Requirements</h3>
+        <ul className="mt-2 space-y-2">
+          {job.requirements.map((req, index) => (
+            <li key={index} className="flex items-start gap-2 text-gray-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2" />
+              <span>{req}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold text-gray-900">Benefits</h3>
+        <ul className="mt-2 space-y-2">
+          {job.benefits.map((benefit, index) => (
+            <li key={index} className="flex items-start gap-2 text-gray-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2" />
+              <span>{benefit}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-gray-100">
+        <button
           onClick={() => onApply(job.id)}
-          className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+          className="w-full py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors font-medium"
         >
           Apply Now
-          <ArrowRight className="w-4 h-4" />
-        </motion.button>
-        
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => onCompare(job)}
-          className={`p-3 rounded-lg transition-colors ${
-            isInComparison
-              ? 'bg-purple-100 text-purple-600'
-              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-          }`}
-          title={isInComparison ? 'Remove from comparison' : 'Add to comparison'}
-        >
-          <Star className="w-5 h-5" />
-        </motion.button>
+        </button>
       </div>
     </div>
   );

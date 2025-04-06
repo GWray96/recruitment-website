@@ -12,6 +12,7 @@ import type { Job } from '@/components/jobs/JobListing';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import FAQ from '@/components/shared/FAQ';
+import { MapPin, Briefcase, Clock, X, Loader2 } from 'lucide-react';
 
 // Define a type for the job data from the data file
 type DataJob = {
@@ -86,11 +87,17 @@ export default function OpportunitiesPage() {
   const [showSearchHistory, setShowSearchHistory] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: false
+  const { ref: infiniteScrollRef, inView } = useInView({
+    threshold: 0,
+    rootMargin: '200px'
   });
+  const jobListingsRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showMobileJobDetails, setShowMobileJobDetails] = useState(false);
 
   // Initialize data and select first job
   useEffect(() => {
@@ -142,7 +149,6 @@ export default function OpportunitiesPage() {
   useEffect(() => {
     // Convert data jobs to component jobs
     let filtered = jobs.map(convertToComponentJob);
-    console.log('Initial jobs:', filtered);
 
     // Apply search filter
     if (searchQuery) {
@@ -151,7 +157,6 @@ export default function OpportunitiesPage() {
         job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
         job.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      console.log('After search filter:', filtered);
 
       // Add to search history if not already present
       if (!searchHistory.includes(searchQuery)) {
@@ -166,19 +171,16 @@ export default function OpportunitiesPage() {
       filtered = filtered.filter(job => 
         filters.jobTypes.some(type => type.toLowerCase() === job.type.toLowerCase())
       );
-      console.log('After job type filter:', filtered);
     }
 
     // Apply salary filter
     if (filters.salaryRange[0] > 0 || filters.salaryRange[1] < 200000) {
       filtered = filtered.filter(job => {
-        // Extract the first number from the salary range (e.g., "£65,000 - £85,000" -> 65000)
         const salaryMatch = job.salary.match(/\d+/);
         if (!salaryMatch) return false;
         const salary = parseInt(salaryMatch[0]);
         return salary >= filters.salaryRange[0] && salary <= filters.salaryRange[1];
       });
-      console.log('After salary filter:', filtered);
     }
 
     // Apply sorting
@@ -198,23 +200,46 @@ export default function OpportunitiesPage() {
             return 0;
         }
       });
-      console.log('After sorting:', filtered);
     }
 
     setFilteredJobs(filtered);
-    console.log('Final filtered jobs:', filtered);
 
-    // Update paginated jobs
-    const startIndex = (currentPage - 1) * jobsPerPage;
-    const endIndex = startIndex + jobsPerPage;
-    setPaginatedJobs(filtered.slice(startIndex, endIndex));
-    console.log('Paginated jobs:', filtered.slice(startIndex, endIndex));
+    // Update paginated jobs - now accumulating instead of slicing
+    const endIndex = currentPage * jobsPerPage;
+    setPaginatedJobs(filtered.slice(0, endIndex));
   }, [searchQuery, filters, sortBy, currentPage, jobsPerPage, searchHistory]);
 
-  // Reset to first page when filters change
+  // Handle infinite scroll
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, filters, sortBy]);
+    if (inView && !isLoadingMore && hasMore) {
+      setIsLoadingMore(true);
+      // Simulate loading delay
+      setTimeout(() => {
+        setCurrentPage(prev => prev + 1);
+        setIsLoadingMore(false);
+      }, 500);
+    }
+  }, [inView, isLoadingMore, hasMore]);
+
+  // Update hasMore state when filtered jobs change
+  useEffect(() => {
+    const endIndex = currentPage * jobsPerPage;
+    setHasMore(endIndex < filteredJobs.length);
+  }, [filteredJobs.length, currentPage, jobsPerPage]);
+
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // 1024px is the lg breakpoint
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
 
   const handleJobSelect = (job: Job) => {
     console.log('Selecting job:', job);
@@ -224,6 +249,11 @@ export default function OpportunitiesPage() {
     const updatedRecent = [job, ...recentlyViewed.filter(j => j.id !== job.id)].slice(0, 5);
     setRecentlyViewed(updatedRecent);
     localStorage.setItem('recentlyViewed', JSON.stringify(updatedRecent));
+    
+    // Show mobile job details modal if on mobile
+    if (isMobile) {
+      setShowMobileJobDetails(true);
+    }
   };
 
   const handleJobSave = (job: Job) => {
@@ -279,6 +309,30 @@ export default function OpportunitiesPage() {
     // Here you would typically save the alert to your backend
   };
 
+  // Handle scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (jobListingsRef.current) {
+        setScrollPosition(jobListingsRef.current.scrollTop);
+      }
+    };
+
+    const listingsContainer = jobListingsRef.current;
+    if (listingsContainer) {
+      listingsContainer.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (listingsContainer) {
+        listingsContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  const handleCloseMobileJobDetails = () => {
+    setShowMobileJobDetails(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <JobSearch
@@ -297,62 +351,65 @@ export default function OpportunitiesPage() {
       />
 
       <div className="container mx-auto px-4 py-8 flex-grow mb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Job Listings */}
-          <div className="lg:col-span-1 space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+          {/* Job Listings - Scrollable Container */}
+          <div 
+            ref={jobListingsRef}
+            className="lg:col-span-1 space-y-4 overflow-y-auto h-[calc(100vh-300px)] pr-4"
+          >
             {isLoading ? (
               // Show skeletons while loading
               Array.from({ length: 5 }).map((_, index) => (
                 <JobListingSkeleton key={index} />
               ))
             ) : paginatedJobs.length > 0 ? (
-              // Show job listings
-              paginatedJobs.map((job) => (
-                <JobListing
-                  key={job.id}
-                  job={job}
-                  isSelected={selectedJob?.id === job.id}
-                  onSelect={handleJobSelect}
-                  onSave={handleJobSave}
-                  onShare={handleJobShare}
-                />
-              ))
-            ) : (
-              // Show no results message
+              <>
+                {/* Show job listings */}
+                {paginatedJobs.map((job) => (
+                  <JobListing
+                    key={job.id}
+                    job={job}
+                    isSelected={selectedJob?.id === job.id}
+                    onSelect={handleJobSelect}
+                    onSave={handleJobSave}
+                    onShare={handleJobShare}
+                  />
+                ))}
+                
+                {/* Infinite scroll trigger */}
+                <div ref={infiniteScrollRef} className="h-10 flex items-center justify-center">
+                  {isLoadingMore && (
+                    <div className="flex items-center space-x-2 text-purple-600">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Loading more jobs...</span>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (searchQuery || filters.jobTypes.length > 0 || filters.salaryRange[0] > 0 || filters.salaryRange[1] < 200000) ? (
+              // Only show no results message when search or filters are active
               <div className="bg-white rounded-lg shadow p-6 text-center">
                 <h3 className="text-lg font-medium text-slate-900 mb-2">No jobs found</h3>
                 <p className="text-slate-600">
                   Try adjusting your search criteria or filters to find more opportunities.
                 </p>
               </div>
-            )}
-
-            {/* Load More Button */}
-            {!isLoading && filteredJobs.length > paginatedJobs.length && (
-              <div className="flex justify-center mt-6" ref={loadMoreRef}>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setCurrentPage(prev => prev + 1)}
-                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                >
-                  Load More
-                </motion.button>
-              </div>
-            )}
+            ) : null}
           </div>
 
-          {/* Job Details */}
-          <div className="lg:col-span-2">
+          {/* Job Details - Sticky Container (Desktop Only) */}
+          <div className="hidden lg:block lg:col-span-2 sticky top-8">
             {selectedJob ? (
-              <JobDetails
-                job={selectedJob}
-                onApply={handleApply}
-                onCompare={handleJobCompare}
-                isInComparison={selectedJobs.some(job => job.id === selectedJob.id)}
-              />
+              <div className="bg-white rounded-lg shadow">
+                <JobDetails
+                  job={selectedJob}
+                  onApply={handleApply}
+                  onCompare={handleJobCompare}
+                  isInComparison={selectedJobs.some(job => job.id === selectedJob.id)}
+                />
+              </div>
             ) : (
-              <div className="bg-white rounded-lg shadow p-6 h-full flex items-center justify-center">
+              <div className="bg-white rounded-lg shadow p-6 flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
                   <h3 className="text-lg font-medium text-slate-900 mb-2">Select a job to view details</h3>
                   <p className="text-slate-600">
@@ -364,6 +421,42 @@ export default function OpportunitiesPage() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Job Details Modal */}
+      <AnimatePresence>
+        {isMobile && showMobileJobDetails && selectedJob && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={handleCloseMobileJobDetails}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-xl w-full max-h-[90vh] overflow-y-auto relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={handleCloseMobileJobDetails}
+                className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="p-4">
+                <JobDetails
+                  job={selectedJob}
+                  onApply={handleApply}
+                  onCompare={handleJobCompare}
+                  isInComparison={selectedJobs.some(job => job.id === selectedJob.id)}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Job Comparison */}
       <AnimatePresence>

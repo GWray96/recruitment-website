@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Menu, X, User, Briefcase, Search, Phone, HelpCircle, ChevronDown, BookOpen, FileText, Lightbulb } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X, User, Briefcase, Search, Phone, ChevronDown, Book } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isLearnOpen, setIsLearnOpen] = useState(false)
-  const learnMenuRef = useRef<HTMLDivElement>(null)
+  const learnRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,23 +19,19 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close dropdown when clicking outside
+  // Handle click outside of Learn dropdown
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (learnMenuRef.current && !learnMenuRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (learnRef.current && !learnRef.current.contains(event.target as Node)) {
         setIsLearnOpen(false)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [])
-
-  const learnMenuItems = [
-    { name: 'Blog', href: '/blog', icon: BookOpen },
-    { name: 'Resources', href: '/resources', icon: FileText },
-    { name: 'FAQ', href: '/faq', icon: HelpCircle },
-  ]
 
   return (
     <nav 
@@ -84,50 +80,53 @@ const Navbar = () => {
               <span>For Employers</span>
             </Link>
 
-            {/* Learn Dropdown */}
-            <div className="relative" ref={learnMenuRef}>
+            {/* Learn Dropdown - Moved here */}
+            <div className="relative" ref={learnRef}>
               <button
                 onClick={() => setIsLearnOpen(!isLearnOpen)}
                 className={`flex items-center space-x-1 px-4 py-2 rounded-lg transition-colors duration-200
-                  ${isScrolled ? 'text-slate-700 hover:text-purple-600' : 'text-slate-800 hover:text-purple-600'}
-                  ${isLearnOpen ? 'text-purple-600' : ''}`}
+                  ${isScrolled ? 'text-slate-700 hover:text-purple-600' : 'text-slate-800 hover:text-purple-600'}`}
               >
-                <Lightbulb className="w-4 h-4" />
+                <Book className="w-4 h-4" />
                 <span>Learn</span>
                 <ChevronDown 
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    isLearnOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${isLearnOpen ? 'rotate-180' : ''}`}
                 />
               </button>
 
-              <AnimatePresence>
-                {isLearnOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-purple-100/50 overflow-hidden"
-                  >
-                    <div className="py-2">
-                      {learnMenuItems.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          className="flex items-center space-x-3 px-4 py-2 text-slate-700 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200"
-                          onClick={() => setIsLearnOpen(false)}
-                        >
-                          <item.icon className="w-4 h-4" />
-                          <span>{item.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Dropdown Menu */}
+              {isLearnOpen && (
+                <div className="absolute top-full right-0 mt-1 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 overflow-hidden">
+                  <div className="py-1" role="menu" aria-orientation="vertical">
+                    <Link
+                      href="/blog"
+                      className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200"
+                      role="menuitem"
+                      onClick={() => setIsLearnOpen(false)}
+                    >
+                      Blog
+                    </Link>
+                    <Link
+                      href="/resources"
+                      className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200"
+                      role="menuitem"
+                      onClick={() => setIsLearnOpen(false)}
+                    >
+                      Resources
+                    </Link>
+                    <Link
+                      href="/faq"
+                      className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200"
+                      role="menuitem"
+                      onClick={() => setIsLearnOpen(false)}
+                    >
+                      FAQ
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
-
+            
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -165,118 +164,108 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="md:hidden overflow-hidden"
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden
+            ${isOpen ? 'max-h-screen opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+        >
+          <div className="py-4 space-y-4 bg-white rounded-lg px-2 shadow-lg">
+            <Link
+              href="/jobs"
+              className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
+                rounded-lg transition-colors duration-200"
             >
-              <div className="py-4 space-y-4 bg-white rounded-lg px-2 shadow-lg">
-                <Link
-                  href="/jobs"
-                  className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                    rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Search className="w-4 h-4" />
-                  <span>Job Board</span>
-                </Link>
+              <Search className="w-4 h-4" />
+              <span>Job Board</span>
+            </Link>
 
-                <Link
-                  href="/candidate-hub"
-                  className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                    rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <User className="w-4 h-4" />
-                  <span>For Candidates</span>
-                </Link>
+            <Link
+              href="/candidate-hub"
+              className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
+                rounded-lg transition-colors duration-200"
+            >
+              <User className="w-4 h-4" />
+              <span>For Candidates</span>
+            </Link>
 
-                <Link
-                  href="/employer-hub"
-                  className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
-                    rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Briefcase className="w-4 h-4" />
-                  <span>For Employers</span>
-                </Link>
+            <Link
+              href="/employer-hub"
+              className="flex items-center space-x-2 px-4 py-2 text-slate-800 hover:text-purple-600
+                rounded-lg transition-colors duration-200"
+            >
+              <Briefcase className="w-4 h-4" />
+              <span>For Employers</span>
+            </Link>
 
-                {/* Mobile Learn Section */}
-                <div className="px-4 py-2">
-                  <button
-                    onClick={() => setIsLearnOpen(!isLearnOpen)}
-                    className="flex items-center justify-between w-full text-slate-800 hover:text-purple-600
-                      rounded-lg transition-colors duration-200"
+            {/* Mobile Learn Section - Moved here */}
+            <div className="px-4 py-2">
+              <button
+                onClick={() => setIsLearnOpen(!isLearnOpen)}
+                className="flex items-center w-full text-slate-800 hover:text-purple-600"
+              >
+                <Book className="w-4 h-4 mr-2" />
+                <span>Learn</span>
+                <ChevronDown 
+                  className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${isLearnOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {isLearnOpen && (
+                <div className="mt-2 space-y-2 pl-4">
+                  <Link
+                    href="/blog"
+                    className="block py-2 text-sm text-slate-600 hover:text-purple-600"
+                    onClick={() => {
+                      setIsLearnOpen(false);
+                      setIsOpen(false);
+                    }}
                   >
-                    <div className="flex items-center space-x-2">
-                      <Lightbulb className="w-4 h-4" />
-                      <span>Learn</span>
-                    </div>
-                    <ChevronDown 
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        isLearnOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  
-                  <AnimatePresence>
-                    {isLearnOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="mt-2 space-y-1"
-                      >
-                        {learnMenuItems.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="flex items-center space-x-2 px-4 py-2 text-slate-700 hover:text-purple-600
-                              rounded-lg transition-colors duration-200"
-                            onClick={() => {
-                              setIsLearnOpen(false)
-                              setIsOpen(false)
-                            }}
-                          >
-                            <item.icon className="w-4 h-4" />
-                            <span>{item.name}</span>
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    Blog
+                  </Link>
+                  <Link
+                    href="/resources"
+                    className="block py-2 text-sm text-slate-600 hover:text-purple-600"
+                    onClick={() => {
+                      setIsLearnOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Resources
+                  </Link>
+                  <Link
+                    href="/faq"
+                    className="block py-2 text-sm text-slate-600 hover:text-purple-600"
+                    onClick={() => {
+                      setIsLearnOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    FAQ
+                  </Link>
                 </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <motion.div
-                    animate={{ 
-                      rotate: [0, 10, 0, -10, 0],
-                      scale: [1, 1.1, 1, 1.1, 1]
-                    }}
-                    transition={{ 
-                      duration: 2, 
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <Phone className="w-4 h-4" />
-                  </motion.div>
-                  Book a Call
-                </motion.button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              )}
+            </div>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: [0, 10, 0, -10, 0],
+                  scale: [1, 1.1, 1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <Phone className="w-4 h-4" />
+              </motion.div>
+              Book a Call
+            </motion.button>
+          </div>
+        </div>
       </div>
     </nav>
   )
