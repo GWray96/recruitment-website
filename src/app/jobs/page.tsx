@@ -352,8 +352,8 @@ export default function OpportunitiesPage() {
 
       <div className="container mx-auto px-4 py-8 flex-grow mb-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
-          {/* Job Listings - Sticky Container (Desktop Only) */}
-          <div className="lg:col-span-3">
+          {/* Job Listings - Left Column (Desktop) */}
+          <div className="lg:col-span-1">
             <div 
               ref={jobListingsRef}
               className="space-y-4 lg:space-y-6 max-h-[calc(100vh-12rem)] overflow-y-auto overscroll-contain scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
@@ -377,7 +377,7 @@ export default function OpportunitiesPage() {
             </div>
           </div>
 
-          {/* Job Details - Sticky Container (Desktop Only) */}
+          {/* Job Details - Right Column (Desktop) */}
           <div className="hidden lg:block lg:col-span-2 sticky top-8">
             {selectedJob ? (
               <div className="bg-white rounded-lg shadow">
